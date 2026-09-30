@@ -1,0 +1,328 @@
+<!doctype html>
+<html lang="hi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bill Scanner</title>
+<meta name="description" content="Bill ki photo se automatic purchase entry - AI powered">
+<style>
+:root{
+  --bg:#f3f6f4; --card:#ffffff; --ink:#15231c; --muted:#5f7068; --line:#dfe7e2;
+  --brand:#0f766e; --brand-2:#14b8a6; --brand-soft:#e6f5f3;
+  --warn:#b45309; --warn-soft:#fef3c7; --bad:#b91c1c; --bad-soft:#fee2e2; --ok:#15803d; --ok-soft:#dcfce7;
+  --r:14px; --shadow:0 1px 2px rgba(16,40,30,.06),0 8px 24px rgba(16,40,30,.06);
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{margin:0;font-family:"Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;background:var(--bg);color:var(--ink);font-size:15px}
+header{background:linear-gradient(120deg,#0b4f4a,#0f766e 60%,#12a191);color:#fff;padding:18px 28px;display:flex;align-items:center;gap:14px}
+.logo{width:42px;height:42px;border-radius:12px;background:rgba(255,255,255,.15);display:grid;place-items:center;font-size:22px}
+header h1{margin:0;font-size:20px;letter-spacing:.2px}
+header p{margin:2px 0 0;opacity:.8;font-size:13px}
+.status{margin-left:auto;font-size:12px;padding:6px 12px;border-radius:999px;background:rgba(255,255,255,.15)}
+nav{display:flex;gap:6px;padding:14px 28px 0}
+nav button{border:0;background:transparent;padding:10px 16px;border-radius:10px 10px 0 0;font:inherit;color:var(--muted);cursor:pointer;font-weight:600}
+nav button.on{background:var(--card);color:var(--brand);box-shadow:var(--shadow)}
+main{padding:0 28px 40px}
+.page{display:none}.page.on{display:block}
+.grid{display:grid;grid-template-columns:340px 1fr;gap:20px;align-items:start}
+.card{background:var(--card);border-radius:var(--r);box-shadow:var(--shadow);padding:20px}
+.card h2{margin:0 0 14px;font-size:16px}
+.drop{border:2px dashed #b7d8d2;border-radius:12px;padding:26px 14px;text-align:center;cursor:pointer;background:var(--brand-soft);transition:.15s}
+.drop:hover,.drop.over{border-color:var(--brand);background:#d7efeb}
+.drop .big{font-size:34px}
+.drop b{display:block;margin:6px 0 2px;color:var(--brand)}
+.drop small{color:var(--muted)}
+#preview{margin-top:14px;display:none}
+#preview img{width:100%;border-radius:10px;border:1px solid var(--line);max-height:420px;object-fit:contain;background:#fafafa}
+#preview .name{font-size:12px;color:var(--muted);margin-top:6px;word-break:break-all}
+.btn{border:0;border-radius:10px;padding:12px 18px;font:inherit;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:8px;justify-content:center}
+.btn.primary{background:var(--brand);color:#fff;width:100%;margin-top:14px}
+.btn.primary:hover{background:#0c5f59}
+.btn.ghost{background:var(--brand-soft);color:var(--brand)}
+.btn.save{background:#15803d;color:#fff}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.empty{text-align:center;color:var(--muted);padding:60px 20px}
+.empty .big{font-size:44px}
+.meta{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px}
+label{font-size:12px;color:var(--muted);font-weight:600;display:block;margin-bottom:4px}
+input{width:100%;border:1px solid var(--line);border-radius:8px;padding:8px 10px;font:inherit;background:#fff;color:var(--ink)}
+input:focus{outline:2px solid var(--brand-2);border-color:transparent}
+.tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:10px}
+table{border-collapse:collapse;width:100%;min-width:900px}
+th{background:#f6faf8;text-align:left;font-size:12px;color:var(--muted);padding:10px 8px;border-bottom:1px solid var(--line);white-space:nowrap}
+td{padding:4px 6px;border-bottom:1px solid var(--line)}
+td input{border-color:transparent;padding:6px}
+td input:hover{border-color:var(--line)}
+td.n input{text-align:right}
+td:nth-child(2){min-width:230px}td:nth-child(3){min-width:95px}td:nth-child(4){min-width:80px}td.n{width:78px}
+tr.flag td{background:var(--warn-soft)}
+.del{border:0;background:none;color:var(--bad);cursor:pointer;font-size:16px}
+.summary{display:flex;gap:12px;flex-wrap:wrap;margin:16px 0}
+.pill{padding:10px 14px;border-radius:10px;background:#f6faf8;border:1px solid var(--line);font-size:13px}
+.pill b{display:block;font-size:17px}
+.pill.ok{background:var(--ok-soft);border-color:#a7e3bd;color:var(--ok)}
+.pill.bad{background:var(--bad-soft);border-color:#f5b5b5;color:var(--bad)}
+.actions{display:flex;gap:10px;justify-content:space-between;flex-wrap:wrap}
+.spin{width:18px;height:18px;border:3px solid rgba(255,255,255,.4);border-top-color:#fff;border-radius:50%;animation:s .8s linear infinite}
+@keyframes s{to{transform:rotate(360deg)}}
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(120px);background:#15231c;color:#fff;padding:12px 20px;border-radius:10px;transition:.25s;box-shadow:var(--shadow);z-index:9}
+.toast.on{transform:translateX(-50%) translateY(0)}
+.toast.err{background:var(--bad)}
+.note{font-size:12px;color:var(--muted);margin-top:10px}
+@media (max-width:900px){.grid{grid-template-columns:1fr}.meta{grid-template-columns:1fr 1fr}header,nav,main{padding-left:16px;padding-right:16px}}
+
+.auth{max-width:400px;margin:50px auto}
+.auth h2{margin-top:0}
+.auth .row{margin-bottom:12px}
+.auth .switch{text-align:center;margin-top:14px;font-size:13px;color:var(--muted)}
+.auth .switch a{color:var(--brand);cursor:pointer;font-weight:600}
+.user{display:flex;align-items:center;gap:10px;margin-left:auto}
+.user .status{margin-left:0}
+.user button{border:1px solid rgba(255,255,255,.35);background:transparent;color:#fff;border-radius:999px;padding:6px 12px;cursor:pointer;font:inherit;font-size:12px}
+.msg{font-size:13px;margin-top:10px;min-height:18px}
+.msg.err{color:var(--bad)}.msg.ok{color:var(--ok)}
+</style>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+<header>
+  <div class="logo">🧾</div>
+  <div><h1>Bill Scanner</h1><p>Bill ki photo se automatic purchase entry</p></div>
+  <div class="user" id="userBox" hidden>
+    <span class="status" id="status"></span>
+    <span id="email" style="font-size:12px;opacity:.85"></span>
+    <button id="logout">Logout</button>
+  </div>
+</header>
+
+<!-- LOGIN -->
+<section id="authView" hidden>
+  <div class="card auth">
+    <h2 id="authTitle">Login</h2>
+    <div class="row"><label>Email</label><input id="aEmail" type="email" autocomplete="email"></div>
+    <div class="row"><label>Password</label><input id="aPass" type="password" autocomplete="current-password" placeholder="Kam se kam 6 akshar"></div>
+    <button class="btn primary" id="authBtn">Login</button>
+    <div class="msg" id="authMsg"></div>
+    <div class="switch" id="authSwitch">Naya account? <a id="toSignup">Sign up kariye</a></div>
+  </div>
+</section>
+
+<!-- APP -->
+<div id="appView" hidden>
+<nav>
+  <button class="on" data-p="scan">📸 Naya Bill</button>
+  <button data-p="hist">📋 History</button>
+</nav>
+<main>
+  <section class="page on" id="p-scan">
+    <div class="grid">
+      <div class="card">
+        <h2>1. Bill ki photo</h2>
+        <div class="drop" id="drop">
+          <div class="big">📷</div>
+          <b>Photo yahan chhodiye ya click kariye</b>
+          <small>JPG, PNG, WEBP ya PDF</small>
+          <input type="file" id="file" accept="image/*,application/pdf" hidden>
+        </div>
+        <div id="preview"><img id="img" alt=""><div class="name" id="fname"></div></div>
+        <button class="btn primary" id="scanBtn" disabled>🤖 Scan Bill</button>
+        <div class="note">Tip: saaf roshni, seedhi photo, poora bill frame mein.</div>
+      </div>
+      <div class="card" id="result">
+        <div class="empty" id="empty"><div class="big">🧾</div><p>Photo chuniye aur <b>Scan Bill</b> dabaiye.<br>AI ka nikala data yahan dikhega, check karke save kariye.</p></div>
+        <div id="form" hidden>
+          <h2>2. Check kariye aur theek kariye</h2>
+          <div class="meta">
+            <div><label>Supplier</label><input id="supplier_name"></div>
+            <div><label>Bill No</label><input id="bill_number"></div>
+            <div><label>Bill Date</label><input id="bill_date"></div>
+            <div><label>Bill Total (₹)</label><input id="bill_total" inputmode="decimal"></div>
+          </div>
+          <div class="tablewrap"><table>
+            <thead><tr><th>#</th><th>Product</th><th>Batch</th><th>Expiry</th><th>Qty</th><th>Free</th><th>MRP</th><th>Rate</th><th>GST %</th><th>Amount</th><th></th></tr></thead>
+            <tbody id="rows"></tbody>
+          </table></div>
+          <div class="summary" id="summary"></div>
+          <div class="actions">
+            <button class="btn ghost" id="addRow">＋ Row jodiye</button>
+            <button class="btn save" id="saveBtn">💾 Save</button>
+          </div>
+          <div class="note">Peeli row = Qty × Rate aur Amount mein farq hai, ek baar dekh lijiye.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="page" id="p-hist">
+    <div class="card">
+      <div class="actions" style="margin-bottom:12px;align-items:center"><h2 style="margin:0">Saved entries</h2>
+        <div style="display:flex;gap:8px"><button class="btn ghost" id="exportBtn">⬇️ Excel (CSV)</button><button class="btn ghost" id="refresh">↻ Refresh</button></div></div>
+      <div class="tablewrap" id="histWrap"><div class="empty">Loading…</div></div>
+    </div>
+  </section>
+</main>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+const $ = s => document.querySelector(s);
+const F = ["product_name","batch","expiry","qty","free_qty","mrp","rate","gst_percent","amount"];
+const NUM = new Set(["qty","free_qty","mrp","rate","gst_percent","amount"]);
+let sb=null, session=null, file=null, histRows=[], signup=false;
+
+function toast(msg, err){ const t=$("#toast"); t.textContent=msg; t.className="toast on"+(err?" err":""); setTimeout(()=>t.className="toast",3500); }
+const n = v => { const x=parseFloat(String(v??"").replace(/,/g,"")); return isNaN(x)?0:x; };
+const nn = v => { const x=parseFloat(String(v??"").replace(/,/g,"")); return isNaN(x)?null:x; };
+const money = v => "₹" + n(v).toLocaleString("en-IN",{minimumFractionDigits:2,maximumFractionDigits:2});
+const esc = v => (v??"").toString().replace(/&/g,"&amp;").replace(/"/g,"&quot;").replace(/</g,"&lt;");
+
+/* ---------- boot + auth ---------- */
+(async function boot(){
+  const cfg = await fetch("/api/config").then(r=>r.json()).catch(()=>({}));
+  if(!cfg.supabaseUrl){ document.body.insertAdjacentHTML("beforeend",'<div class="card auth"><h2>Setup adhoora hai</h2><p>Vercel mein SUPABASE_URL aur SUPABASE_ANON_KEY daaliye.</p></div>'); return; }
+  sb = supabase.createClient(cfg.supabaseUrl, cfg.supabaseAnonKey);
+  $("#status").textContent = cfg.aiReady ? "🟢 AI ready" : "🔴 AI key missing";
+  const { data } = await sb.auth.getSession(); setSession(data.session);
+  sb.auth.onAuthStateChange((_e, s)=>setSession(s));
+})();
+
+function setSession(s){
+  session=s;
+  $("#authView").hidden=!!s; $("#appView").hidden=!s; $("#userBox").hidden=!s;
+  if(s) $("#email").textContent=s.user.email;
+}
+function toggleAuth(){ signup=!signup;
+  $("#authTitle").textContent=signup?"Naya account":"Login";
+  $("#authBtn").textContent=signup?"Sign up":"Login";
+  $("#authSwitch").innerHTML=signup?'Account hai? <a id="toSignup">Login kariye</a>':'Naya account? <a id="toSignup">Sign up kariye</a>';
+  $("#toSignup").onclick=toggleAuth; $("#authMsg").textContent=""; }
+$("#toSignup").onclick=toggleAuth;
+$("#authBtn").onclick=async()=>{
+  const email=$("#aEmail").value.trim(), password=$("#aPass").value, m=$("#authMsg");
+  if(!email||password.length<6){ m.className="msg err"; m.textContent="Email aur kam se kam 6 akshar ka password daaliye."; return; }
+  $("#authBtn").disabled=true; m.className="msg"; m.textContent="…";
+  const { data, error } = signup ? await sb.auth.signUp({email,password}) : await sb.auth.signInWithPassword({email,password});
+  $("#authBtn").disabled=false;
+  if(error){ m.className="msg err"; m.textContent=error.message; return; }
+  if(signup && !data.session){ m.className="msg ok"; m.textContent="✅ Account bana. Email mein confirm link aaya hoga, use kholke phir Login kariye."; }
+};
+$("#aPass").onkeydown=e=>{ if(e.key==="Enter") $("#authBtn").click(); };
+$("#logout").onclick=()=>sb.auth.signOut();
+
+/* ---------- tabs ---------- */
+document.querySelectorAll("nav button").forEach(b=>b.onclick=()=>{
+  document.querySelectorAll("nav button").forEach(x=>x.classList.toggle("on",x===b));
+  document.querySelectorAll(".page").forEach(p=>p.classList.toggle("on",p.id==="p-"+b.dataset.p));
+  if(b.dataset.p==="hist") loadHistory();
+});
+
+/* ---------- photo pick + compress ---------- */
+const drop=$("#drop"), inp=$("#file");
+drop.onclick=()=>inp.click();
+drop.ondragover=e=>{e.preventDefault();drop.classList.add("over")};
+drop.ondragleave=()=>drop.classList.remove("over");
+drop.ondrop=e=>{e.preventDefault();drop.classList.remove("over");if(e.dataTransfer.files[0])pick(e.dataTransfer.files[0])};
+inp.onchange=()=>inp.files[0]&&pick(inp.files[0]);
+function pick(f){
+  file=f; $("#fname").textContent=f.name+" · "+(f.size/1024).toFixed(0)+" KB";
+  $("#preview").style.display="block";
+  if(f.type.startsWith("image/")){ $("#img").src=URL.createObjectURL(f); $("#img").style.display="block"; } else $("#img").style.display="none";
+  $("#scanBtn").disabled=false;
+}
+function toB64(blob){ return new Promise((ok,no)=>{const r=new FileReader();r.onload=()=>ok(r.result.split(",")[1]);r.onerror=no;r.readAsDataURL(blob)}); }
+async function prepare(f){
+  if(!f.type.startsWith("image/")) return {mime:f.type, data:await toB64(f)};
+  const bmp = await createImageBitmap(f); const max=2000, k=Math.min(1, max/Math.max(bmp.width,bmp.height));
+  const c=document.createElement("canvas"); c.width=Math.round(bmp.width*k); c.height=Math.round(bmp.height*k);
+  c.getContext("2d").drawImage(bmp,0,0,c.width,c.height);
+  const blob = await new Promise(r=>c.toBlob(r,"image/jpeg",0.85));
+  return {mime:"image/jpeg", data:await toB64(blob)};
+}
+
+/* ---------- scan ---------- */
+$("#scanBtn").onclick=async()=>{
+  if(!file) return;
+  const b=$("#scanBtn"); b.disabled=true; b.innerHTML='<span class="spin"></span> AI bill padh raha hai…';
+  try{
+    const body = await prepare(file);
+    if(body.data.length>4200000) throw new Error("File bahut badi hai (4 MB se kam rakhiye)");
+    const res = await fetch("/api/scan",{method:"POST",headers:{"Content-Type":"application/json","Authorization":"Bearer "+session.access_token},body:JSON.stringify(body)});
+    const j = await res.json().catch(()=>({error:"Server se jawab nahi aaya ("+res.status+")"}));
+    if(!res.ok) throw new Error(j.error||"Scan fail hua");
+    fill(j.bill); toast(`✅ ${(j.bill.items||[]).length} items mile · ${j.seconds}s · ${j.tokens} tokens`);
+  }catch(e){ toast("❌ "+e.message,true); }
+  b.disabled=false; b.innerHTML="🤖 Scan Bill";
+};
+
+/* ---------- review table ---------- */
+function fill(bill){
+  $("#empty").hidden=true; $("#form").hidden=false;
+  ["supplier_name","bill_number","bill_date","bill_total"].forEach(k=>$("#"+k).value=bill[k]??"");
+  $("#rows").innerHTML=""; (bill.items||[]).forEach(addRow); recalc();
+}
+function addRow(it={}){
+  const tr=document.createElement("tr");
+  tr.innerHTML=`<td>${$("#rows").children.length+1}</td>`+F.map(k=>`<td class="${NUM.has(k)?"n":""}"><input data-k="${k}" value="${esc(it[k])}" ${NUM.has(k)?'inputmode="decimal"':""}></td>`).join("")+`<td><button class="del" title="Hataiye">✕</button></td>`;
+  tr.querySelector(".del").onclick=()=>{tr.remove();renum();recalc()};
+  tr.querySelectorAll("input").forEach(i=>i.oninput=recalc);
+  $("#rows").appendChild(tr);
+}
+$("#addRow").onclick=()=>{addRow();recalc()};
+$("#bill_total").oninput=recalc;
+function renum(){[...$("#rows").children].forEach((tr,i)=>tr.firstChild.textContent=i+1)}
+function items(){ return [...$("#rows").children].map(tr=>{const o={};tr.querySelectorAll("input").forEach(i=>o[i.dataset.k]=i.value.trim());return o}); }
+function recalc(){
+  let sum=0, gst=0, flags=0;
+  [...$("#rows").children].forEach(tr=>{
+    const g=k=>tr.querySelector(`[data-k=${k}]`).value;
+    sum+=n(g("amount")); gst+=n(g("amount"))*(1+n(g("gst_percent"))/100);
+    const bad = g("qty")&&g("rate")&&g("amount") && Math.abs(n(g("qty"))*n(g("rate"))-n(g("amount")))>0.5;
+    tr.classList.toggle("flag",!!bad); if(bad) flags++;
+  });
+  const total=n($("#bill_total").value), match = total && (Math.abs(gst-total)<2 || Math.abs(sum-total)<2);
+  $("#summary").innerHTML=
+    `<div class="pill"><span>Items</span><b>${$("#rows").children.length}</b></div>`+
+    `<div class="pill"><span>Amount total</span><b>${money(sum)}</b></div>`+
+    `<div class="pill"><span>+ GST</span><b>${money(gst)}</b></div>`+
+    (total?`<div class="pill ${match?"ok":"bad"}"><span>Bill total se</span><b>${match?"✅ Match":"⚠️ Farq hai"}</b></div>`:"")+
+    (flags?`<div class="pill bad"><span>Check kariye</span><b>${flags} row</b></div>`:"");
+}
+
+/* ---------- save to Supabase ---------- */
+$("#saveBtn").onclick=async()=>{
+  const head={supplier:$("#supplier_name").value||null,bill_no:$("#bill_number").value||null,bill_date:$("#bill_date").value||null,bill_total:nn($("#bill_total").value)};
+  const rows=items().filter(i=>i.product_name).map(i=>({...head,product:i.product_name,batch:i.batch||null,expiry:i.expiry||null,
+    qty:nn(i.qty),free_qty:nn(i.free_qty),mrp:nn(i.mrp),rate:nn(i.rate),gst_percent:nn(i.gst_percent),amount:nn(i.amount)}));
+  if(!rows.length) return toast("Koi item nahi hai",true);
+  const b=$("#saveBtn"); b.disabled=true;
+  const { error } = await sb.from("purchases").insert(rows);
+  b.disabled=false;
+  if(error) return toast("❌ "+error.message,true);
+  toast(`💾 ${rows.length} items save ho gaye`);
+  $("#form").hidden=true; $("#empty").hidden=false; $("#preview").style.display="none"; file=null; $("#scanBtn").disabled=true; inp.value="";
+};
+
+/* ---------- history + export ---------- */
+const COLS=[["created_at","Saved"],["supplier","Supplier"],["bill_no","Bill No"],["product","Product"],["batch","Batch"],["expiry","Expiry"],["qty","Qty"],["free_qty","Free"],["rate","Rate"],["gst_percent","GST %"],["amount","Amount"]];
+async function loadHistory(){
+  const w=$("#histWrap"); w.innerHTML='<div class="empty">Loading…</div>';
+  const { data, error } = await sb.from("purchases").select("*").order("created_at",{ascending:false}).limit(500);
+  if(error){ w.innerHTML=`<div class="empty">❌ ${esc(error.message)}</div>`; return; }
+  histRows=data;
+  if(!data.length){ w.innerHTML='<div class="empty">Abhi koi entry nahi hai.</div>'; return; }
+  const fmt=(k,v)=>k==="created_at"?new Date(v).toLocaleString("en-IN",{dateStyle:"short",timeStyle:"short"}):esc(v??"");
+  w.innerHTML=`<table><thead><tr>${COLS.map(c=>`<th>${c[1]}</th>`).join("")}</tr></thead><tbody>${
+    data.map(r=>`<tr>${COLS.map(c=>`<td style="padding:8px">${fmt(c[0],r[c[0]])}</td>`).join("")}</tr>`).join("")}</tbody></table>`;
+}
+$("#refresh").onclick=loadHistory;
+$("#exportBtn").onclick=()=>{
+  if(!histRows.length) return toast("Pehle History load kariye",true);
+  const keys=["created_at","supplier","bill_no","bill_date","product","batch","expiry","qty","free_qty","mrp","rate","gst_percent","amount","bill_total"];
+  const q=v=>`"${String(v??"").replace(/"/g,'""')}"`;
+  const csv="﻿"+keys.join(",")+"\n"+histRows.map(r=>keys.map(k=>q(r[k])).join(",")).join("\n");
+  const a=document.createElement("a"); a.href=URL.createObjectURL(new Blob([csv],{type:"text/csv"}));
+  a.download="purchases_"+new Date().toISOString().slice(0,10)+".csv"; a.click();
+};
+</script>
+</body>
+</html>
