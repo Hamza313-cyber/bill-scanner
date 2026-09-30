@@ -271,9 +271,19 @@ tr.flag td{background:rgba(245,158,11,.09)} tr.flag td:first-child{color:var(--a
 .perks li i svg{width:14px;height:14px}
 .perks li:first-child{background:var(--grad);color:#fff;border-color:transparent;box-shadow:0 12px 26px -10px rgba(79,107,255,.7)}
 .perks li:first-child i{background:rgba(255,255,255,.25)}
-.install-cta{margin-top:20px;padding:13px 20px;font-weight:700;color:var(--blue)}
-.install-cta svg{width:20px;height:20px}
-.install-mini{padding:9px 14px;font-size:13.5px;color:var(--blue)}
+.installBtn .ii{display:grid;place-items:center;border-radius:12px;flex:none;color:#fff;background:rgba(255,255,255,.22);box-shadow:inset 0 1px 0 rgba(255,255,255,.35)}
+.install-cta{margin-top:20px;padding:10px 24px 10px 10px;gap:14px;font-size:17px;font-weight:800;color:#fff;border-radius:18px;
+  background:linear-gradient(135deg,#10b39a,#22c7d8);box-shadow:0 14px 30px -10px rgba(16,179,154,.7),inset 0 1px 0 rgba(255,255,255,.3)}
+.install-cta .ii{width:44px;height:44px}
+.install-cta .ii svg{width:28px;height:28px}
+.install-cta:hover:not(:disabled){filter:brightness(1.05);box-shadow:0 18px 36px -10px rgba(16,179,154,.75)}
+.install-cta .ii{animation:nudge 2.4s ease-in-out infinite}
+@keyframes nudge{0%,70%,100%{transform:translateY(0)}80%{transform:translateY(3px)}90%{transform:translateY(-1px)}}
+.install-mini{padding:6px 14px 6px 6px;gap:9px;font-size:14px;font-weight:700;color:#fff;border-radius:14px;background:linear-gradient(135deg,#10b39a,#22c7d8);box-shadow:0 10px 22px -10px rgba(16,179,154,.7)}
+.install-mini .ii{width:32px;height:32px;border-radius:10px}
+.install-mini .ii svg{width:21px;height:21px}
+.row-item [data-install] .ii{width:28px;height:28px;border-radius:9px}
+.row-item [data-install] .ii svg{width:18px;height:18px}
 .steps{margin:0 0 18px;padding:0;list-style:none;counter-reset:st}
 .steps li{counter-increment:st;display:flex;gap:12px;align-items:flex-start;padding:9px 0;color:var(--ink-2)}
 .steps li::before{content:counter(st);flex:none;width:26px;height:26px;border-radius:50%;display:grid;place-items:center;font-weight:700;font-size:13px;color:#fff;background:var(--grad)}
@@ -309,6 +319,7 @@ tr.flag td{background:rgba(245,158,11,.09)} tr.flag td:first-child{color:var(--a
   .side{display:none}
   .content{padding:18px 16px calc(110px + var(--safe-b))}
   .topline h1{font-size:24px}
+  .topline{flex-wrap:wrap;row-gap:12px} .topline .grow{flex-basis:100%}
   .tabbar{display:grid;grid-template-columns:repeat(4,1fr);position:fixed;left:12px;right:12px;bottom:calc(12px + var(--safe-b));z-index:20;padding:8px;border-radius:24px}
   .tabbar button{border:0;background:transparent;display:flex;flex-direction:column;align-items:center;gap:3px;padding:7px 4px;border-radius:16px;
     font-size:11px;font-weight:700;color:var(--ink-3);cursor:pointer;transition:color .2s,transform .15s}
@@ -344,7 +355,7 @@ tr.flag td{background:rgba(245,158,11,.09)} tr.flag td:first-child{color:var(--a
       <li><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5L20 7"/></svg></i>Every line item in seconds</li>
       <li><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5L20 7"/></svg></i>Works on phone and laptop</li>
     </ul>
-    <button class="btn installBtn install-cta" data-install><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="2" width="12" height="20" rx="3"/><path d="M12 7v7m0 0-3-3m3 3 3-3"/></svg>Install the app</button></div>
+    <button class="btn installBtn install-cta" data-install><span class="ii"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5.5" y="1.5" width="13" height="21" rx="3"/><path d="M12 6.5v8m0 0-3.2-3.2M12 14.5l3.2-3.2"/><path d="M10 19h4"/></svg></span>Install the app</button></div>
   </div>
   <div class="auth-card glass reveal">
     <div class="seg neu-in" id="seg"><span class="knob"></span><button class="on" data-mode="login">Log in</button><button data-mode="signup">Sign up</button></div>
@@ -375,7 +386,7 @@ tr.flag td{background:rgba(245,158,11,.09)} tr.flag td:first-child{color:var(--a
   <main class="content">
     <!-- HOME -->
     <section class="page on" id="p-home">
-      <div class="topline"><div class="grow"><h1 id="greet">Hello</h1><p>Here's how your purchases look.</p></div><button class="btn installBtn install-mini" data-install><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="2" width="12" height="20" rx="3"/><path d="M12 7v7m0 0-3-3m3 3 3-3"/></svg><span>Install app</span></button><span class="chip" id="status">AI online</span></div>
+      <div class="topline"><div class="grow"><h1 id="greet">Hello</h1><p>Here's how your purchases look.</p></div><button class="btn installBtn install-mini" data-install><span class="ii"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5.5" y="1.5" width="13" height="21" rx="3"/><path d="M12 6.5v8m0 0-3.2-3.2M12 14.5l3.2-3.2"/><path d="M10 19h4"/></svg></span><span>Install app</span></button><span class="chip" id="status">AI online</span></div>
       <div class="reveal">
         <div class="hero-cta"><i class="orb"></i><i class="orb b"></i>
           <h3>No more manual entry.</h3><p>Got a new supplier bill? Snap it and the AI fills in every line item for you to check.</p>
@@ -467,7 +478,7 @@ tr.flag td{background:rgba(245,158,11,.09)} tr.flag td:first-child{color:var(--a
           <div class="profile"><div class="big" id="avatar">T</div><div><h2 id="acctEmail" style="margin:0"></h2><p class="sub" style="margin:2px 0 0" id="acctSince"></p></div></div>
         </div>
         <div class="glass card" style="margin-top:16px">
-          <div class="row-item install-row" id="installRow"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="7" y="2" width="10" height="20" rx="2.5"/><path d="M11 18h2"/></svg></div><div class="t"><b>Install the app</b><small>Add Bill Scanner to your home screen</small></div><button class="btn primary" data-install>Install</button></div>
+          <div class="row-item install-row" id="installRow"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="7" y="2" width="10" height="20" rx="2.5"/><path d="M11 18h2"/></svg></div><div class="t"><b>Install the app</b><small>Add Bill Scanner to your home screen</small></div><button class="btn primary installBtn" data-install style="padding:6px 16px 6px 6px;gap:9px"><span class="ii"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5.5" y="1.5" width="13" height="21" rx="3"/><path d="M12 6.5v8m0 0-3.2-3.2M12 14.5l3.2-3.2"/><path d="M10 19h4"/></svg></span>Install</button></div>
           
           <div class="row-item"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 4 7v5c0 5 3.5 8 8 9 4.5-1 8-4 8-9V7z"/></svg></div><div class="t"><b>Your data is private</b><small>Only you can see the bills you save</small></div></div>
           <div class="row-item"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v4l3 2"/></svg></div><div class="t"><b>AI model</b><small id="modelName">—</small></div><span class="chip" id="status2">Online</span></div>
