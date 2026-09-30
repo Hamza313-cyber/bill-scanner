@@ -245,7 +245,7 @@ tr.flag td{background:rgba(245,158,11,.09)} tr.flag td:first-child{color:var(--a
 
 /* ---------- AUTH ---------- */
 .auth{min-height:100vh;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);grid-template-areas:"text shot" "card shot";align-items:center;column-gap:clamp(24px,4vw,64px);row-gap:18px;padding:24px clamp(20px,5vw,80px)}
-.auth-hero{grid-area:text;align-self:end}.auth-card{grid-area:card;align-self:start}.hero-shot{grid-area:shot}
+.auth-hero{grid-area:text;align-self:end}.auth-card{grid-area:card;align-self:start}
 .auth-hero h1{font-size:clamp(34px,4.3vw,56px);line-height:1.04;letter-spacing:-.035em;margin:16px 0 12px;font-weight:800}
 .auth-hero h1 span{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
 .auth-hero p{color:var(--ink-2);font-size:17px;max-width:42ch;margin:0 0 28px}
@@ -257,7 +257,7 @@ tr.flag td{background:rgba(245,158,11,.09)} tr.flag td:first-child{color:var(--a
 .mock .res div{display:flex;justify-content:space-between;font-size:12.5px;padding:6px 0;border-bottom:1px solid rgba(19,26,43,.06)}
 .mock .res div:last-child{border:0;font-weight:800;color:var(--blue)}
 .mock .tag{position:absolute;left:150px;bottom:-6px;padding:8px 12px;border-radius:12px;background:var(--teal);color:#fff;font-size:12.5px;font-weight:700;box-shadow:0 10px 20px -8px rgba(16,179,154,.7);animation:float 4s ease-in-out -1s infinite}
-.hero-shot{margin:0;width:100%;max-width:760px;justify-self:center;border-radius:28px;overflow:hidden;box-shadow:0 40px 80px -30px rgba(40,56,110,.45),0 0 0 1px rgba(255,255,255,.7);animation:shotIn .9s var(--ease) .15s both}
+.hero-shot{margin:0;width:100%;transition:transform .5s var(--ease);border-radius:28px;overflow:hidden;box-shadow:0 40px 80px -30px rgba(40,56,110,.45),0 0 0 1px rgba(255,255,255,.7);animation:shotIn .9s var(--ease) .15s both}
 .hero-shot img{display:block;width:100%;height:auto;transition:transform 1.2s var(--ease)}
 .hero-shot:hover img{transform:scale(1.03)}
 @keyframes shotIn{from{opacity:0;transform:translateY(24px) scale(.97)}to{opacity:1;transform:none}}
@@ -288,6 +288,32 @@ tr.flag td{background:rgba(245,158,11,.09)} tr.flag td:first-child{color:var(--a
 .steps li{counter-increment:st;display:flex;gap:12px;align-items:flex-start;padding:9px 0;color:var(--ink-2)}
 .steps li::before{content:counter(st);flex:none;width:26px;height:26px;border-radius:50%;display:grid;place-items:center;font-weight:700;font-size:13px;color:#fff;background:var(--grad)}
 .steps b{color:var(--ink)}
+.hero-wrap{grid-area:shot;position:relative;width:100%;max-width:760px;justify-self:center;perspective:1200px}
+.hero-wrap .hero-shot{grid-area:auto;max-width:none}
+.floaters{position:absolute;inset:0;pointer-events:none;transform-style:preserve-3d;transition:transform .5s var(--ease)}
+.fc{position:absolute;left:var(--x);top:var(--y);display:flex;align-items:center;gap:11px;padding:12px 16px;border-radius:18px;
+  background:rgba(255,255,255,.66);backdrop-filter:blur(18px) saturate(170%);-webkit-backdrop-filter:blur(18px) saturate(170%);
+  border:1px solid rgba(255,255,255,.9);box-shadow:0 22px 44px -18px rgba(40,56,110,.45),inset 0 1px 0 rgba(255,255,255,.9);
+  transform:translateZ(var(--z));animation:popIn .8s var(--spring) var(--dl) both, bob 6s ease-in-out calc(var(--dl) + .8s) infinite;will-change:transform}
+.fc small{display:block;font-size:11.5px;font-weight:600;color:var(--ink-3);line-height:1.2}
+.fc b{display:block;font-size:18px;font-weight:800;color:var(--ink);letter-spacing:-.01em;font-variant-numeric:tabular-nums}
+.fi{width:36px;height:36px;border-radius:11px;display:grid;place-items:center;color:#fff;font-weight:800;font-size:16px;flex:none}
+.fi.b{background:linear-gradient(135deg,#4f6bff,#6f8bff)} .fi.g{background:linear-gradient(135deg,#10b39a,#22c7d8)} .fi.ok{background:linear-gradient(135deg,#10b39a,#34d399);width:30px;height:30px;border-radius:50%}
+.fi svg{width:16px;height:16px}
+.fc.pill{padding:9px 16px 9px 9px;border-radius:999px} .fc.pill b{font-size:15px}
+.fc.soft{padding:10px 18px} .fc .dot{width:9px;height:9px;border-radius:50%;background:var(--grad);box-shadow:0 0 0 4px rgba(79,107,255,.15)}
+.fc.wide{padding:12px 16px;min-width:190px}
+.fc .rows p{display:flex;justify-content:space-between;gap:18px;margin:0;padding:5px 0;font-size:13px;color:var(--ink-2);border-bottom:1px solid rgba(19,26,43,.07)}
+.fc .rows p:last-child{border:0} .fc .rows b{font-size:13px}
+.f2,.f3{animation-duration:.8s,7s} .f4{animation-duration:.8s,5.5s} .f5{animation-duration:.8s,6.5s}
+@keyframes popIn{from{opacity:0;transform:translateZ(0) translateY(26px) scale(.7)}to{opacity:1;transform:translateZ(var(--z)) scale(1)}}
+@keyframes bob{0%,100%{transform:translateZ(var(--z)) translateY(0)}50%{transform:translateZ(var(--z)) translateY(-10px)}}
+@media (max-width:860px){.fc{padding:7px 10px;gap:7px;border-radius:13px}.fc b{font-size:13px}.fc small{font-size:9.5px}.fi{width:26px;height:26px;font-size:12px;border-radius:8px}
+  .fc.pill{padding:6px 12px 6px 6px}.fc.pill b{font-size:12px}.fi.ok{width:24px;height:24px}.fi svg{width:13px;height:13px}
+  .f1,.f3,.f5{display:none}
+  .f2{--x:auto!important;left:auto!important;right:3%;--y:4%!important}
+  .f4{--x:3%!important;--y:78%!important}}
+@media (prefers-reduced-motion:reduce){.fc{animation:none;opacity:1}}
 .auth-card{padding:28px 30px;max-width:460px;width:100%;justify-self:start}
 .auth-card h2{margin:0 0 2px;font-size:22px;letter-spacing:-.02em}
 .auth-card .sub{margin:0 0 16px;color:var(--ink-3)}
@@ -366,7 +392,16 @@ tr.flag td{background:rgba(245,158,11,.09)} tr.flag td:first-child{color:var(--a
     <button class="btn primary block lg" id="authBtn">Log in</button>
     <div class="msg" id="authMsg" role="status"></div>
   </div>
-  <figure class="hero-shot"><img src="/img/phone-hero-900.webp" srcset="/img/phone-hero-900.webp 900w, /img/phone-hero.webp 1600w" sizes="(max-width:860px) 92vw, 46vw" width="1600" height="1440" alt="Bill Scanner app open on a phone, showing the purchases dashboard"></figure>
+  <div class="hero-wrap" id="heroWrap">
+    <figure class="hero-shot"><img src="/img/phone-hero-900.webp" srcset="/img/phone-hero-900.webp 900w, /img/phone-hero.webp 1600w" sizes="(max-width:860px) 92vw, 46vw" width="1600" height="1440" alt="Bill Scanner app open on a phone, showing the purchases dashboard"></figure>
+    <div class="floaters" aria-hidden="true">
+      <div class="fc f1" style="--x:-6%;--y:12%;--z:60px;--dl:.2s"><span class="fi b">▦</span><div><small>Bills scanned</small><b>6</b></div></div>
+      <div class="fc f2" style="--x:74%;--y:6%;--z:90px;--dl:.45s"><span class="fi g">₹</span><div><small>Total purchases</small><b>₹23,815</b></div></div>
+      <div class="fc f3 wide" style="--x:70%;--y:46%;--z:120px;--dl:.7s"><div class="rows"><p><span>Dolo 650 Tab</span><b>₹482</b></p><p><span>Pan 40 Tab</span><b>₹1,425</b></p><p><span>Electral 21g</span><b>₹810</b></p></div></div>
+      <div class="fc f4 pill" style="--x:-4%;--y:62%;--z:100px;--dl:.95s"><span class="fi ok"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5L20 7"/></svg></span><b>6 items found</b></div>
+      <div class="fc f5 pill soft" style="--x:30%;--y:88%;--z:70px;--dl:1.2s"><span class="dot"></span><b>No more manual entry</b></div>
+    </div>
+  </div>
 </section>
 
 <!-- ============ APP ============ -->
@@ -670,6 +705,14 @@ $("#saveBtn").onclick=async()=>{
   if(error)return toast(error.message,true);
   toast(`Saved ${rows.length} items`);$("#form").hidden=true;$("#empty").hidden=false;$("#viewport").classList.remove("loaded");$("#img").hidden=true;$("#pdfMark").hidden=true;
   $("#fname").textContent="";$("#vpStatus").textContent="Waiting for a bill";file=null;$("#scanBtn").disabled=true;inp.value="";cam.value="";await loadData()};
+
+/* ---------- hero parallax ---------- */
+(()=>{const w=$("#heroWrap"); if(!w||matchMedia("(prefers-reduced-motion: reduce)").matches||matchMedia("(hover:none)").matches) return;
+  const f=w.querySelector(".floaters"), img=w.querySelector(".hero-shot");
+  w.addEventListener("pointermove",e=>{const r=w.getBoundingClientRect(),x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;
+    f.style.transform=`rotateY(${x*10}deg) rotateX(${-y*8}deg)`; img.style.transform=`translate(${x*-8}px,${y*-8}px)`});
+  w.addEventListener("pointerleave",()=>{f.style.transform="";img.style.transform=""});
+})();
 
 /* ---------- PWA ---------- */
 if("serviceWorker" in navigator)addEventListener("load",()=>navigator.serviceWorker.register("/sw.js").catch(()=>{}));
