@@ -256,6 +256,11 @@ tr.flag td{background:rgba(245,158,11,.09)} tr.flag td:first-child{color:var(--a
 .mock .res div{display:flex;justify-content:space-between;font-size:12.5px;padding:6px 0;border-bottom:1px solid rgba(19,26,43,.06)}
 .mock .res div:last-child{border:0;font-weight:800;color:var(--blue)}
 .mock .tag{position:absolute;left:150px;bottom:-6px;padding:8px 12px;border-radius:12px;background:var(--teal);color:#fff;font-size:12.5px;font-weight:700;box-shadow:0 10px 20px -8px rgba(16,179,154,.7);animation:float 4s ease-in-out -1s infinite}
+.hero-shot{margin:0;max-width:640px;border-radius:28px;overflow:hidden;box-shadow:0 40px 80px -30px rgba(40,56,110,.45),0 0 0 1px rgba(255,255,255,.7);animation:shotIn .9s var(--ease) .15s both}
+.hero-shot img{display:block;width:100%;height:auto;transition:transform 1.2s var(--ease)}
+.hero-shot:hover img{transform:scale(1.03)}
+@keyframes shotIn{from{opacity:0;transform:translateY(24px) scale(.97)}to{opacity:1;transform:none}}
+.auth-hero p b{color:var(--ink)}
 .auth-card{padding:32px;max-width:430px;width:100%;justify-self:center}
 .auth-card h2{margin:0 0 4px;font-size:24px;letter-spacing:-.02em}
 .auth-card .sub{margin:0 0 22px;color:var(--ink-3)}
@@ -297,7 +302,7 @@ tr.flag td{background:rgba(245,158,11,.09)} tr.flag td:first-child{color:var(--a
   .tabbar .scanfab span.f{width:48px;height:48px;margin-top:-26px;border-radius:17px;display:grid;place-items:center;background:var(--grad);box-shadow:0 12px 24px -8px rgba(79,107,255,.75);border:3px solid rgba(255,255,255,.9)}
   .tabbar .scanfab span.l{color:var(--ink-3)} .tabbar .scanfab.on span.l{color:var(--blue)}
   .auth{grid-template-columns:1fr;padding:28px 18px;gap:10px}
-  .auth-hero .mock{display:none} .auth-hero h1{margin-top:14px}
+  .auth-hero h1{margin-top:14px} .hero-shot{border-radius:22px;margin-bottom:6px}
   .actions.sticky{position:sticky;bottom:calc(96px + var(--safe-b));z-index:5;padding:10px;border-radius:18px;background:var(--glass-strong);backdrop-filter:blur(16px)}
   .toast{bottom:calc(104px + var(--safe-b))}
   table{min-width:760px}
@@ -315,13 +320,9 @@ tr.flag td{background:rgba(245,158,11,.09)} tr.flag td:first-child{color:var(--a
 <section class="auth" id="authView" hidden>
   <div class="auth-hero reveal">
     <div class="brand" style="padding:0"><div class="logo">₹</div><div><b>Bill Scanner</b><small>No more manual entry</small></div></div>
-    <h1>No more manual entry.<br><span>Just snap the bill.</span></h1>
-    <p>No more tension of typing every bill by hand. Take a photo and every product, batch, expiry and rate lands in a clean table you can check and save in seconds.</p>
-    <div class="mock" aria-hidden="true">
-      <div class="paper"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
-      <div class="res glass"><div><span>Dolo 650</span><span>₹482</span></div><div><span>Pan 40</span><span>₹1,425</span></div><div><span>Electral</span><span>₹810</span></div><div><span>Total</span><span>₹6,487</span></div></div>
-      <div class="tag">6 items found</div>
-    </div>
+    <h1>Your business,<br><span>in your pocket.</span></h1>
+    <p><b>No more manual entry.</b> No more tension of typing every bill by hand. Snap a photo and every product, batch, expiry and rate lands in a clean table you can check and save in seconds.</p>
+    <figure class="hero-shot"><img src="/img/phone-hero-1000.webp" srcset="/img/phone-hero-1000.webp 1000w, /img/phone-hero.webp 2000w" sizes="(max-width:860px) 92vw, 50vw" width="2000" height="1125" alt="Bill Scanner app open on a phone, showing the purchases dashboard"></figure></div>
   </div>
   <div class="auth-card glass reveal">
     <div class="seg neu-in" id="seg"><span class="knob"></span><button class="on" data-mode="login">Log in</button><button data-mode="signup">Sign up</button></div>
