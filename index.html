@@ -2,9 +2,9 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Bill Scanner</title>
-<meta name="theme-color" content="#0f766e">
+<meta name="theme-color" content="#061a1c">
 <link rel="manifest" href="/manifest.json">
 <link rel="icon" href="/icons/icon-192.png">
 <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png">
@@ -13,169 +13,225 @@
 <meta name="apple-mobile-web-app-title" content="Bill Scanner">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="description" content="AI-powered purchase entry from bill photos">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 :root{
-  --bg:#f3f6f4; --card:#ffffff; --ink:#15231c; --muted:#5f7068; --line:#dfe7e2;
-  --brand:#0f766e; --brand-2:#14b8a6; --brand-soft:#e6f5f3;
-  --warn:#b45309; --warn-soft:#fef3c7; --bad:#b91c1c; --bad-soft:#fee2e2; --ok:#15803d; --ok-soft:#dcfce7;
-  --r:14px; --shadow:0 1px 2px rgba(16,40,30,.06),0 8px 24px rgba(16,40,30,.06);
+  --ink:#061a1c; --deep:#082326; --panel:rgba(12,44,47,.72); --edge:#1f5a5c; --edge-hi:#5ef2d6;
+  --signal:#5ef2d6; --signal-dim:#2fa596; --amber:#ffb547; --coral:#ff6b6b; --text:#d8f3ee; --muted:#8fb8b2;
+  --field:#0a2f33; --field-edge:#23676a;
+  --cut:14px;
 }
 *{box-sizing:border-box}
 [hidden]{display:none!important}
-.grid>*{min-width:0}
 html,body{overflow-x:hidden}
-body{margin:0;font-family:"Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;background:var(--bg);color:var(--ink);font-size:15px}
-header{background:linear-gradient(120deg,#0b4f4a,#0f766e 60%,#12a191);color:#fff;padding:18px 28px;display:flex;align-items:center;gap:14px}
-.logo{width:42px;height:42px;border-radius:12px;background:rgba(255,255,255,.15);display:grid;place-items:center;font-size:22px}
-header h1{margin:0;font-size:20px;letter-spacing:.2px}
-header p{margin:2px 0 0;opacity:.8;font-size:13px}
-.status{margin-left:auto;font-size:12px;padding:6px 12px;border-radius:999px;background:rgba(255,255,255,.15)}
-nav{display:flex;gap:6px;padding:14px 28px 0}
-nav button{border:0;background:transparent;padding:10px 16px;border-radius:10px 10px 0 0;font:inherit;color:var(--muted);cursor:pointer;font-weight:600}
-nav button.on{background:var(--card);color:var(--brand);box-shadow:var(--shadow)}
-main{padding:0 28px 40px}
+body{margin:0;min-height:100vh;color:var(--text);font:15px/1.5 "IBM Plex Sans",system-ui,sans-serif;
+  background:
+    radial-gradient(1200px 600px at 80% -10%, rgba(94,242,214,.10), transparent 60%),
+    radial-gradient(900px 500px at -10% 110%, rgba(255,181,71,.06), transparent 60%),
+    linear-gradient(rgba(94,242,214,.045) 1px, transparent 1px) 0 0/100% 32px,
+    linear-gradient(90deg, rgba(94,242,214,.045) 1px, transparent 1px) 0 0/32px 100%,
+    var(--ink);}
+h1,h2,.num,.hud{font-family:"Chakra Petch",sans-serif}
+:focus-visible{outline:2px solid var(--signal);outline-offset:2px}
+
+/* frame: chamfered panels instead of rounded cards */
+.frame{position:relative;background:var(--panel);backdrop-filter:blur(6px);
+  clip-path:polygon(var(--cut) 0,100% 0,100% calc(100% - var(--cut)),calc(100% - var(--cut)) 100%,0 100%,0 var(--cut));
+  padding:22px;border:1px solid var(--edge)}
+.frame::before{content:"";position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(var(--edge-hi),var(--edge-hi)) top left/22px 2px no-repeat,
+             linear-gradient(var(--edge-hi),var(--edge-hi)) top left/2px 0 no-repeat,
+             linear-gradient(var(--edge-hi),var(--edge-hi)) bottom right/22px 2px no-repeat;opacity:.9}
+.frame h2{margin:0 0 16px;font-size:17px;font-weight:600;letter-spacing:.02em;color:#effffb;display:flex;align-items:center;gap:10px}
+.frame h2 .step{display:inline-grid;place-items:center;width:24px;height:24px;border:1px solid var(--signal-dim);color:var(--signal);font-size:13px}
+
+/* top bar */
+header{display:flex;align-items:center;gap:14px;padding:14px 28px;border-bottom:1px solid var(--edge);background:rgba(6,26,28,.85);position:sticky;top:0;z-index:5;backdrop-filter:blur(8px)}
+.mark{width:38px;height:38px;display:grid;place-items:center;border:1px solid var(--signal);color:var(--signal);font:700 18px "Chakra Petch","Segoe UI",system-ui,sans-serif;
+  clip-path:polygon(8px 0,100% 0,100% calc(100% - 8px),calc(100% - 8px) 100%,0 100%,0 8px);background:rgba(94,242,214,.08)}
+header h1{margin:0;font-size:20px;font-weight:700;letter-spacing:.04em;color:#effffb}
+header p{margin:0;color:var(--muted);font-size:12.5px}
+.user{display:flex;align-items:center;gap:12px;margin-left:auto}
+.status{display:inline-flex;align-items:center;gap:8px;font:500 13px "Chakra Petch","Segoe UI",system-ui,sans-serif;color:var(--signal)}
+.status::before{content:"";width:8px;height:8px;border-radius:50%;background:currentColor;box-shadow:0 0 10px currentColor}
+.status.off{color:var(--coral)}
+#email{color:var(--muted);font-size:13px}
+.ghostbtn{border:1px solid var(--edge);background:transparent;color:var(--text);padding:7px 14px;font:500 13px "Chakra Petch","Segoe UI",system-ui,sans-serif;cursor:pointer}
+.ghostbtn:hover{border-color:var(--signal);color:var(--signal)}
+.install{border:1px solid var(--amber);background:rgba(255,181,71,.1);color:var(--amber);padding:7px 14px;font:600 13px "Chakra Petch","Segoe UI",system-ui,sans-serif;cursor:pointer}
+.iosHint{margin:14px 28px 0;padding:10px 14px;border:1px solid rgba(255,181,71,.5);color:var(--amber);background:rgba(255,181,71,.07);font-size:13px}
+
+/* tabs: segmented */
+nav{display:flex;gap:0;margin:22px 28px 0;width:max-content;border:1px solid var(--edge)}
+nav button{border:0;background:transparent;color:var(--muted);padding:10px 22px;font:600 14px "Chakra Petch","Segoe UI",system-ui,sans-serif;cursor:pointer;letter-spacing:.03em}
+nav button.on{background:rgba(94,242,214,.12);color:var(--signal);box-shadow:inset 0 -2px 0 var(--signal)}
+main{padding:18px 28px 60px}
 .page{display:none}.page.on{display:block}
-.grid{display:grid;grid-template-columns:340px 1fr;gap:20px;align-items:start}
-.card{background:var(--card);border-radius:var(--r);box-shadow:var(--shadow);padding:20px}
-.card h2{margin:0 0 14px;font-size:16px}
-.drop{border:2px dashed #b7d8d2;border-radius:12px;padding:26px 14px;text-align:center;cursor:pointer;background:var(--brand-soft);transition:.15s}
-.drop:hover,.drop.over{border-color:var(--brand);background:#d7efeb}
-.drop .big{font-size:34px}
-.drop b{display:block;margin:6px 0 2px;color:var(--brand)}
-.drop small{color:var(--muted)}
-#preview{margin-top:14px;display:none}
-#preview img{width:100%;border-radius:10px;border:1px solid var(--line);max-height:420px;object-fit:contain;background:#fafafa}
-#preview .name{font-size:12px;color:var(--muted);margin-top:6px;word-break:break-all}
-.btn{border:0;border-radius:10px;padding:12px 18px;font:inherit;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:8px;justify-content:center}
-.btn.primary{background:var(--brand);color:#fff;width:100%;margin-top:14px}
-.btn.primary:hover{background:#0c5f59}
-.btn.ghost{background:var(--brand-soft);color:var(--brand)}
-.btn.save{background:#15803d;color:#fff}
-.btn:disabled{opacity:.5;cursor:not-allowed}
-.empty{text-align:center;color:var(--muted);padding:60px 20px}
-.empty .big{font-size:44px}
-.meta{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px}
-label{font-size:12px;color:var(--muted);font-weight:600;display:block;margin-bottom:4px}
-input{width:100%;border:1px solid var(--line);border-radius:8px;padding:8px 10px;font:inherit;background:#fff;color:var(--ink)}
-input:focus{outline:2px solid var(--brand-2);border-color:transparent}
-.tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:10px}
-table{border-collapse:collapse;width:100%;min-width:900px}
-th{background:#f6faf8;text-align:left;font-size:12px;color:var(--muted);padding:10px 8px;border-bottom:1px solid var(--line);white-space:nowrap}
-td{padding:4px 6px;border-bottom:1px solid var(--line)}
-td input{border-color:transparent;padding:6px}
-td input:hover{border-color:var(--line)}
-td.n input{text-align:right}
-td:nth-child(2){min-width:230px}td:nth-child(3){min-width:95px}td:nth-child(4){min-width:80px}td.n{width:78px}
-tr.flag td{background:var(--warn-soft)}
-.del{border:0;background:none;color:var(--bad);cursor:pointer;font-size:16px}
-.summary{display:flex;gap:12px;flex-wrap:wrap;margin:16px 0}
-.pill{padding:10px 14px;border-radius:10px;background:#f6faf8;border:1px solid var(--line);font-size:13px}
-.pill b{display:block;font-size:17px}
-.pill.ok{background:var(--ok-soft);border-color:#a7e3bd;color:var(--ok)}
-.pill.bad{background:var(--bad-soft);border-color:#f5b5b5;color:var(--bad)}
-.actions{display:flex;gap:10px;justify-content:space-between;flex-wrap:wrap}
-.spin{width:18px;height:18px;border:3px solid rgba(255,255,255,.4);border-top-color:#fff;border-radius:50%;animation:s .8s linear infinite}
-@keyframes s{to{transform:rotate(360deg)}}
-.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(120px);background:#15231c;color:#fff;padding:12px 20px;border-radius:10px;transition:.25s;box-shadow:var(--shadow);z-index:9}
-.toast.on{transform:translateX(-50%) translateY(0)}
-.toast.err{background:var(--bad)}
-.note{font-size:12px;color:var(--muted);margin-top:10px}
-@media (max-width:900px){.grid{grid-template-columns:1fr}.meta{grid-template-columns:1fr 1fr}header,nav,main{padding-left:16px;padding-right:16px}}
+.grid{display:grid;grid-template-columns:minmax(300px,380px) 1fr;gap:22px;align-items:start}
+.grid>*{min-width:0}
 
-.auth{max-width:400px;margin:50px auto}
-.auth h2{margin-top:0}
-.auth .row{margin-bottom:12px}
-.auth .switch{text-align:center;margin-top:14px;font-size:13px;color:var(--muted)}
-.auth .switch a{color:var(--brand);cursor:pointer;font-weight:600}
-.user{display:flex;align-items:center;gap:10px;margin-left:auto}
-.user .status{margin-left:0}
-.user button{border:1px solid rgba(255,255,255,.35);background:transparent;color:#fff;border-radius:999px;padding:6px 12px;cursor:pointer;font:inherit;font-size:12px}
-.msg{font-size:13px;margin-top:10px;min-height:18px}
-.msg.err{color:var(--bad)}.msg.ok{color:var(--ok)}
+/* scanner viewport: the one bold element */
+.viewport{position:relative;aspect-ratio:3/4;max-height:520px;width:100%;background:rgba(3,15,16,.7);overflow:hidden;border:1px solid var(--field-edge)}
+.viewport .br{position:absolute;width:26px;height:26px;border:2px solid var(--signal);z-index:3;pointer-events:none}
+.br.tl{top:10px;left:10px;border-right:0;border-bottom:0}.br.tr{top:10px;right:10px;border-left:0;border-bottom:0}
+.br.bl{bottom:10px;left:10px;border-right:0;border-top:0}.br.brr{bottom:10px;right:10px;border-left:0;border-top:0}
+.viewport img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;padding:18px;filter:saturate(.85) contrast(1.05)}
+.pdfMark{position:absolute;inset:0;display:grid;place-items:center;font:600 42px "Chakra Petch","Segoe UI",system-ui,sans-serif;color:var(--signal)}
+.drop{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;text-align:center;cursor:pointer;padding:30px;color:var(--muted);z-index:2}
+.viewport.loaded .drop{display:none}
+.drop .glyph{width:64px;height:64px;border:1px dashed var(--signal-dim);display:grid;place-items:center;color:var(--signal);font-size:28px}
+.drop b{color:var(--text);font-weight:600}
+.drop.over{background:rgba(94,242,214,.06)}
+.beam{position:absolute;left:0;right:0;height:3px;top:-10%;z-index:4;opacity:0;
+  background:linear-gradient(90deg,transparent,var(--signal),transparent);box-shadow:0 0 24px 6px rgba(94,242,214,.45)}
+.viewport.scanning .beam{opacity:1;animation:sweep 1.8s cubic-bezier(.45,0,.55,1) infinite}
+.viewport.scanning::after{content:"";position:absolute;inset:0;z-index:3;background:linear-gradient(rgba(94,242,214,.10) 1px,transparent 1px) 0 0/100% 6px}
+@keyframes sweep{0%{top:-2%}50%{top:100%}100%{top:-2%}}
+.vpbar{display:flex;justify-content:space-between;gap:10px;margin-top:10px;font-size:12.5px;color:var(--muted)}
+#vpStatus{font-family:"Chakra Petch","Segoe UI",system-ui,sans-serif;color:var(--signal)}
+#fname{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 
+.btn{border:1px solid var(--edge);background:rgba(94,242,214,.06);color:var(--text);padding:12px 16px;font:600 14px "Chakra Petch","Segoe UI",system-ui,sans-serif;letter-spacing:.03em;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:8px}
+.btn:hover:not(:disabled){border-color:var(--signal);color:var(--signal)}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.btn.primary{width:100%;margin-top:12px;background:var(--signal);color:#032523;border-color:var(--signal);font-size:15px;padding:14px;
+  clip-path:polygon(10px 0,100% 0,100% calc(100% - 10px),calc(100% - 10px) 100%,0 100%,0 10px)}
+.btn.primary:hover:not(:disabled){background:#8ff7e4;color:#032523}
+.btn.save{background:transparent;border-color:var(--signal);color:var(--signal)}
+.btn.save:hover:not(:disabled){background:var(--signal);color:#032523}
 .pickrow{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
-.pickrow .btn{padding:14px 10px}
-.install{border:0;background:#fff;color:var(--brand);border-radius:999px;padding:7px 14px;font:inherit;font-size:13px;font-weight:700;cursor:pointer}
-.iosHint{background:var(--warn-soft);color:#7c4a03;border-radius:10px;padding:10px 12px;font-size:13px;margin:12px 28px 0}
+.spin{width:16px;height:16px;border:2px solid rgba(3,37,35,.35);border-top-color:#032523;border-radius:50%;animation:s .8s linear infinite}
+@keyframes s{to{transform:rotate(360deg)}}
+.note{font-size:12.5px;color:var(--muted);margin-top:10px}
+
+/* readout */
+.empty{display:grid;place-items:center;text-align:center;color:var(--muted);min-height:380px;padding:30px}
+.empty .ring{width:120px;height:120px;border-radius:50%;border:1px dashed var(--signal-dim);display:grid;place-items:center;margin:0 auto 18px;position:relative}
+.empty .ring::after{content:"";position:absolute;inset:14px;border-radius:50%;border:1px solid rgba(94,242,214,.25)}
+.empty .ring span{font:600 30px "Chakra Petch","Segoe UI",system-ui,sans-serif;color:var(--signal)}
+.empty p{max-width:34ch;margin:0 auto}
+.meta{display:grid;grid-template-columns:2fr 1.2fr 1fr 1fr;gap:12px;margin-bottom:18px}
+label{display:block;font-size:12px;color:var(--muted);margin-bottom:5px}
+input{width:100%;background:var(--field);border:1px solid var(--field-edge);color:#effffb;padding:9px 11px;font:15px "IBM Plex Sans","Segoe UI",system-ui,sans-serif}
+input:focus{outline:none;border-color:var(--signal);box-shadow:0 0 0 3px rgba(94,242,214,.15)}
+.tablewrap{overflow-x:auto;border:1px solid var(--field-edge);background:rgba(3,15,16,.45)}
+table{border-collapse:collapse;width:100%;min-width:900px}
+th{text-align:left;font:500 12px "Chakra Petch","Segoe UI",system-ui,sans-serif;color:var(--muted);padding:10px 8px;border-bottom:1px solid var(--field-edge);white-space:nowrap;letter-spacing:.03em}
+td{padding:3px 5px;border-bottom:1px solid rgba(35,103,106,.45)}
+td:first-child{font-family:"Chakra Petch","Segoe UI",system-ui,sans-serif;color:var(--signal-dim);padding-left:10px;width:34px}
+td input{background:transparent;border-color:transparent;padding:7px 6px}
+td input:hover{border-color:var(--field-edge)}
+td.n input{text-align:right;font-family:"Chakra Petch","Segoe UI",system-ui,sans-serif;font-size:15px}
+td:nth-child(2){min-width:230px}td:nth-child(3){min-width:95px}td:nth-child(4){min-width:80px}td.n{width:80px}
+tbody tr{animation:lock .45s ease-out both;animation-delay:var(--d,0ms)}
+@keyframes lock{from{opacity:0;transform:translateX(-10px);background:rgba(94,242,214,.18)}to{opacity:1;transform:none;background:transparent}}
+tr.flag td{background:rgba(255,181,71,.10)} tr.flag td:first-child{color:var(--amber);box-shadow:inset 3px 0 0 var(--amber)}
+.del{border:0;background:none;color:var(--muted);cursor:pointer;font-size:15px;padding:6px}
+.del:hover{color:var(--coral)}
+.summary{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:1px;margin:18px 0;background:var(--field-edge);border:1px solid var(--field-edge)}
+.pill{background:var(--deep);padding:12px 14px;font-size:12.5px;color:var(--muted)}
+.pill b{display:block;font:600 22px "Chakra Petch","Segoe UI",system-ui,sans-serif;color:#effffb;margin-top:2px}
+.pill.ok b{color:var(--signal)} .pill.bad b{color:var(--coral)} .pill.bad{box-shadow:inset 0 2px 0 var(--coral)} .pill.ok{box-shadow:inset 0 2px 0 var(--signal)}
+.actions{display:flex;gap:10px;justify-content:space-between;flex-wrap:wrap;align-items:center}
+
+/* auth */
+.auth{max-width:420px;margin:60px auto}
+.auth .row{margin-bottom:14px}
+.auth .switch{text-align:center;margin-top:16px;font-size:13.5px;color:var(--muted)}
+.auth .switch a{color:var(--signal);cursor:pointer;font-weight:600}
+.auth .lead{color:var(--muted);margin:-6px 0 18px;font-size:14px}
+.msg{font-size:13.5px;margin-top:12px;min-height:18px}
+.msg.err{color:var(--coral)}.msg.ok{color:var(--signal)}
+
+/* history */
+#histWrap td{padding:9px 10px;color:var(--text);font-size:14px}
+#histWrap td:first-child{width:auto;color:var(--muted);font-family:"IBM Plex Sans","Segoe UI",system-ui,sans-serif}
+
+.toast{position:fixed;bottom:24px;left:50%;transform:translate(-50%,140px);background:var(--deep);color:var(--text);border:1px solid var(--signal);padding:12px 18px;transition:transform .25s;z-index:9;max-width:92vw;font-size:14px}
+.toast.on{transform:translate(-50%,0)} .toast.err{border-color:var(--coral)}
+
+@media (max-width:900px){.grid{grid-template-columns:1fr}.meta{grid-template-columns:1fr 1fr}}
 @media (max-width:640px){
-  header{padding:14px 16px;gap:10px;flex-wrap:wrap}
-  header h1{font-size:18px} header p{display:none}
-  .logo{width:36px;height:36px;font-size:18px}
-  #email{display:none}
-  nav{padding:10px 12px 0} nav button{padding:10px 12px}
-  main{padding:0 12px 90px}
-  .card{padding:16px}
-  .drop{padding:18px 10px}
-  .meta{grid-template-columns:1fr 1fr;gap:8px}
+  header{padding:12px 14px;gap:10px;flex-wrap:wrap} header p,#email{display:none}
+  nav{margin:14px 14px 0;width:auto} nav button{flex:1;padding:10px}
+  main{padding:14px 14px 90px} .frame{padding:16px}
+  .viewport{aspect-ratio:4/3}
   table{min-width:760px}
-  .actions{position:sticky;bottom:0;background:var(--card);padding:10px 0;margin:0 -2px}
-  .iosHint{margin:10px 12px 0}
+  .actions{position:sticky;bottom:0;background:var(--deep);padding:10px 0;z-index:2}
+  .iosHint{margin:12px 14px 0}
 }
 @media (display-mode: standalone){ .install{display:none!important} }
+@media (prefers-reduced-motion: reduce){ *{animation:none!important;transition:none!important} .viewport.scanning .beam{opacity:1;top:50%} }
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
 <header>
-  <div class="logo">🧾</div>
+  <div class="mark" aria-hidden="true">₹</div>
   <div><h1>Bill Scanner</h1><p>AI purchase entry from bill photos</p></div>
-  <button class="install" id="installBtn" hidden>📲 Install app</button>
+  <button class="install" id="installBtn" hidden>Install app</button>
   <div class="user" id="userBox" hidden>
     <span class="status" id="status"></span>
-    <span id="email" style="font-size:12px;opacity:.85"></span>
-    <button id="logout">Logout</button>
+    <span id="email"></span>
+    <button class="ghostbtn" id="logout">Log out</button>
   </div>
 </header>
+<div class="iosHint" id="iosHint" hidden>To install on iPhone: tap <b>Share</b>, then <b>Add to Home Screen</b>.</div>
 
-<div class="iosHint" id="iosHint" hidden>📲 To install on iPhone: tap <b>Share</b> → <b>Add to Home Screen</b></div>
-
-<!-- LOGIN -->
 <section id="authView" hidden>
-  <div class="card auth">
+  <div class="frame auth">
     <h2 id="authTitle">Login</h2>
-    <div class="row"><label>Email</label><input id="aEmail" type="email" autocomplete="email"></div>
-    <div class="row"><label>Password</label><input id="aPass" type="password" autocomplete="current-password" placeholder="At least 6 characters"></div>
+    <p class="lead">Scan supplier bills and keep every line item in one place.</p>
+    <div class="row"><label for="aEmail">Email</label><input id="aEmail" type="email" autocomplete="email"></div>
+    <div class="row"><label for="aPass">Password</label><input id="aPass" type="password" autocomplete="current-password" placeholder="At least 6 characters"></div>
     <button class="btn primary" id="authBtn">Login</button>
-    <div class="msg" id="authMsg"></div>
-    <div class="switch" id="authSwitch">New here? <a id="toSignup">Sign up</a></div>
+    <div class="msg" id="authMsg" role="status"></div>
+    <div class="switch" id="authSwitch">New here? <a id="toSignup" tabindex="0">Sign up</a></div>
   </div>
 </section>
 
-<!-- APP -->
 <div id="appView" hidden>
-<nav>
-  <button class="on" data-p="scan">📸 New Bill</button>
-  <button data-p="hist">📋 History</button>
+<nav aria-label="Sections">
+  <button class="on" data-p="scan">New bill</button>
+  <button data-p="hist">History</button>
 </nav>
 <main>
   <section class="page on" id="p-scan">
     <div class="grid">
-      <div class="card">
-        <h2>1. Bill photo</h2>
-        <div class="drop" id="drop">
-          <div class="big">📷</div>
-          <b>Drop a photo here or click to choose</b>
-          <small>JPG, PNG, WEBP or PDF</small>
+      <div class="frame">
+        <h2><span class="step">1</span>Capture the bill</h2>
+        <div class="viewport" id="viewport">
+          <i class="br tl"></i><i class="br tr"></i><i class="br bl"></i><i class="br brr"></i>
+          <div class="beam"></div>
+          <img id="img" alt="Bill preview" hidden>
+          <div class="pdfMark" id="pdfMark" hidden>PDF</div>
+          <div class="drop" id="drop" role="button" tabindex="0" aria-label="Choose a bill photo">
+            <div class="glyph">⌖</div>
+            <b>Drop a bill photo here</b>
+            <span>or use Camera / Gallery below. JPG, PNG, WEBP or PDF.</span>
+          </div>
           <input type="file" id="file" accept="image/*,application/pdf" hidden>
         </div>
+        <div class="vpbar"><span id="vpStatus">Waiting for a bill</span><span id="fname"></span></div>
         <div class="pickrow">
-          <button class="btn ghost" id="camBtn">📷 Camera</button>
-          <button class="btn ghost" id="galBtn">🖼️ Gallery / File</button>
+          <button class="btn" id="camBtn">Camera</button>
+          <button class="btn" id="galBtn">Gallery / File</button>
         </div>
         <input type="file" id="cam" accept="image/*" capture="environment" hidden>
-        <div id="preview"><img id="img" alt=""><div class="name" id="fname"></div></div>
-        <button class="btn primary" id="scanBtn" disabled>🤖 Scan Bill</button>
-        <div class="note">Tip: good light, straight angle, whole bill in frame.</div>
+        <button class="btn primary" id="scanBtn" disabled>Scan bill</button>
+        <div class="note">Good light, straight angle, whole bill in frame.</div>
       </div>
-      <div class="card" id="result">
-        <div class="empty" id="empty"><div class="big">🧾</div><p>Choose a photo and tap <b>Scan Bill</b>.<br>The extracted data will appear here — review it, then save.</p></div>
+
+      <div class="frame" id="result">
+        <div class="empty" id="empty"><div><div class="ring"><span>0</span></div><p>Scanned items will appear here. Check them, fix anything the AI misread, then save.</p></div></div>
         <div id="form" hidden>
-          <h2>2. Review & correct</h2>
+          <h2><span class="step">2</span>Review and correct</h2>
           <div class="meta">
-            <div><label>Supplier</label><input id="supplier_name"></div>
-            <div><label>Bill No</label><input id="bill_number"></div>
-            <div><label>Bill Date</label><input id="bill_date"></div>
-            <div><label>Bill Total (₹)</label><input id="bill_total" inputmode="decimal"></div>
+            <div><label for="supplier_name">Supplier</label><input id="supplier_name"></div>
+            <div><label for="bill_number">Bill no.</label><input id="bill_number"></div>
+            <div><label for="bill_date">Bill date</label><input id="bill_date"></div>
+            <div><label for="bill_total">Bill total (₹)</label><input id="bill_total" inputmode="decimal"></div>
           </div>
           <div class="tablewrap"><table>
             <thead><tr><th>#</th><th>Product</th><th>Batch</th><th>Expiry</th><th>Qty</th><th>Free</th><th>MRP</th><th>Rate</th><th>GST %</th><th>Amount</th><th></th></tr></thead>
@@ -183,27 +239,26 @@ tr.flag td{background:var(--warn-soft)}
           </table></div>
           <div class="summary" id="summary"></div>
           <div class="actions">
-            <button class="btn ghost" id="addRow">＋ Add row</button>
-            <button class="btn save" id="saveBtn">💾 Save</button>
+            <button class="btn" id="addRow">＋ Add row</button>
+            <button class="btn save" id="saveBtn">Save items</button>
           </div>
-          <div class="note">Yellow row = Qty × Rate doesn't match Amount. Please double-check.</div>
+          <div class="note">Amber rows: Qty × Rate doesn't match Amount. Check them before saving.</div>
         </div>
       </div>
     </div>
   </section>
   <section class="page" id="p-hist">
-    <div class="card">
-      <div class="actions" style="margin-bottom:12px;align-items:center"><h2 style="margin:0">Saved entries</h2>
-        <div style="display:flex;gap:8px"><button class="btn ghost" id="exportBtn">⬇️ Excel (CSV)</button><button class="btn ghost" id="refresh">↻ Refresh</button></div></div>
+    <div class="frame">
+      <div class="actions" style="margin-bottom:14px"><h2 style="margin:0">Saved items</h2>
+        <div style="display:flex;gap:8px"><button class="btn" id="exportBtn">Download CSV</button><button class="btn" id="refresh">Refresh</button></div></div>
       <div class="tablewrap" id="histWrap"><div class="empty">Loading…</div></div>
     </div>
   </section>
 </main>
 </div>
-<div class="toast" id="toast"></div>
+<div class="toast" id="toast" role="status"></div>
 
-<script>
-const $ = s => document.querySelector(s);
+<script>const $ = s => document.querySelector(s);
 const F = ["product_name","batch","expiry","qty","free_qty","mrp","rate","gst_percent","amount"];
 const NUM = new Set(["qty","free_qty","mrp","rate","gst_percent","amount"]);
 let sb=null, session=null, file=null, histRows=[], signup=false;
@@ -219,7 +274,7 @@ const esc = v => (v??"").toString().replace(/&/g,"&amp;").replace(/"/g,"&quot;")
   const cfg = await fetch("/api/config").then(r=>r.json()).catch(()=>({}));
   if(!cfg.supabaseUrl){ document.body.insertAdjacentHTML("beforeend",'<div class="card auth"><h2>Setup incomplete</h2><p>Add SUPABASE_URL and SUPABASE_ANON_KEY in Vercel environment variables.</p></div>'); return; }
   sb = supabase.createClient(cfg.supabaseUrl, cfg.supabaseAnonKey);
-  $("#status").textContent = cfg.aiReady ? "🟢 AI ready" : "🔴 AI key missing";
+  $("#status").textContent = cfg.aiReady ? "AI online" : "AI key missing"; $("#status").classList.toggle("off",!cfg.aiReady);
   const { data } = await sb.auth.getSession(); setSession(data.session);
   sb.auth.onAuthStateChange((_e, s)=>setSession(s));
 })();
@@ -231,7 +286,7 @@ function setSession(s){
 }
 function toggleAuth(){ signup=!signup;
   $("#authTitle").textContent=signup?"Create account":"Login";
-  $("#authBtn").textContent=signup?"Sign up":"Login";
+  $("#authBtn").textContent=signup?"Create account":"Login";
   $("#authSwitch").innerHTML=signup?'Have an account? <a id="toSignup">Log in</a>':'New here? <a id="toSignup">Sign up</a>';
   $("#toSignup").onclick=toggleAuth; $("#authMsg").textContent=""; }
 $("#toSignup").onclick=toggleAuth;
@@ -256,7 +311,7 @@ document.querySelectorAll("nav button").forEach(b=>b.onclick=()=>{
 
 /* ---------- photo pick + compress ---------- */
 const drop=$("#drop"), inp=$("#file");
-drop.onclick=()=>inp.click();
+drop.onclick=()=>inp.click(); drop.onkeydown=e=>{ if(e.key==='Enter'||e.key===' '){e.preventDefault();inp.click();} };
 drop.ondragover=e=>{e.preventDefault();drop.classList.add("over")};
 drop.ondragleave=()=>drop.classList.remove("over");
 drop.ondrop=e=>{e.preventDefault();drop.classList.remove("over");if(e.dataTransfer.files[0])pick(e.dataTransfer.files[0])};
@@ -266,9 +321,9 @@ $("#camBtn").onclick=()=>cam.click();
 $("#galBtn").onclick=()=>inp.click();
 cam.onchange=()=>cam.files[0]&&pick(cam.files[0]);
 function pick(f){
-  file=f; $("#fname").textContent=f.name+" · "+(f.size/1024).toFixed(0)+" KB";
-  $("#preview").style.display="block";
-  if(f.type.startsWith("image/")){ $("#img").src=URL.createObjectURL(f); $("#img").style.display="block"; } else $("#img").style.display="none";
+  file=f; $("#fname").textContent=f.name+", "+(f.size/1024).toFixed(0)+" KB";
+  $("#viewport").classList.add("loaded"); $("#vpStatus").textContent="Ready to scan";
+  if(f.type.startsWith("image/")){ $("#img").src=URL.createObjectURL(f); $("#img").hidden=false; $("#pdfMark").hidden=true; } else { $("#img").hidden=true; $("#pdfMark").hidden=false; }
   $("#scanBtn").disabled=false;
 }
 function toB64(blob){ return new Promise((ok,no)=>{const r=new FileReader();r.onload=()=>ok(r.result.split(",")[1]);r.onerror=no;r.readAsDataURL(blob)}); }
@@ -284,16 +339,17 @@ async function prepare(f){
 /* ---------- scan ---------- */
 $("#scanBtn").onclick=async()=>{
   if(!file) return;
-  const b=$("#scanBtn"); b.disabled=true; b.innerHTML='<span class="spin"></span> AI is reading the bill…';
+  const b=$("#scanBtn"); b.disabled=true; b.innerHTML='<span class="spin"></span> Reading bill…'; $("#viewport").classList.add("scanning"); $("#vpStatus").textContent="Reading line items…";
   try{
     const body = await prepare(file);
     if(body.data.length>4200000) throw new Error("File is too large (keep it under 4 MB)");
     const res = await fetch("/api/scan",{method:"POST",headers:{"Content-Type":"application/json","Authorization":"Bearer "+session.access_token},body:JSON.stringify(body)});
     const j = await res.json().catch(()=>({error:"No response from server ("+res.status+")"}));
     if(!res.ok) throw new Error(j.error||"Scan failed");
-    fill(j.bill); toast(`✅ ${(j.bill.items||[]).length} items found · ${j.seconds}s · ${j.tokens} tokens`);
-  }catch(e){ toast("❌ "+e.message,true); }
-  b.disabled=false; b.innerHTML="🤖 Scan Bill";
+    fill(j.bill); $("#vpStatus").textContent=`Read ${(j.bill.items||[]).length} items in ${j.seconds}s`; toast(`✅ Found ${(j.bill.items||[]).length} items in ${j.seconds}s (${j.tokens} tokens)`);
+  }catch(e){ toast("❌ "+e.message,true); $("#vpStatus").textContent="Scan failed. Try a clearer photo."; }
+  $("#viewport").classList.remove("scanning");
+  b.disabled=false; b.innerHTML="Scan bill";
 };
 
 /* ---------- review table ---------- */
@@ -307,6 +363,7 @@ function addRow(it={}){
   tr.innerHTML=`<td>${$("#rows").children.length+1}</td>`+F.map(k=>`<td class="${NUM.has(k)?"n":""}"><input data-k="${k}" value="${esc(it[k])}" ${NUM.has(k)?'inputmode="decimal"':""}></td>`).join("")+`<td><button class="del" title="Remove">✕</button></td>`;
   tr.querySelector(".del").onclick=()=>{tr.remove();renum();recalc()};
   tr.querySelectorAll("input").forEach(i=>i.oninput=recalc);
+  tr.style.setProperty("--d", ($("#rows").children.length*60)+"ms");
   $("#rows").appendChild(tr);
 }
 $("#addRow").onclick=()=>{addRow();recalc()};
@@ -340,8 +397,8 @@ $("#saveBtn").onclick=async()=>{
   const { error } = await sb.from("purchases").insert(rows);
   b.disabled=false;
   if(error) return toast("❌ "+error.message,true);
-  toast(`💾 ${rows.length} items saved`);
-  $("#form").hidden=true; $("#empty").hidden=false; $("#preview").style.display="none"; file=null; $("#scanBtn").disabled=true; inp.value=""; cam.value="";
+  toast(`Saved ${rows.length} items`);
+  $("#form").hidden=true; $("#empty").hidden=false; $("#viewport").classList.remove("loaded"); $("#img").hidden=true; $("#pdfMark").hidden=true; $("#fname").textContent=""; $("#vpStatus").textContent="Waiting for a bill"; file=null; $("#scanBtn").disabled=true; inp.value=""; cam.value="";
 };
 
 /* ---------- history + export ---------- */
