@@ -271,6 +271,13 @@ tr.flag td{background:rgba(245,158,11,.09)} tr.flag td:first-child{color:var(--a
 .perks li i svg{width:14px;height:14px}
 .perks li:first-child{background:var(--grad);color:#fff;border-color:transparent;box-shadow:0 12px 26px -10px rgba(79,107,255,.7)}
 .perks li:first-child i{background:rgba(255,255,255,.25)}
+.install-cta{margin-top:20px;padding:13px 20px;font-weight:700;color:var(--blue)}
+.install-cta svg{width:20px;height:20px}
+.install-mini{padding:9px 14px;font-size:13.5px;color:var(--blue)}
+.steps{margin:0 0 18px;padding:0;list-style:none;counter-reset:st}
+.steps li{counter-increment:st;display:flex;gap:12px;align-items:flex-start;padding:9px 0;color:var(--ink-2)}
+.steps li::before{content:counter(st);flex:none;width:26px;height:26px;border-radius:50%;display:grid;place-items:center;font-weight:700;font-size:13px;color:#fff;background:var(--grad)}
+.steps b{color:var(--ink)}
 .auth-card{padding:28px 30px;max-width:460px;width:100%;justify-self:start}
 .auth-card h2{margin:0 0 2px;font-size:22px;letter-spacing:-.02em}
 .auth-card .sub{margin:0 0 16px;color:var(--ink-3)}
@@ -318,7 +325,7 @@ tr.flag td{background:rgba(245,158,11,.09)} tr.flag td:first-child{color:var(--a
   table{min-width:760px}
 }
 @media (max-width:520px){.stats{gap:12px}.stat b{font-size:21px}.card{padding:18px}.meta{grid-template-columns:1fr}}
-@media (display-mode:standalone){.install-row{display:none!important}}
+@media (display-mode:standalone){.install-row,.installBtn{display:none!important}}
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -336,7 +343,8 @@ tr.flag td{background:rgba(245,158,11,.09)} tr.flag td:first-child{color:var(--a
       <li><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5L20 7"/></svg></i>No more manual entry</li>
       <li><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5L20 7"/></svg></i>Every line item in seconds</li>
       <li><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5L20 7"/></svg></i>Works on phone and laptop</li>
-    </ul></div>
+    </ul>
+    <button class="btn installBtn install-cta" data-install><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="2" width="12" height="20" rx="3"/><path d="M12 7v7m0 0-3-3m3 3 3-3"/></svg>Install the app</button></div>
   </div>
   <div class="auth-card glass reveal">
     <div class="seg neu-in" id="seg"><span class="knob"></span><button class="on" data-mode="login">Log in</button><button data-mode="signup">Sign up</button></div>
@@ -367,7 +375,7 @@ tr.flag td{background:rgba(245,158,11,.09)} tr.flag td:first-child{color:var(--a
   <main class="content">
     <!-- HOME -->
     <section class="page on" id="p-home">
-      <div class="topline"><div class="grow"><h1 id="greet">Hello</h1><p>Here's how your purchases look.</p></div><span class="chip" id="status">AI online</span></div>
+      <div class="topline"><div class="grow"><h1 id="greet">Hello</h1><p>Here's how your purchases look.</p></div><button class="btn installBtn install-mini" data-install><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="2" width="12" height="20" rx="3"/><path d="M12 7v7m0 0-3-3m3 3 3-3"/></svg><span>Install app</span></button><span class="chip" id="status">AI online</span></div>
       <div class="reveal">
         <div class="hero-cta"><i class="orb"></i><i class="orb b"></i>
           <h3>No more manual entry.</h3><p>Got a new supplier bill? Snap it and the AI fills in every line item for you to check.</p>
@@ -459,8 +467,8 @@ tr.flag td{background:rgba(245,158,11,.09)} tr.flag td:first-child{color:var(--a
           <div class="profile"><div class="big" id="avatar">T</div><div><h2 id="acctEmail" style="margin:0"></h2><p class="sub" style="margin:2px 0 0" id="acctSince"></p></div></div>
         </div>
         <div class="glass card" style="margin-top:16px">
-          <div class="row-item install-row" id="installRow" hidden><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="7" y="2" width="10" height="20" rx="2.5"/><path d="M11 18h2"/></svg></div><div class="t"><b>Install the app</b><small>Add Bill Scanner to your home screen</small></div><button class="btn primary" id="installBtn">Install</button></div>
-          <div class="row-item install-row" id="iosHint" hidden><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="7" y="2" width="10" height="20" rx="2.5"/><path d="M11 18h2"/></svg></div><div class="t"><b>Install on iPhone</b><small>Tap Share, then Add to Home Screen</small></div></div>
+          <div class="row-item install-row" id="installRow"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="7" y="2" width="10" height="20" rx="2.5"/><path d="M11 18h2"/></svg></div><div class="t"><b>Install the app</b><small>Add Bill Scanner to your home screen</small></div><button class="btn primary" data-install>Install</button></div>
+          
           <div class="row-item"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 4 7v5c0 5 3.5 8 8 9 4.5-1 8-4 8-9V7z"/></svg></div><div class="t"><b>Your data is private</b><small>Only you can see the bills you save</small></div></div>
           <div class="row-item"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v4l3 2"/></svg></div><div class="t"><b>AI model</b><small id="modelName">—</small></div><span class="chip" id="status2">Online</span></div>
           <div class="row-item"><div class="ic" style="color:var(--rose)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 4h4v16h-4M10 16l-4-4 4-4M6 12h10"/></svg></div><div class="t"><b>Log out</b><small>Sign out of this device</small></div><button class="btn danger" id="logout">Log out</button></div>
@@ -478,6 +486,7 @@ tr.flag td{background:rgba(245,158,11,.09)} tr.flag td:first-child{color:var(--a
 </div>
 
 <div class="modal" id="modal" hidden><div class="box glass"><h3 id="mTitle"></h3><p id="mText"></p><div class="btns"><button class="btn" id="mNo">Cancel</button><button class="btn primary" id="mYes">Delete</button></div></div></div>
+<div class="modal" id="instModal" hidden><div class="box glass"><h3>Install Bill Scanner</h3><ol class="steps" id="instSteps"></ol><div class="btns"><button class="btn primary" id="instOk">Got it</button></div></div></div>
 <div class="toast" id="toast" role="status"></div>
 
 <script>
@@ -654,10 +663,21 @@ $("#saveBtn").onclick=async()=>{
 /* ---------- PWA ---------- */
 if("serviceWorker" in navigator)addEventListener("load",()=>navigator.serviceWorker.register("/sw.js").catch(()=>{}));
 let deferred=null;
-addEventListener("beforeinstallprompt",e=>{e.preventDefault();deferred=e;$("#installRow").hidden=false});
-$("#installBtn").onclick=async()=>{if(!deferred)return;deferred.prompt();await deferred.userChoice;deferred=null;$("#installRow").hidden=true};
-addEventListener("appinstalled",()=>{$("#installRow").hidden=true;toast("App installed")});
-if(/iphone|ipad|ipod/i.test(navigator.userAgent)&&!(matchMedia("(display-mode: standalone)").matches||navigator.standalone))$("#iosHint").hidden=false;
+const standalone=matchMedia("(display-mode: standalone)").matches||navigator.standalone;
+addEventListener("beforeinstallprompt",e=>{e.preventDefault();deferred=e});
+function installSteps(){
+  const ua=navigator.userAgent, ios=/iphone|ipad|ipod/i.test(ua), android=/android/i.test(ua), safariMac=/macintosh/i.test(ua)&&/safari/i.test(ua)&&!/chrome|edg/i.test(ua);
+  if(ios) return ["Open this page in <b>Safari</b>","Tap the <b>Share</b> button (square with an arrow)","Tap <b>Add to Home Screen</b>, then <b>Add</b>"];
+  if(android) return ["Open this page in <b>Chrome</b>","Tap the <b>⋮</b> menu at the top right","Tap <b>Install app</b> or <b>Add to Home screen</b>"];
+  if(safariMac) return ["In Safari, open the <b>File</b> menu","Choose <b>Add to Dock</b>"];
+  return ["Open this page in <b>Chrome</b> or <b>Edge</b>","Click the <b>install icon</b> at the right end of the address bar, or the <b>⋮</b> menu","Choose <b>Install Bill Scanner</b>"];
+}
+$$("[data-install]").forEach(b=>b.onclick=async()=>{
+  if(deferred){deferred.prompt();const r=await deferred.userChoice;deferred=null;if(r.outcome==="accepted")toast("Installing…");return}
+  $("#instSteps").innerHTML=installSteps().map(t=>`<li><span>${t}</span></li>`).join("");$("#instModal").hidden=false});
+$("#instOk").onclick=()=>$("#instModal").hidden=true;
+addEventListener("appinstalled",()=>{$$(".installBtn,#installRow").forEach(x=>x.hidden=true);toast("App installed")});
+if(standalone) $$(".installBtn,#installRow").forEach(x=>x.hidden=true);
 </script>
 </body>
 </html>
