@@ -1,13 +1,13 @@
 {
   "name": "Bill Scanner",
   "short_name": "Bill Scanner",
-  "description": "AI purchase entry from bill photos",
+  "description": "No more manual entry. Snap a bill, AI fills the purchase entry.",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",
   "orientation": "portrait",
-  "background_color": "#061a1c",
-  "theme_color": "#061a1c",
+  "background_color": "#eef1f7",
+  "theme_color": "#eef1f7",
   "lang": "en",
   "icons": [
     { "src": "/icons/icon-192.png", "sizes": "192x192", "type": "image/png" },
