@@ -17,7 +17,7 @@ SB_ANON = os.environ.get("SUPABASE_ANON_KEY", "")
 
 
 def user_from_token(token: str):
-    """Supabase se poochho: ye token asli user ka hai?"""
+    """Ask Supabase whether this token belongs to a real user."""
     if not token:
         return None
     r = requests.get(f"{SB_URL}/auth/v1/user",
@@ -53,17 +53,17 @@ class handler(BaseHTTPRequestHandler):
     def do_POST(self):
         try:
             if not (GEMINI_KEY and SB_URL and SB_ANON):
-                return self._send({"error": "Server setup adhoora hai (environment variables)."}, 500)
+                return self._send({"error": "Server setup incomplete (environment variables)."}, 500)
             token = self.headers.get("Authorization", "").replace("Bearer ", "").strip()
             if not user_from_token(token):
-                return self._send({"error": "Login zaroori hai."}, 401)
+                return self._send({"error": "Please log in."}, 401)
             n = int(self.headers.get("Content-Length", 0))
             if n > 4_300_000:
-                return self._send({"error": "Photo bahut badi hai."}, 413)
+                return self._send({"error": "Photo is too large."}, 413)
             data = json.loads(self.rfile.read(n) or b"{}")
             mime = data.get("mime", "image/jpeg")
             if mime not in ALLOWED_MIME or not data.get("data"):
-                return self._send({"error": "Sirf JPG, PNG, WEBP ya PDF chalega."}, 400)
+                return self._send({"error": "Only JPG, PNG, WEBP or PDF files are supported."}, 400)
             t0 = time.time()
             bill, tokens = gemini_read(data["data"], mime)
             self._send({"bill": bill, "tokens": tokens, "seconds": round(time.time() - t0, 1)})

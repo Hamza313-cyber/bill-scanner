@@ -1,5 +1,5 @@
-"""GET /api/config  -  frontend ko Supabase ka public URL + anon key deta hai.
-(Anon key public hoti hai; data Row Level Security se surakshit hai.)"""
+"""GET /api/config  -  Gives the frontend the public Supabase URL + anon key.
+(The anon key is public; data is protected by Row Level Security.)"""
 import os, json
 from http.server import BaseHTTPRequestHandler
 
