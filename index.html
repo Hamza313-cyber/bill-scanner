@@ -134,7 +134,37 @@ label{display:block;font-size:12.5px;font-weight:600;color:var(--ink-2);margin:0
 .i3{background:linear-gradient(135deg,#10b39a,#22c7d8)}.i4{background:linear-gradient(135deg,#f59e0b,#fbbf24)}
 .home-grid{display:grid;grid-template-columns:1.1fr 1fr;gap:18px}
 .hero-cta{padding:26px;border-radius:var(--r-xl);color:#fff;background:var(--grad);position:relative;overflow:hidden;box-shadow:0 20px 40px -18px rgba(79,107,255,.7);margin-bottom:18px}
-.hero-cta h3{margin:0 0 6px;font-size:21px;letter-spacing:-.01em}
+.hero-cta{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:22px;align-items:center}
+.hc-text{position:relative;z-index:1}
+.hc-eyebrow{display:inline-flex;align-items:center;gap:8px;padding:5px 12px 5px 8px;border-radius:99px;font-size:12px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;background:rgba(255,255,255,.18);box-shadow:inset 0 0 0 1px rgba(255,255,255,.3);margin-bottom:12px}
+.hc-eyebrow i{width:8px;height:8px;border-radius:50%;background:#7dffe0;box-shadow:0 0 0 4px rgba(125,255,224,.25);animation:pulseDot 1.8s ease-in-out infinite}
+@keyframes pulseDot{50%{box-shadow:0 0 0 7px rgba(125,255,224,0)}}
+.hero-cta h3{margin:0 0 10px;font-size:clamp(28px,3.4vw,40px);line-height:1.05;letter-spacing:-.035em;font-weight:800}
+.hero-cta h3 em{font-style:normal;background:linear-gradient(90deg,#fff,#7dffe0,#fff);background-size:200% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:shine 4s linear infinite}
+@keyframes shine{to{background-position:-200% 0}}
+.hc-actions{display:flex;flex-wrap:wrap;align-items:center;gap:12px}
+.hc-saved{display:inline-flex;align-items:center;gap:7px;padding:8px 13px;border-radius:12px;font-size:13px;font-weight:700;background:rgba(255,255,255,.16);box-shadow:inset 0 0 0 1px rgba(255,255,255,.28)}
+.hc-saved svg{width:16px;height:16px}
+.hc-art{position:relative;z-index:1;display:flex;align-items:center;gap:14px;padding-right:4px}
+.hc-bill{position:relative;width:108px;height:140px;border-radius:12px;background:#fff;padding:14px 12px;transform:rotate(-6deg);box-shadow:0 18px 34px -14px rgba(10,20,70,.55);overflow:hidden;animation:billBob 6s ease-in-out infinite}
+.hc-bill b{display:block;width:55%;height:8px;border-radius:4px;background:#c9d3ff;margin-bottom:10px}
+.hc-bill i{display:block;height:6px;border-radius:3px;background:#e7ebf3;margin:8px 0}
+.hc-bill i:nth-of-type(2){width:80%}.hc-bill i:nth-of-type(4){width:70%}
+.hc-bill u{position:absolute;left:12px;right:12px;bottom:14px;height:9px;border-radius:4px;background:#d6f5ee}
+.hc-beam{position:absolute;left:0;right:0;top:-30%;height:28%;background:linear-gradient(transparent,rgba(79,107,255,.25) 70%,#4f6bff 97%,transparent);animation:beam 6s ease-in-out infinite}
+@keyframes beam{0%{top:-30%}40%,100%{top:105%}}
+@keyframes billBob{50%{transform:rotate(-3deg) translateY(-6px)}}
+.hc-rows{display:grid;gap:8px;width:190px}
+.hc-rows p{display:flex;align-items:center;gap:8px;margin:0;padding:8px 10px;border-radius:12px;font-size:12.5px;font-weight:600;color:var(--ink);background:rgba(255,255,255,.94);box-shadow:0 10px 22px -12px rgba(10,20,70,.5);opacity:0;animation:rowIn 6s cubic-bezier(.3,.7,.2,1) infinite}
+.hc-rows p b{margin-left:auto;font-weight:800}
+.hc-rows p em{font-style:normal;width:18px;height:18px;border-radius:50%;display:grid;place-items:center;font-size:10px;color:#fff;background:linear-gradient(135deg,#10b39a,#34d399);flex:none}
+.hc-rows p:nth-child(2){animation-delay:.35s}.hc-rows p:nth-child(3){animation-delay:.7s}
+@keyframes rowIn{0%,22%{opacity:0;transform:translateX(-18px) scale(.96)}32%,88%{opacity:1;transform:none}96%,100%{opacity:0;transform:translateX(10px)}}
+@media (max-width:720px){.hero-cta{grid-template-columns:1fr;gap:14px;padding:20px}.hero-cta h3{font-size:30px;margin-bottom:8px}.hero-cta p{margin-bottom:14px;font-size:14.5px}.hc-eyebrow{margin-bottom:10px;font-size:11px}
+  .hc-saved .lg{display:none}.hc-saved{padding:8px 11px}
+  .hc-art{justify-content:center;gap:12px}.hc-bill{width:68px;height:88px;padding:9px 8px;border-radius:10px}.hc-bill b{height:6px;margin-bottom:6px}.hc-bill i{height:4px;margin:6px 0}.hc-bill u{height:6px;bottom:9px;left:8px;right:8px}
+  .hc-rows{width:auto;flex:1;max-width:230px;gap:6px}.hc-rows p{font-size:11.5px;padding:6px 8px}.hc-rows p em{width:16px;height:16px}}
+@media (prefers-reduced-motion:reduce){.hc-rows p{opacity:1}}
 .hero-cta p{margin:0 0 18px;opacity:.85;max-width:42ch}
 .hero-cta .btn{background:rgba(255,255,255,.95);color:var(--blue);box-shadow:0 8px 20px -8px rgba(0,0,0,.3)}
 .hero-cta .orb{position:absolute;right:-40px;top:-40px;width:200px;height:200px;border-radius:50%;background:radial-gradient(circle at 30% 30%,rgba(255,255,255,.45),rgba(255,255,255,0) 60%)}
@@ -473,8 +503,23 @@ tr.flag td{background:rgba(245,158,11,.09)} tr.flag td:first-child{color:var(--a
       <div class="topline"><div class="grow"><h1 id="greet">Hello</h1><p>Here's how your purchases look.</p></div><button class="btn installBtn install-mini" data-install><span class="ii"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5.5" y="1.5" width="13" height="21" rx="3"/><path d="M12 6.5v8m0 0-3.2-3.2M12 14.5l3.2-3.2"/><path d="M10 19h4"/></svg></span><span>Install app</span></button><span class="chip" id="status">AI online</span></div>
       <div class="reveal">
         <div class="hero-cta"><i class="orb"></i><i class="orb b"></i>
-          <h3>No more manual entry.</h3><p>Got a new supplier bill? Snap it and the AI fills in every line item for you to check.</p>
-          <button class="btn" data-go="scan"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M4 8V6a2 2 0 0 1 2-2h2M16 4h2a2 2 0 0 1 2 2v2M20 16v2a2 2 0 0 1-2 2h-2M8 20H6a2 2 0 0 1-2-2v-2M7 12h10"/></svg>Scan a bill</button>
+          <div class="hc-text">
+            <span class="hc-eyebrow"><i></i>AI bill reader</span>
+            <h3>Paper in.<br><em>Data out.</em></h3>
+            <p>Snap any supplier bill. AI reads every line, you just check and save.</p>
+            <div class="hc-actions">
+              <button class="btn" data-go="scan"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M4 8V6a2 2 0 0 1 2-2h2M16 4h2a2 2 0 0 1 2 2v2M20 16v2a2 2 0 0 1-2 2h-2M8 20H6a2 2 0 0 1-2-2v-2M7 12h10"/></svg>Scan a bill</button>
+              <span class="hc-saved" id="timeSaved" hidden><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2M9 2h6"/></svg><span></span></span>
+            </div>
+          </div>
+          <div class="hc-art" aria-hidden="true">
+            <div class="hc-bill"><b></b><i></i><i></i><i></i><i></i><i></i><u></u><span class="hc-beam"></span></div>
+            <div class="hc-rows">
+              <p><em>✓</em>Dolo 650 Tab<b>₹482</b></p>
+              <p><em>✓</em>Pan 40 Tab<b>₹1,425</b></p>
+              <p><em>✓</em>Electral 21g<b>₹810</b></p>
+            </div>
+          </div>
         </div>
         <div class="stats">
           <div class="stat glass"><div class="ico i1"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M6 3h9l3 3v15H6z"/></svg></div><span>Bills scanned</span><b data-count="bills">0</b></div>
@@ -667,6 +712,9 @@ function renderHome(){
   const vals={bills:bs.length,items:all.length,value:all.reduce((s,r)=>s+n(r.amount),0),
     month:all.filter(r=>{const d=new Date(r.created_at);return d.getMonth()===m&&d.getFullYear()===y}).reduce((s,r)=>s+n(r.amount),0)};
   $$("[data-count]").forEach(el=>countUp(el,vals[el.dataset.count],!!el.dataset.money));
+  // estimate: about 25 seconds to type one line item by hand
+  const mins=Math.round(all.length*25/60), ts=$("#timeSaved");
+  if(ts){ts.hidden=mins<1; const v=mins>=60?`~${(mins/60).toFixed(1).replace(/\.0$/,"")} hrs`:`~${mins} min`; ts.querySelector("span").innerHTML=`${v}<span class="lg"> of typing</span> saved`; ts.title="Estimate: about 25 seconds per line item typed by hand";}
   const sup=new Map();all.forEach(r=>{const k=r.supplier||"Unknown supplier";sup.set(k,(sup.get(k)||0)+n(r.amount))});
   const top=[...sup.entries()].sort((a,b)=>b[1]-a[1]).slice(0,5),max=top[0]?.[1]||1;
   $("#topSup").innerHTML=top.length?top.map(([s,v])=>`<div class="li"><div class="av">${esc(s[0]||"?")}</div><div class="t"><b>${esc(s)}</b><div class="bar"><i style="width:${Math.max(6,v/max*100)}%"></i></div></div><div class="v">${money(v)}</div></div>`).join("")
