@@ -1,5 +1,5 @@
 // Bill Scanner service worker: app shell offline, API hamesha network se
-const CACHE = "bill-scanner-v15";
+const CACHE = "bill-scanner-v17";
 const SHELL = ["/", "/index.html", "/manifest.json", "/icons/icon-192.png", "/icons/icon-512.png"];
 
 self.addEventListener("install", e => {

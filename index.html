@@ -411,6 +411,7 @@ tr.flag td{background:rgba(245,158,11,.09)} tr.flag td:first-child{color:var(--a
 .sugg{position:absolute;left:0;right:0;top:calc(100% + 6px);z-index:15;padding:6px;border-radius:16px;max-height:340px;overflow:auto;background:rgba(255,255,255,.97)}
 .sugg button{display:flex;align-items:center;gap:10px;width:100%;text-align:left;border:0;background:transparent;padding:10px;border-radius:12px;cursor:pointer;font:inherit;color:var(--ink)}
 .sugg button:hover,.sugg button.hl{background:#eef1ff}
+.ino{display:inline-block;margin-right:6px;padding:1px 7px;border-radius:7px;font-size:11.5px;font-weight:800;color:var(--blue);background:rgba(79,107,255,.12);vertical-align:1px}
 .sugg .t{flex:1;min-width:0}.sugg b{display:block;font-size:14px}.sugg small{color:var(--ink-3);font-size:12px}
 .sugg .r{text-align:right;font-weight:700;font-size:13px;white-space:nowrap}.sugg .r small{display:block;font-weight:600}
 .blines{display:grid;gap:10px}
@@ -593,7 +594,7 @@ tr.flag td{background:rgba(245,158,11,.09)} tr.flag td:first-child{color:var(--a
           <div class="hc-text">
             <span class="hc-eyebrow"><i></i>AI bill reader</span>
             <h3>Paper in.<br><em>Data out.</em></h3>
-            <p>Snap any purchase or sales bill. AI reads every line, you just check and save.</p>
+            <p>Snap a supplier bill, AI fills the purchase. Sell by name, number or barcode.</p>
             <div class="hc-actions">
               <button class="btn" data-go="scan"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M4 8V6a2 2 0 0 1 2-2h2M16 4h2a2 2 0 0 1 2 2v2M20 16v2a2 2 0 0 1-2 2h-2M8 20H6a2 2 0 0 1-2-2v-2M7 12h10"/></svg>Scan a bill</button>
               <span class="hc-saved" id="timeSaved" hidden><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2M9 2h6"/></svg><span></span></span>
@@ -623,10 +624,10 @@ tr.flag td{background:rgba(245,158,11,.09)} tr.flag td:first-child{color:var(--a
 
     <!-- SCAN -->
     <section class="page" id="p-scan">
-      <div class="topline"><div class="grow"><h1>Scan a bill</h1><p id="scanSub">Purchase or sales bill: photo in, clean line items out.</p></div></div>
+      <div class="topline"><div class="grow"><h1>Scan a bill</h1><p id="scanSub">Supplier's purchase bill: photo in, clean line items out. Sales are made in New bill.</p></div></div>
       <div class="scan-grid reveal">
         <div class="glass card">
-          <div class="seg neu-in kindSeg" id="kindSeg"><span class="knob"></span><button class="on" data-kind="purchase">Purchase bill</button><button data-kind="sale">Sales bill</button></div>
+          
           <h2>Capture</h2><p class="sub" id="capSub">Supplier bill: camera, gallery or a PDF</p>
           <div class="stage" id="stage">
             <div class="photo" id="viewport">
@@ -677,7 +678,7 @@ tr.flag td{background:rgba(245,158,11,.09)} tr.flag td:first-child{color:var(--a
 
     <!-- NEW BILL -->
     <section class="page" id="p-bill">
-      <div class="topline"><div class="grow"><h1>New bill</h1><p>Pick from your stock. MRP, batch and expiry fill in by themselves.</p></div><button class="btn qrbtn" data-mode-go="sell"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><path d="M14 14h3v3h-3zM20 14v.01M14 20h.01M17 20h4v-3"/></svg>Scan items</button></div>
+      <div class="topline"><div class="grow"><h1>New bill</h1><p>Type an item name, item number or scan a barcode. MRP, batch, expiry and GST fill in by themselves.</p></div><button class="btn qrbtn" data-mode-go="sell"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><path d="M14 14h3v3h-3zM20 14v.01M14 20h.01M17 20h4v-3"/></svg>Scan items</button></div>
       <div class="bill-grid reveal">
         <div class="glass card">
           <div class="meta bmeta">
@@ -688,7 +689,7 @@ tr.flag td{background:rgba(245,158,11,.09)} tr.flag td:first-child{color:var(--a
           </div>
           <div class="psearch">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
-            <input class="field" id="pq" placeholder="Search product to add (name or batch)" autocomplete="off" enterkeyhint="search">
+            <input class="field" id="pq" placeholder="Item name, item no. or barcode" autocomplete="off" enterkeyhint="search">
             <div class="sugg glass" id="sugg" hidden></div>
           </div>
           <div id="bEmpty"></div>
@@ -1017,10 +1018,13 @@ function stockLots(){
     const cands=(byName.get(norm(r.product))||[]).slice().sort((a,b)=>(parseExp(a.expiry)||9e15)-(parseExp(b.expiry)||9e15));
     for(const l of cands){if(q<=0)break; const take=Math.min(q,Math.max(0,l.inQ-l.sold)); l.sold+=take; q-=take}
     if(q>0&&cands.length)cands[cands.length-1].sold+=q}
-  return [...lots.values()].map(l=>({...l,bal:Math.round((l.inQ-l.sold)*100)/100,es:expState(l.expiry)}))}
+  const no=itemNos();
+  return [...lots.values()].map(l=>({...l,no:no.get(norm(l.name))||0,bal:Math.round((l.inQ-l.sold)*100)/100,es:expState(l.expiry)}))}
+function itemNos(){const m=new Map(); let k=0; for(let i=all.length-1;i>=0;i--){const r=all[i]; if(kindOf(r)!=="purchase")continue; const nm=norm(r.product); if(nm&&!m.has(nm))m.set(nm,++k)} return m}
 let stF="all";
 $$("#stSeg button").forEach(b=>b.onclick=()=>{stF=b.dataset.f;$$("#stSeg button").forEach(x=>x.classList.toggle("on",x===b));renderStock()});
-let sqt; $("#sq").oninput=()=>{clearTimeout(sqt);sqt=setTimeout(renderStock,160)};
+let sqt; /* stock search also by item no. */
+$("#sq").oninput=()=>{clearTimeout(sqt);sqt=setTimeout(renderStock,160)};
 function renderStock(){
   const lots=stockLots(), live=lots.filter(l=>l.bal>0);
   const val=live.reduce((s,l)=>s+l.bal*l.rate,0), mrpv=live.reduce((s,l)=>s+l.bal*l.mrp,0), soon=live.filter(l=>l.es==="soon"||l.es==="exp").length;
@@ -1032,10 +1036,10 @@ function renderStock(){
     tile("i4",'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2"/></svg>',"Expiring / expired",soon);
   const q=norm($("#sq").value); let list=lots;
   if(stF==="low")list=list.filter(l=>l.bal<=cfg.low); else if(stF==="soon")list=list.filter(l=>l.es==="soon"&&l.bal>0); else if(stF==="exp")list=list.filter(l=>l.es==="exp"&&l.bal>0);
-  if(q)list=list.filter(l=>norm(l.name).includes(q)||norm(l.batch).includes(q));
+  if(q){const qn=q.replace(/^#/,""); list=/^\d{1,5}$/.test(qn)?list.filter(l=>String(l.no)===qn||norm(l.batch)===qn):list.filter(l=>norm(l.name).includes(q)||norm(l.batch).includes(q))}
   list.sort((a,b)=>a.name.localeCompare(b.name));
   $("#stList").innerHTML=list.length?list.map(l=>`<div class="li"><div class="av">${esc((l.name||"?")[0])}</div>
-    <div class="t"><b>${esc(l.name)}</b><small>${l.batch?"Batch "+esc(l.batch):"No batch"}${l.expiry?", exp "+esc(l.expiry):""}${l.mrp?", MRP "+money(l.mrp):""}</small>
+    <div class="t"><b>${l.no?`<span class="ino">#${l.no}</span>`:""}${esc(l.name)}</b><small>${l.batch?"Batch "+esc(l.batch):"No batch"}${l.expiry?", exp "+esc(l.expiry):""}${l.mrp?", MRP "+money(l.mrp):""}</small>
       <div>${l.es==="exp"?'<span class="warn red">Expired</span>':l.es==="soon"?'<span class="warn amber">Expires soon</span>':""}${l.bal<=cfg.low?`<span class="warn ${l.bal<=0?"red":"amber"}">${l.bal<=0?"Out of stock":"Low stock"}</span>`:""}</div></div>
     <div class="v"><b class="${l.bal<=cfg.low?"low":""}">${l.bal.toLocaleString("en-IN")}</b><small>in ${l.inQ.toLocaleString("en-IN")}, sold ${l.sold.toLocaleString("en-IN")}</small></div></div>`).join("")
     :emptyBlock(lots.length?"Nothing here":"No stock yet",lots.length?"Try another filter or search.":"Scan or save a purchase bill. Its items show up here as stock.")}
@@ -1081,10 +1085,11 @@ $("#bClear").onclick=()=>{lines=[];billFresh=true;$("#bCust").value="";openBill(
 // product search
 let shl=-1;
 function showSugg(){const q=norm($("#pq").value), box=$("#sugg"); if(!q){box.hidden=true;return}
-  const lots=stockLots().filter(l=>norm(l.name).includes(q)||norm(l.batch).includes(q))
-    .sort((a,b)=>(b.bal>0)-(a.bal>0)||(parseExp(a.expiry)||9e15)-(parseExp(b.expiry)||9e15)).slice(0,8);
+  const qn=q.replace(/^#/,""), isNo=/^\d{1,5}$/.test(qn);
+  const lots=stockLots().filter(l=>(isNo&&String(l.no)===qn)||norm(l.name).includes(q)||norm(l.batch).includes(q))
+    .sort((a,b)=>(isNo?(String(b.no)===qn)-(String(a.no)===qn):0)||(b.bal>0)-(a.bal>0)||(parseExp(a.expiry)||9e15)-(parseExp(b.expiry)||9e15)).slice(0,8);
   box._lots=lots; shl=-1;
-  box.innerHTML=lots.map((l,i)=>`<button data-i="${i}"><div class="t"><b>${esc(l.name)}</b><small>${l.batch?"Batch "+esc(l.batch):"No batch"}${l.expiry?", exp "+esc(l.expiry):""}${l.es==="exp"?" · EXPIRED":l.es==="soon"?" · expires soon":""}</small></div><div class="r">${l.mrp?money(l.mrp):"No MRP"}<small>${l.bal>0?l.bal+" in stock":"Out of stock"}</small></div></button>`).join("")+
+  box.innerHTML=lots.map((l,i)=>`<button data-i="${i}"><div class="t"><b>${l.no?`<span class="ino">#${l.no}</span>`:""}${esc(l.name)}</b><small>${l.batch?"Batch "+esc(l.batch):"No batch"}${l.expiry?", exp "+esc(l.expiry):""}${l.es==="exp"?" · EXPIRED":l.es==="soon"?" · expires soon":""}</small></div><div class="r">${l.mrp?money(l.mrp):"No MRP"}<small>${l.bal>0?l.bal+" in stock":"Out of stock"}</small></div></button>`).join("")+
     `<button data-new="1"><div class="t"><b>＋ Add “${esc($("#pq").value.trim())}”</b><small>Not in stock list, enter MRP yourself</small></div></button>`;
   box.hidden=false;
   box.querySelectorAll("button").forEach(b=>b.onmousedown=e=>{e.preventDefault(); pickSugg(b)})}
@@ -1092,7 +1097,11 @@ function pickSugg(b){const box=$("#sugg"); if(b.dataset.new)addLine({name:$("#pq
 $("#pq").oninput=showSugg; $("#pq").onblur=()=>setTimeout(()=>$("#sugg").hidden=true,120); $("#pq").onfocus=showSugg;
 $("#pq").onkeydown=e=>{const bs=[...$("#sugg").querySelectorAll("button")]; if(!bs.length)return;
   if(e.key==="ArrowDown"||e.key==="ArrowUp"){e.preventDefault(); shl=(shl+(e.key==="ArrowDown"?1:-1)+bs.length)%bs.length; bs.forEach((b,i)=>b.classList.toggle("hl",i===shl))}
-  else if(e.key==="Enter"){e.preventDefault(); pickSugg(bs[Math.max(0,shl)])}};
+  else if(e.key==="Enter"){e.preventDefault();
+    if(shl<0){const raw=$("#pq").value.trim(), lotsS=$("#sugg")._lots||[];
+      // a barcode / QR typed or scanned with a scanner gun into this box
+      if(!/^#?\d{1,5}$/.test(raw)&&raw.length>=6&&!lotsS.length){const r=resolveCode(raw); if(r&&r.lot){addLine(r.lot);$("#pq").value="";$("#sugg").hidden=true;return toast(r.lot.name+" added")}}}
+    pickSugg(bs[Math.max(0,shl)])}};
 // save + print
 async function saveBill(print){
   if(!lines.length)return; const bad=lines.find(l=>!n(l.mrp)||!n(l.qty)); if(bad)return toast(`Check MRP and qty for ${bad.name}`,true);
