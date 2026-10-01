@@ -1,6 +1,6 @@
 """POST /api/scan  -  bill photo -> Gemini -> JSON
 Header: Authorization: Bearer <supabase access token>
-Body:   {"mime": "image/jpeg", "data": "<base64>"}
+Body:   {"mime": "image/jpeg", "data": "<base64>", "kind": "purchase" | "sale"}
 """
 import os, sys, json, time
 from http.server import BaseHTTPRequestHandler
@@ -8,7 +8,7 @@ from http.server import BaseHTTPRequestHandler
 import requests
 
 sys.path.append(os.path.dirname(__file__))
-from _prompt import PROMPT, SCHEMA, ALLOWED_MIME  # noqa: E402
+from _prompt import PROMPT, SALES_PROMPT, SCHEMA, ALLOWED_MIME  # noqa: E402
 
 GEMINI_KEY = os.environ.get("GEMINI_API_KEY", "")
 MODEL = os.environ.get("GEMINI_MODEL", "gemini-3.5-flash")
@@ -25,10 +25,10 @@ def user_from_token(token: str):
     return r.json() if r.status_code == 200 else None
 
 
-def gemini_read(data_b64: str, mime: str):
+def gemini_read(data_b64: str, mime: str, prompt: str = PROMPT):
     url = f"https://generativelanguage.googleapis.com/v1beta/models/{MODEL}:generateContent"
     body = {
-        "contents": [{"parts": [{"text": PROMPT},
+        "contents": [{"parts": [{"text": prompt},
                                 {"inline_data": {"mime_type": mime, "data": data_b64}}]}],
         "generationConfig": {"responseMimeType": "application/json",
                              "responseSchema": SCHEMA, "temperature": 0},
@@ -65,7 +65,8 @@ class handler(BaseHTTPRequestHandler):
             if mime not in ALLOWED_MIME or not data.get("data"):
                 return self._send({"error": "Only JPG, PNG, WEBP or PDF files are supported."}, 400)
             t0 = time.time()
-            bill, tokens = gemini_read(data["data"], mime)
+            prompt = SALES_PROMPT if data.get("kind") == "sale" else PROMPT
+            bill, tokens = gemini_read(data["data"], mime, prompt)
             self._send({"bill": bill, "tokens": tokens, "seconds": round(time.time() - t0, 1)})
         except Exception as e:
             self._send({"error": str(e)[:300]}, 500)

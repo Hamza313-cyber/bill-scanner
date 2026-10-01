@@ -6,6 +6,16 @@ Extract every product line item exactly as printed. Rules:
 - bill_date: as printed.
 - Do not include totals/tax summary rows as items."""
 
+SALES_PROMPT = """You are reading a SALES bill from an Indian shop (pharmacy, wholesale, clothing, electronics etc.).
+It may be a printed retail invoice, a carbon/handwritten counter slip, or a handwritten sales diary page with many entries.
+Extract every product line sold. Rules:
+- supplier_name: put the CUSTOMER / party name here if written, else null (walk-in sale).
+- Do not guess. If a value is not visible or unreadable, use null.
+- Numbers must be plain numbers (no currency symbols, no commas).
+- expiry and batch only if written; bill_date as written.
+- If a diary page has several small sales, list every line as an item.
+- Do not include totals, discounts summary, payment or tax summary rows as items."""
+
 N = {"type": "NUMBER", "nullable": True}
 S = {"type": "STRING", "nullable": True}
 

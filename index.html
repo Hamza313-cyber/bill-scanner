@@ -393,6 +393,13 @@ tr.flag td{background:rgba(245,158,11,.09)} tr.flag td:first-child{color:var(--a
 .msg{font-size:13.5px;margin-top:14px;min-height:20px}
 .msg.err{color:var(--rose)}.msg.ok{color:var(--teal)}
 
+.kindSeg{margin-bottom:16px}
+.histSeg{display:inline-grid;grid-template-columns:repeat(3,auto);gap:4px;margin:0 0 14px}
+.histSeg button{padding:8px 16px}.histSeg button.on{color:var(--ink);background:var(--bg);box-shadow:3px 3px 8px var(--neu-dark),-3px -3px 8px var(--neu-light)}
+.kbadge{display:inline-block;vertical-align:middle;margin-left:6px;padding:3px 10px;border-radius:99px;font-size:11.5px;font-weight:700;letter-spacing:.02em;color:var(--blue);background:rgba(79,107,255,.12)}
+.kbadge.sale,.ktag.sale{color:#0e9a85;background:rgba(16,179,154,.14)}
+.ktag{display:inline-block;margin-left:6px;padding:1px 8px;border-radius:99px;font-size:10.5px;font-weight:700;color:var(--blue);background:rgba(79,107,255,.12);vertical-align:1px}
+.av.sale{background:#e5f7f3!important;color:var(--teal)!important}
 /* ---------- modal + toast ---------- */
 .modal{position:fixed;inset:0;z-index:30;display:grid;place-items:center;padding:20px;background:rgba(19,26,43,.28);backdrop-filter:blur(6px);animation:fade .2s both}
 .modal .box{max-width:400px;width:100%;padding:24px;animation:pop .35s var(--spring) both}
@@ -506,7 +513,7 @@ tr.flag td{background:rgba(245,158,11,.09)} tr.flag td:first-child{color:var(--a
           <div class="hc-text">
             <span class="hc-eyebrow"><i></i>AI bill reader</span>
             <h3>Paper in.<br><em>Data out.</em></h3>
-            <p>Snap any supplier bill. AI reads every line, you just check and save.</p>
+            <p>Snap any purchase or sales bill. AI reads every line, you just check and save.</p>
             <div class="hc-actions">
               <button class="btn" data-go="scan"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M4 8V6a2 2 0 0 1 2-2h2M16 4h2a2 2 0 0 1 2 2v2M20 16v2a2 2 0 0 1-2 2h-2M8 20H6a2 2 0 0 1-2-2v-2M7 12h10"/></svg>Scan a bill</button>
               <span class="hc-saved" id="timeSaved" hidden><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2M9 2h6"/></svg><span></span></span>
@@ -525,7 +532,7 @@ tr.flag td{background:rgba(245,158,11,.09)} tr.flag td:first-child{color:var(--a
           <div class="stat glass"><div class="ico i1"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M6 3h9l3 3v15H6z"/></svg></div><span>Bills scanned</span><b data-count="bills">0</b></div>
           <div class="stat glass"><div class="ico i2"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M4 6h16M4 12h16M4 18h10"/></svg></div><span>Items saved</span><b data-count="items">0</b></div>
           <div class="stat glass"><div class="ico i3"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M7 5h10M7 9h10M12 9c3 0 4 2 4 3.5S14 16 11 16H8l7 5"/></svg></div><span>Total purchases</span><b data-count="value" data-money="1">₹0</b></div>
-          <div class="stat glass"><div class="ico i4"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg></div><span>This month</span><b data-count="month" data-money="1">₹0</b></div>
+          <div class="stat glass"><div class="ico i4"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg></div><span>Total sales</span><b data-count="sales" data-money="1">₹0</b></div>
         </div>
         <div class="home-grid">
           <div class="glass card"><h2>Top suppliers</h2><p class="sub">By purchase value</p><div class="list" id="topSup"></div></div>
@@ -536,10 +543,11 @@ tr.flag td{background:rgba(245,158,11,.09)} tr.flag td:first-child{color:var(--a
 
     <!-- SCAN -->
     <section class="page" id="p-scan">
-      <div class="topline"><div class="grow"><h1>Scan a bill</h1><p>Photo in, clean line items out.</p></div></div>
+      <div class="topline"><div class="grow"><h1>Scan a bill</h1><p id="scanSub">Purchase or sales bill: photo in, clean line items out.</p></div></div>
       <div class="scan-grid reveal">
         <div class="glass card">
-          <h2>Capture</h2><p class="sub">Camera, gallery or a PDF</p>
+          <div class="seg neu-in kindSeg" id="kindSeg"><span class="knob"></span><button class="on" data-kind="purchase">Purchase bill</button><button data-kind="sale">Sales bill</button></div>
+          <h2>Capture</h2><p class="sub" id="capSub">Supplier bill: camera, gallery or a PDF</p>
           <div class="stage" id="stage">
             <div class="photo" id="viewport">
               <img id="img" alt="Bill preview" hidden>
@@ -564,9 +572,9 @@ tr.flag td{background:rgba(245,158,11,.09)} tr.flag td:first-child{color:var(--a
         <div class="glass card" id="result">
           <div class="review-empty" id="empty"><div class="empty"><div class="art"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 3h9l3 3v15H6z"/><path d="M9 9h6M9 13h6M9 17h4"/></svg></div><b>No bill scanned yet</b>Scanned items will appear here. Check them, fix anything the AI misread, then save.</div></div>
           <div id="form" hidden>
-            <h2>Review and correct</h2><p class="sub">Tap any cell to edit it</p>
+            <h2>Review and correct <span class="kbadge" id="kindBadge">Purchase</span></h2><p class="sub">Tap any cell to edit it</p>
             <div class="meta">
-              <div><label for="supplier_name">Supplier</label><input class="field" id="supplier_name"></div>
+              <div><label for="supplier_name" id="partyLbl">Supplier</label><input class="field" id="supplier_name"></div>
               <div><label for="bill_number">Bill no.</label><input class="field" id="bill_number"></div>
               <div><label for="bill_date">Bill date</label><input class="field" id="bill_date"></div>
               <div><label for="bill_total">Bill total (₹)</label><input class="field" id="bill_total" inputmode="decimal"></div>
@@ -591,10 +599,11 @@ tr.flag td{background:rgba(245,158,11,.09)} tr.flag td:first-child{color:var(--a
       <div class="topline"><div class="grow"><h1>History</h1><p>Every bill you've saved, grouped and searchable.</p></div></div>
       <div class="reveal">
         <div class="toolbar">
-          <div class="search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input class="field" id="q" placeholder="Search product, supplier, batch or bill no."></div>
+          <div class="search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input class="field" id="q" placeholder="Search product, supplier, customer, batch or bill no."></div>
           <button class="btn" id="exportBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11m0 0-4-4m4 4 4-4M5 20h14"/></svg>Download CSV</button>
           <button class="btn" id="refresh"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 11a8 8 0 1 0-2.3 5.7M20 5v6h-6"/></svg>Refresh</button>
         </div>
+        <div class="seg neu-in histSeg" id="histSeg"><button class="on" data-f="all">All</button><button data-f="purchase">Purchases</button><button data-f="sale">Sales</button></div>
         <div id="histWrap"></div>
       </div>
     </section>
@@ -697,9 +706,10 @@ async function loadData(){
   if(error){toast(error.message,true);return}
   all=data||[]; loaded=true; renderHome(); renderHist();
 }
+const kindOf=r=>r.kind==="sale"?"sale":"purchase";
 function bills(){const g=new Map();
-  for(const r of all){const k=[r.supplier||"",r.bill_no||"",r.bill_date||"",(r.created_at||"").slice(0,16)].join("|");
-    if(!g.has(k))g.set(k,{key:k,supplier:r.supplier||"Unknown supplier",bill_no:r.bill_no,bill_date:r.bill_date,created_at:r.created_at,items:[],total:0});
+  for(const r of all){const kd=kindOf(r),k=[kd,r.supplier||"",r.bill_no||"",r.bill_date||"",(r.created_at||"").slice(0,16)].join("|");
+    if(!g.has(k))g.set(k,{key:k,kind:kd,supplier:r.supplier||(kd==="sale"?"Walk-in customer":"Unknown supplier"),bill_no:r.bill_no,bill_date:r.bill_date,created_at:r.created_at,items:[],total:0});
     const b=g.get(k);b.items.push(r);b.total+=n(r.amount)}
   return [...g.values()]}
 
@@ -709,30 +719,32 @@ function countUp(el,to,isMoney){const dur=900,t0=performance.now(),from=0;
 
 function renderHome(){
   const bs=bills(),now=new Date(),m=now.getMonth(),y=now.getFullYear();
-  const vals={bills:bs.length,items:all.length,value:all.reduce((s,r)=>s+n(r.amount),0),
-    month:all.filter(r=>{const d=new Date(r.created_at);return d.getMonth()===m&&d.getFullYear()===y}).reduce((s,r)=>s+n(r.amount),0)};
+  const pur=all.filter(r=>kindOf(r)==="purchase"), sal=all.filter(r=>kindOf(r)==="sale");
+  const vals={bills:bs.length,items:all.length,value:pur.reduce((s,r)=>s+n(r.amount),0),sales:sal.reduce((s,r)=>s+n(r.amount),0)};
   $$("[data-count]").forEach(el=>countUp(el,vals[el.dataset.count],!!el.dataset.money));
   // estimate: about 25 seconds to type one line item by hand
   const mins=Math.round(all.length*25/60), ts=$("#timeSaved");
   if(ts){ts.hidden=mins<1; const v=mins>=60?`~${(mins/60).toFixed(1).replace(/\.0$/,"")} hrs`:`~${mins} min`; ts.querySelector("span").innerHTML=`${v}<span class="lg"> of typing</span> saved`; ts.title="Estimate: about 25 seconds per line item typed by hand";}
-  const sup=new Map();all.forEach(r=>{const k=r.supplier||"Unknown supplier";sup.set(k,(sup.get(k)||0)+n(r.amount))});
+  const sup=new Map();pur.forEach(r=>{const k=r.supplier||"Unknown supplier";sup.set(k,(sup.get(k)||0)+n(r.amount))});
   const top=[...sup.entries()].sort((a,b)=>b[1]-a[1]).slice(0,5),max=top[0]?.[1]||1;
   $("#topSup").innerHTML=top.length?top.map(([s,v])=>`<div class="li"><div class="av">${esc(s[0]||"?")}</div><div class="t"><b>${esc(s)}</b><div class="bar"><i style="width:${Math.max(6,v/max*100)}%"></i></div></div><div class="v">${money(v)}</div></div>`).join("")
     :emptyBlock("No suppliers yet","Scan your first bill to see who you buy from most.");
-  $("#recent").innerHTML=all.length?all.slice(0,6).map(r=>`<div class="li"><div class="av" style="background:#e5f7f3;color:var(--teal)">${esc((r.product||"?")[0])}</div><div class="t"><b>${esc(r.product)}</b><small>${esc(r.supplier||"")}${r.qty!=null?", qty "+r.qty:""}</small></div><div class="v">${money(r.amount)}</div></div>`).join("")
+  $("#recent").innerHTML=all.length?all.slice(0,6).map(r=>`<div class="li"><div class="av${kindOf(r)==="sale"?" sale":""}">${esc((r.product||"?")[0])}</div><div class="t"><b>${esc(r.product)}<span class="ktag${kindOf(r)==="sale"?" sale":""}">${kindOf(r)==="sale"?"Sale":"Purchase"}</span></b><small>${esc(r.supplier||"")}${r.qty!=null?", qty "+r.qty:""}</small></div><div class="v">${money(r.amount)}</div></div>`).join("")
     :emptyBlock("Nothing saved yet","Items you save after scanning show up here.");
 }
 function emptyBlock(t,s){return `<div class="empty"><div class="art"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 3h9l3 3v15H6z"/><path d="M9 9h6M9 13h6"/></svg></div><b>${t}</b>${s}</div>`}
 
 /* ---------- history ---------- */
+let histF="all";
+$$("#histSeg button").forEach(b=>b.onclick=()=>{histF=b.dataset.f;$$("#histSeg button").forEach(x=>x.classList.toggle("on",x===b));renderHist()});
 function renderHist(){
-  const q=$("#q").value.trim().toLowerCase(); let bs=bills();
+  const q=$("#q").value.trim().toLowerCase(); let bs=bills(); if(histF!=="all")bs=bs.filter(b=>b.kind===histF);
   if(q) bs=bs.map(b=>({...b,match:b.items.filter(r=>[r.product,r.supplier,r.batch,r.bill_no].some(x=>(x||"").toLowerCase().includes(q)))})).filter(b=>b.match.length);
   const w=$("#histWrap");
-  if(!bs.length){w.innerHTML=`<div class="glass card">${q?emptyBlock("No matches","Try a different product, supplier or batch."):emptyBlock("No bills yet","Scan a bill and save it to build your history.")}</div>`;return}
+  if(!bs.length){w.innerHTML=`<div class="glass card">${q?emptyBlock("No matches","Try a different product, supplier or batch."):emptyBlock(histF==="sale"?"No sales bills yet":histF==="purchase"?"No purchase bills yet":"No bills yet","Scan a bill and save it to build your history.")}</div>`;return}
   w.innerHTML=bs.map((b,i)=>{const d=new Date(b.created_at);return `<div class="bill glass${q?" open":""}" style="animation:rise .5s var(--ease) ${Math.min(i,8)*40}ms both">
-    <button class="bill-head" aria-expanded="${!!q}"><div class="av">${esc(b.supplier[0])}</div>
-      <div class="t"><b>${esc(b.supplier)}</b><small>${b.bill_no?"Bill "+esc(b.bill_no)+", ":""}${b.bill_date?esc(b.bill_date):d.toLocaleDateString("en-IN")}, ${b.items.length} items</small></div>
+    <button class="bill-head" aria-expanded="${!!q}"><div class="av${b.kind==="sale"?" sale":""}">${esc(b.supplier[0])}</div>
+      <div class="t"><b>${esc(b.supplier)}<span class="ktag${b.kind==="sale"?" sale":""}">${b.kind==="sale"?"Sale":"Purchase"}</span></b><small>${b.bill_no?"Bill "+esc(b.bill_no)+", ":""}${b.bill_date?esc(b.bill_date):d.toLocaleDateString("en-IN")}, ${b.items.length} items</small></div>
       <div class="v"><b>${money(b.total)}</b><small>${d.toLocaleDateString("en-IN",{day:"numeric",month:"short"})}</small></div>
       <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="m6 9 6 6 6-6"/></svg></button>
     <div class="bill-body"><div><div class="bill-inner"><div class="tablewrap"><table><thead><tr><th>Product</th><th>Batch</th><th>Expiry</th><th>Qty</th><th>Free</th><th>Rate</th><th>GST %</th><th>Amount</th></tr></thead><tbody>
@@ -747,14 +759,21 @@ function renderHist(){
 let qt; $("#q").oninput=()=>{clearTimeout(qt);qt=setTimeout(renderHist,180)};
 $("#refresh").onclick=async()=>{await loadData();toast("Up to date")};
 $("#exportBtn").onclick=()=>{if(!all.length)return toast("Nothing to download yet",true);
-  const keys=["created_at","supplier","bill_no","bill_date","product","batch","expiry","qty","free_qty","mrp","rate","gst_percent","amount","bill_total"];
-  const q=v=>`"${String(v??"").replace(/"/g,'""')}"`;const csv="﻿"+keys.join(",")+"\n"+all.map(r=>keys.map(k=>q(r[k])).join(",")).join("\n");
-  const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([csv],{type:"text/csv"}));a.download="purchases_"+new Date().toISOString().slice(0,10)+".csv";a.click();toast("CSV downloaded")};
+  const keys=["created_at","kind","supplier","bill_no","bill_date","product","batch","expiry","qty","free_qty","mrp","rate","gst_percent","amount","bill_total"];
+  const q=v=>`"${String(v??"").replace(/"/g,'""')}"`;const csv="﻿"+keys.join(",")+"\n"+all.map(r=>keys.map(k=>q(k==="kind"?kindOf(r):r[k])).join(",")).join("\n");
+  const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([csv],{type:"text/csv"}));a.download="bills_"+new Date().toISOString().slice(0,10)+".csv";a.click();toast("CSV downloaded")};
 
 function confirmBox(t,txt,yes){$("#mTitle").textContent=t;$("#mText").textContent=txt;$("#modal").hidden=false;
   $("#mNo").onclick=()=>$("#modal").hidden=true; $("#mYes").onclick=async()=>{$("#modal").hidden=true;await yes()}}
 
 /* ---------- scan ---------- */
+let kind="purchase";
+const KIND={purchase:{party:"Supplier",cap:"Supplier bill: camera, gallery or a PDF",badge:"Purchase"},
+            sale:{party:"Customer",cap:"Sales bill, counter slip or diary page",badge:"Sale"}};
+$$("#kindSeg button").forEach(b=>b.onclick=()=>{kind=b.dataset.kind;
+  $$("#kindSeg button").forEach(x=>x.classList.toggle("on",x===b)); $("#kindSeg").classList.toggle("right",kind==="sale");
+  const k=KIND[kind]; $("#partyLbl").textContent=k.party; $("#capSub").textContent=k.cap;
+  $("#kindBadge").textContent=k.badge; $("#kindBadge").classList.toggle("sale",kind==="sale")});
 const drop=$("#drop"),inp=$("#file"),cam=$("#cam");
 drop.onclick=()=>inp.click(); drop.onkeydown=e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();inp.click()}};
 drop.ondragover=e=>{e.preventDefault();drop.classList.add("over")}; drop.ondragleave=()=>drop.classList.remove("over");
@@ -772,7 +791,7 @@ async function prepare(f){if(!f.type.startsWith("image/"))return{mime:f.type,dat
 $("#scanBtn").onclick=async()=>{if(!file)return;const b=$("#scanBtn");b.disabled=true;b.innerHTML='<span class="spin"></span>Reading bill…';
   $("#stage").classList.add("scanning");$("#vpStatus").textContent="Reading line items…";
   try{const body=await prepare(file);if(body.data.length>4200000)throw new Error("File is too large (keep it under 4 MB)");
-    const res=await fetch("/api/scan",{method:"POST",headers:{"Content-Type":"application/json","Authorization":"Bearer "+session.access_token},body:JSON.stringify(body)});
+    const res=await fetch("/api/scan",{method:"POST",headers:{"Content-Type":"application/json","Authorization":"Bearer "+session.access_token},body:JSON.stringify({...body,kind})});
     const j=await res.json().catch(()=>({error:"No response from server ("+res.status+")"}));if(!res.ok)throw new Error(j.error||"Scan failed");
     fill(j.bill);const c=(j.bill.items||[]).length;$("#vpStatus").textContent=`Read ${c} items in ${j.seconds}s`;toast(`Found ${c} items`);
     if(innerWidth<960)$("#result").scrollIntoView({behavior:"smooth",block:"start"})
@@ -795,11 +814,12 @@ function recalc(){let sum=0,gst=0,flags=0;
     (total?`<div class="pill ${match?"ok":"bad"}">vs bill total<b>${match?"Matches":"Mismatch"}</b></div>`:"")+(flags?`<div class="pill bad">To check<b>${flags} row${flags>1?"s":""}</b></div>`:"")}
 $("#saveBtn").onclick=async()=>{
   const head={supplier:$("#supplier_name").value||null,bill_no:$("#bill_number").value||null,bill_date:$("#bill_date").value||null,bill_total:nn($("#bill_total").value)};
+  if(kind==="sale")head.kind="sale";
   const rows=items().filter(i=>i.product_name).map(i=>({...head,product:i.product_name,batch:i.batch||null,expiry:i.expiry||null,qty:nn(i.qty),free_qty:nn(i.free_qty),mrp:nn(i.mrp),rate:nn(i.rate),gst_percent:nn(i.gst_percent),amount:nn(i.amount)}));
   if(!rows.length)return toast("No items to save",true);
   const b=$("#saveBtn"),html=b.innerHTML;b.disabled=true;b.innerHTML='<span class="spin"></span>Saving…';
   const {error}=await sb.from("purchases").insert(rows);b.disabled=false;b.innerHTML=html;
-  if(error)return toast(error.message,true);
+  if(error)return toast(/kind/.test(error.message)?"Sales not set up yet: run supabase-sales.sql in Supabase once.":error.message,true);
   toast(`Saved ${rows.length} items`);$("#form").hidden=true;$("#empty").hidden=false;$("#viewport").classList.remove("loaded");$("#img").hidden=true;$("#pdfMark").hidden=true;
   $("#fname").textContent="";$("#vpStatus").textContent="Waiting for a bill";file=null;$("#scanBtn").disabled=true;inp.value="";cam.value="";await loadData()};
 
