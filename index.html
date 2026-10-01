@@ -451,7 +451,9 @@ tr.flag td{background:rgba(245,158,11,.09)} tr.flag td:first-child{color:var(--a
 .modeSeg button{padding:10px 6px}.modeSeg button.on{color:var(--ink);background:var(--bg);box-shadow:3px 3px 8px var(--neu-dark),-3px -3px 8px var(--neu-light)}
 .code-grid{display:grid;grid-template-columns:380px minmax(0,1fr);gap:18px;align-items:start}
 .camview{position:relative;aspect-ratio:1/1;border-radius:20px;overflow:hidden;background:#0d1120;margin-bottom:12px}
-.camview #camEl{position:absolute;inset:0}.camview #camEl video{width:100%!important;height:100%!important;object-fit:cover}
+.camview #camEl{position:absolute;inset:0}
+.camview.on{aspect-ratio:auto!important}.camview.on #camEl{position:relative;inset:auto}
+.camview #camEl video{display:block;width:100%!important;height:auto!important}
 .camph{position:absolute;inset:0;display:grid;place-content:center;justify-items:center;gap:6px;color:#c9d2ff;text-align:center;padding:20px;z-index:1}
 .camph svg{width:44px;height:44px;opacity:.8}.camph span{font-size:13px;opacity:.7}
 .camview.on .camph{display:none}
@@ -1164,8 +1166,8 @@ function onCode(raw){const now=Date.now(); if(raw===lastCode&&now-lastAt<1800)re
 // --- camera
 async function startCam(){try{await loadJS(QR_LIB,()=>window.Html5Qrcode);
     if(!qcam)qcam=new Html5Qrcode("camEl",{verbose:false,experimentalFeatures:{useBarCodeDetectorIfSupported:true}});
-    const box=Math.round(Math.min($("#camView").clientWidth,$("#camView").clientHeight)*.7);
-    await qcam.start({facingMode:"environment"},{fps:10,qrbox:{width:box,height:Math.round(box*.75)}},t=>onCode(t),()=>{});
+    // let the library size the viewfinder; scan box is computed from the real video size so it is never cut off
+    await qcam.start({facingMode:"environment"},{fps:10,aspectRatio:1.333334,qrbox:(w,h)=>{const m=Math.min(w,h);return {width:Math.max(150,Math.floor(Math.min(w*.8,m*1.1))),height:Math.max(120,Math.floor(m*.62))}}},t=>onCode(t),()=>{});
     camOn=true;$("#camView").classList.add("on");$("#camStart").textContent="Stop camera"}
   catch(e){toast(/permission|NotAllowed/i.test(e&&e.message||e)?"Camera permission denied. Allow camera for this site.":"Camera could not start: "+(e&&e.message||e),true)}}
 async function stopCam(){if(qcam&&camOn){try{await qcam.stop()}catch(e){} } camOn=false;const cv=$("#camView"); if(cv)cv.classList.remove("on"); const b=$("#camStart"); if(b)b.textContent="Start camera"}
