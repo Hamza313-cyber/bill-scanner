@@ -445,6 +445,36 @@ tr.flag td{background:rgba(245,158,11,.09)} tr.flag td:first-child{color:var(--a
 @media (max-width:1100px){.bill-grid{grid-template-columns:1fr}.btotal{position:static}}
 @media (max-width:860px){.acct-mini{display:inline-flex}.bmeta,.setmeta{grid-template-columns:1fr 1fr}
   .tabbar button{font-size:10.5px}}
+.tlbtns{display:flex;gap:10px;flex-wrap:wrap}
+.qrbtn svg,.modeSeg svg{width:18px;height:18px}
+.modeSeg{display:grid;grid-template-columns:repeat(5,1fr)!important;max-width:620px;margin-bottom:16px}
+.modeSeg button{padding:10px 6px}.modeSeg button.on{color:var(--ink);background:var(--bg);box-shadow:3px 3px 8px var(--neu-dark),-3px -3px 8px var(--neu-light)}
+.code-grid{display:grid;grid-template-columns:380px minmax(0,1fr);gap:18px;align-items:start}
+.camview{position:relative;aspect-ratio:1/1;border-radius:20px;overflow:hidden;background:#0d1120;margin-bottom:12px}
+.camview #camEl{position:absolute;inset:0}.camview #camEl video{width:100%!important;height:100%!important;object-fit:cover}
+.camph{position:absolute;inset:0;display:grid;place-content:center;justify-items:center;gap:6px;color:#c9d2ff;text-align:center;padding:20px;z-index:1}
+.camph svg{width:44px;height:44px;opacity:.8}.camph span{font-size:13px;opacity:.7}
+.camview.on .camph{display:none}
+.camview.hit{box-shadow:0 0 0 4px var(--teal)}
+.gunrow{display:flex;gap:8px;margin-top:4px}.gunrow .field{flex:1;min-width:0}
+.mp-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:4px}
+.mp-list{display:grid;gap:8px;margin:12px 0}
+.mrow{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:6px 10px;align-items:center;padding:10px 12px;border-radius:14px;background:rgba(255,255,255,.6)}
+.mrow b{font-size:14px}.mrow small{display:block;color:var(--ink-3);font-size:12px}
+.mrow .q{display:flex;align-items:center;gap:6px}.mrow .q .field{width:72px;height:36px;padding:4px 8px;text-align:center}
+.mrow .q button{width:34px;height:34px;border-radius:10px;border:0;background:var(--bg);box-shadow:2px 2px 6px var(--neu-dark),-2px -2px 6px var(--neu-light);font-size:18px;cursor:pointer;color:var(--ink)}
+.diff{font-weight:800;font-variant-numeric:tabular-nums}.diff.neg{color:var(--rose)}.diff.pos{color:var(--teal)}
+.linkbox{padding:14px;border-radius:16px;background:rgba(245,166,35,.12);margin-bottom:12px}
+.linkbox code{font-size:12px;word-break:break-all}
+.infobox{display:grid;gap:4px;padding:14px;border-radius:16px;background:rgba(255,255,255,.6)}
+.infobox .srow{padding:4px 0}
+.lab-list{max-height:520px;overflow:auto}
+#printArea.labels{max-width:none}
+@media print{#printArea.labels .lgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:4mm}
+  #printArea.labels .lab{border:1px dashed #aaa;padding:2mm;display:flex;gap:2mm;align-items:center;break-inside:avoid;font-size:9px;line-height:1.25}
+  #printArea.labels .lab svg{width:22mm;height:22mm;flex:none}#printArea.labels .lab b{font-size:10px;display:block}}
+@media (max-width:960px){.code-grid{grid-template-columns:1fr}.camview{aspect-ratio:4/3}}
+@media (max-width:520px){.modeSeg button{font-size:12.5px;padding:9px 2px}}
 /* ---------- modal + toast ---------- */
 .modal{position:fixed;inset:0;z-index:30;display:grid;place-items:center;padding:20px;background:rgba(19,26,43,.28);backdrop-filter:blur(6px);animation:fade .2s both}
 .modal .box{max-width:400px;width:100%;padding:24px;animation:pop .35s var(--spring) both}
@@ -544,6 +574,7 @@ tr.flag td{background:rgba(245,158,11,.09)} tr.flag td:first-child{color:var(--a
       <button class="navbtn" data-p="bill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2h12v20l-3-2-3 2-3-2-3 2z"/><path d="M9 7h6M9 11h6M9 15h3"/></svg>New bill</button>
       <button class="navbtn" data-p="scan"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8V6a2 2 0 0 1 2-2h2M16 4h2a2 2 0 0 1 2 2v2M20 16v2a2 2 0 0 1-2 2h-2M8 20H6a2 2 0 0 1-2-2v-2"/><path d="M7 12h10"/></svg>Scan bill</button>
       <button class="navbtn" data-p="stock"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 2 9 5v10l-9 5-9-5V7z"/><path d="m3 7 9 5 9-5M12 12v10"/></svg>Stock</button>
+      <button class="navbtn" data-p="codes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><path d="M14 14h3v3h-3zM20 14v.01M14 20h.01M17 20h4v-3"/></svg>QR &amp; barcode</button>
       <button class="navbtn" data-p="hist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h9l3 3v15H6z"/><path d="M9 9h6M9 13h6M9 17h4"/></svg>History</button>
       <button class="navbtn" data-p="acct"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/></svg>Account</button>
       <div class="spacer"></div>
@@ -635,7 +666,7 @@ tr.flag td{background:rgba(245,158,11,.09)} tr.flag td:first-child{color:var(--a
               <button class="btn" id="addRow">＋ Add row</button>
               <button class="btn primary" id="saveBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5L20 7"/></svg>Save items</button>
             </div>
-            <p class="note">Amber rows: Qty × Rate doesn't match Amount. Check them before saving.</p>
+            <p class="note">Amber rows: Qty × Rate doesn't match Amount, or GST is 12% / 28% (these slabs were removed on 22 Sep 2025). Check them before saving.</p>
           </div>
         </div>
       </div>
@@ -644,7 +675,7 @@ tr.flag td{background:rgba(245,158,11,.09)} tr.flag td:first-child{color:var(--a
 
     <!-- NEW BILL -->
     <section class="page" id="p-bill">
-      <div class="topline"><div class="grow"><h1>New bill</h1><p>Pick from your stock. MRP, batch and expiry fill in by themselves.</p></div></div>
+      <div class="topline"><div class="grow"><h1>New bill</h1><p>Pick from your stock. MRP, batch and expiry fill in by themselves.</p></div><button class="btn qrbtn" data-mode-go="sell"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><path d="M14 14h3v3h-3zM20 14v.01M14 20h.01M17 20h4v-3"/></svg>Scan items</button></div>
       <div class="bill-grid reveal">
         <div class="glass card">
           <div class="meta bmeta">
@@ -674,7 +705,7 @@ tr.flag td{background:rgba(245,158,11,.09)} tr.flag td:first-child{color:var(--a
 
     <!-- STOCK -->
     <section class="page" id="p-stock">
-      <div class="topline"><div class="grow"><h1>Stock</h1><p>Purchases in, sales out. Updates every time you save a bill.</p></div></div>
+      <div class="topline"><div class="grow"><h1>Stock</h1><p>Purchases in, sales out. Updates every time you save a bill.</p></div><div class="tlbtns"><button class="btn qrbtn" data-mode-go="count"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><path d="M14 14h3v3h-3zM20 14v.01M14 20h.01M17 20h4v-3"/></svg>Count stock</button><button class="btn" data-mode-go="labels">Print QR labels</button></div></div>
       <div class="reveal">
         <div class="stats" id="stStats"></div>
         <div class="toolbar">
@@ -682,6 +713,24 @@ tr.flag td{background:rgba(245,158,11,.09)} tr.flag td:first-child{color:var(--a
         </div>
         <div class="seg neu-in histSeg stSeg" id="stSeg"><button class="on" data-f="all">All</button><button data-f="low">Low</button><button data-f="soon">Expiring</button><button data-f="exp">Expired</button></div>
         <div class="glass card stlist" id="stList"></div>
+      </div>
+    </section>
+
+
+    <!-- QR & BARCODE -->
+    <section class="page" id="p-codes">
+      <div class="topline"><div class="grow"><h1>QR &amp; barcode</h1><p>Sell, receive and count stock with a scan. Phone camera or a USB / Bluetooth scanner gun.</p></div></div>
+      <div class="seg neu-in modeSeg" id="modeSeg"><button class="on" data-m="sell">Sell</button><button data-m="receive">Receive</button><button data-m="count">Count</button><button data-m="check">Check</button><button data-m="labels">Labels</button></div>
+      <div class="code-grid reveal">
+        <div class="glass card scanbox" id="scanBox">
+          <div class="camview" id="camView"><div class="camph" id="camPh"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><path d="M14 14h3v3h-3zM20 14v.01M14 20h.01M17 20h4v-3"/></svg><b>Camera is off</b><span>Start the camera, or use a scanner gun below</span></div><div id="camEl"></div></div>
+          <div class="pickrow"><button class="btn primary" id="camStart">Start camera</button><button class="btn" id="camPhoto">Scan from photo</button></div>
+          <input type="file" id="codeFile" accept="image/*" hidden>
+          <label for="gunIn">Scanner gun / type a code</label>
+          <div class="gunrow"><input class="field" id="gunIn" placeholder="Click here, then scan" autocomplete="off" enterkeyhint="go"><button class="btn" id="gunGo">Add</button></div>
+          <p class="tip" id="lastScan">No scans yet</p>
+        </div>
+        <div class="glass card" id="modePanel"></div>
       </div>
     </section>
 
@@ -800,7 +849,7 @@ $("#logout").onclick=async()=>{await sb.auth.signOut();all=[];loaded=false;go("h
 
 /* ---------- navigation ---------- */
 function go(p){$$("[data-p]").forEach(b=>b.classList.toggle("on",b.dataset.p===p));$$(".page").forEach(x=>x.classList.toggle("on",x.id==="p-"+p));
-  window.scrollTo({top:0,behavior:"smooth"}); if(p==="home")renderHome(); if(p==="hist")renderHist(); if(p==="stock")renderStock(); if(p==="bill")openBill()}
+  window.scrollTo({top:0,behavior:"smooth"}); if(p==="home")renderHome(); if(p==="hist")renderHist(); if(p==="stock")renderStock(); if(p==="bill")openBill(); if(p==="codes")openCodes(); else stopCam()}
 $$("[data-p]").forEach(b=>b.onclick=()=>go(b.dataset.p));
 $$("[data-go]").forEach(b=>b.onclick=()=>go(b.dataset.go));
 
@@ -808,7 +857,7 @@ $$("[data-go]").forEach(b=>b.onclick=()=>go(b.dataset.go));
 async function loadData(){
   const {data,error}=await sb.from("purchases").select("*").order("created_at",{ascending:false}).limit(2000);
   if(error){toast(error.message,true);return}
-  all=data||[]; loaded=true; renderHome(); renderHist(); if($("#p-stock").classList.contains("on"))renderStock();
+  all=data||[]; loaded=true; loadLinks(); renderHome(); renderHist(); if($("#p-stock").classList.contains("on"))renderStock();
 }
 const kindOf=r=>r.kind==="sale"?"sale":"purchase";
 function bills(){const g=new Map();
@@ -912,7 +961,7 @@ function renum(){[...$("#rows").children].forEach((tr,i)=>tr.firstChild.textCont
 function items(){return [...$("#rows").children].map(tr=>{const o={};tr.querySelectorAll("input").forEach(i=>o[i.dataset.k]=i.value.trim());return o})}
 function recalc(){let sum=0,gst=0,flags=0;
   [...$("#rows").children].forEach(tr=>{const g=k=>tr.querySelector(`[data-k=${k}]`).value;sum+=n(g("amount"));gst+=n(g("amount"))*(1+n(g("gst_percent"))/100);
-    const bad=g("qty")&&g("rate")&&g("amount")&&Math.abs(n(g("qty"))*n(g("rate"))-n(g("amount")))>.5;tr.classList.toggle("flag",!!bad);if(bad)flags++});
+    const bad=(g("qty")&&g("rate")&&g("amount")&&Math.abs(n(g("qty"))*n(g("rate"))-n(g("amount")))>.5)||OLD_GST.has(n(g("gst_percent")));tr.classList.toggle("flag",!!bad);if(bad)flags++});
   const total=n($("#bill_total").value),match=total&&(Math.abs(gst-total)<2||Math.abs(sum-total)<2);
   $("#summary").innerHTML=`<div class="pill">Items<b>${$("#rows").children.length}</b></div><div class="pill">Amount<b>${money(sum)}</b></div><div class="pill">With GST<b>${money(gst)}</b></div>`+
     (total?`<div class="pill ${match?"ok":"bad"}">vs bill total<b>${match?"Matches":"Mismatch"}</b></div>`:"")+(flags?`<div class="pill bad">To check<b>${flags} row${flags>1?"s":""}</b></div>`:"")}
@@ -923,7 +972,7 @@ $("#saveBtn").onclick=async()=>{
   if(!rows.length)return toast("No items to save",true);
   const b=$("#saveBtn"),html=b.innerHTML;b.disabled=true;b.innerHTML='<span class="spin"></span>Saving…';
   const {error}=await sb.from("purchases").insert(rows);b.disabled=false;b.innerHTML=html;
-  if(error)return toast(/kind/.test(error.message)?"Sales not set up yet: run supabase-sales.sql in Supabase once.":error.message,true);
+  if(error)return toast(/kind/.test(error.message)?"Sales not set up yet: run supabase-all-updates.sql in Supabase once.":error.message,true);
   toast(`Saved ${rows.length} items`);$("#form").hidden=true;$("#empty").hidden=false;$("#viewport").classList.remove("loaded");$("#img").hidden=true;$("#pdfMark").hidden=true;
   $("#fname").textContent="";$("#vpStatus").textContent="Waiting for a bill";file=null;$("#scanBtn").disabled=true;inp.value="";cam.value="";await loadData()};
 
@@ -939,6 +988,7 @@ $("#sSave").onclick=async()=>{const b=$("#sSave");b.disabled=true;
 
 /* ---------- stock: purchases (qty + free) minus sales ---------- */
 const r2=v=>Math.round(v*100)/100;
+const OLD_GST=new Set([12,28]);   // slabs removed from 22 Sep 2025 (GST 2.0)
 const norm=v=>(v||"").toString().toLowerCase().replace(/\s+/g," ").trim();
 const MON={jan:0,feb:1,mar:2,apr:3,may:4,jun:5,jul:6,aug:7,sep:8,oct:9,nov:10,dec:11};
 function parseExp(v){const t=norm(v); if(!t)return null; let m,mo,y;
@@ -1001,7 +1051,7 @@ function renderLines(){
   $("#bEmpty").innerHTML=lines.length?"":emptyBlock("Add products to start","Search above. Items come from your purchase stock with MRP, batch and expiry.");
   $("#blines").innerHTML=lines.map((l,i)=>{const c=lineCalc(l), es=expState(l.expiry);
     const w=(es==="exp"?'<span class="warn red">Expired batch</span>':es==="soon"?'<span class="warn amber">Expires soon</span>':"")+
-      (l.bal!=null&&n(l.qty)>l.bal?`<span class="warn red">Only ${l.bal} in stock</span>`:"")+(l.manual?'<span class="warn blue">Not in stock list</span>':"")+(!n(l.mrp)?'<span class="warn amber">Enter MRP</span>':"");
+      (l.bal!=null&&n(l.qty)>l.bal?`<span class="warn red">Only ${l.bal} in stock</span>`:"")+(l.manual?'<span class="warn blue">Not in stock list</span>':"")+(OLD_GST.has(n(l.gst))?`<span class="warn amber">GST ${n(l.gst)}%: old slab, check rate</span>`:"")+(!n(l.mrp)?'<span class="warn amber">Enter MRP</span>':"");
     return `<div class="bl" data-i="${i}"><div class="nm"><b>${esc(l.name)}</b><small>${l.batch?"Batch "+esc(l.batch):"No batch"}${l.expiry?", exp "+esc(l.expiry):""}${l.gst?", GST "+l.gst+"%":""}${l.bal!=null?", stock "+l.bal:""}</small><div>${w}</div></div>
       <div class="amt">${money(c.amt)}${n(l.disc)&&c.full?`<small>${money(c.full)}</small>`:""}</div>
       <div class="ctl"><div><label>MRP</label><input class="field" data-f="mrp" inputmode="decimal" value="${esc(l.mrp)}"${l.manual?"":" readonly"}></div>
@@ -1048,11 +1098,12 @@ async function saveBill(print){
   const rows=lines.map(l=>{const c=lineCalc(l);return {...head,product:l.name,batch:l.batch||null,expiry:l.expiry||null,qty:n(l.qty),free_qty:null,mrp:n(l.mrp),rate:c.rate,gst_percent:nn(l.gst),amount:c.amt,discount:n(l.disc)}});
   const b=$("#bSave"),html=b.innerHTML; b.disabled=true; b.innerHTML='<span class="spin"></span>Saving…';
   const {error}=await sb.from("purchases").insert(rows); b.innerHTML=html; b.disabled=false;
-  if(error)return toast(/kind|discount/.test(error.message)?"Billing not set up yet: run supabase-sales.sql in Supabase once.":error.message,true);
+  if(error)return toast(/kind|discount/.test(error.message)?"Billing not set up yet: run supabase-all-updates.sql in Supabase once.":error.message,true);
   if(print)printBill(head,lines.map(l=>({...l,...lineCalc(l)})),t);
   toast(`Bill ${head.bill_no||""} saved`); lines=[]; billFresh=true; $("#bCust").value=""; await loadData(); openBill()}
 $("#bSave").onclick=()=>saveBill(false); $("#bPrint").onclick=()=>saveBill(true);
 function printBill(h,ls,t){
+  $("#printArea").className="";
   $("#printArea").innerHTML=`<h1>${esc(cfg.shop||"Bill")}</h1>${cfg.gstin?`<div class="c">GSTIN: ${esc(cfg.gstin)}</div>`:""}
     <div class="c">Bill ${esc(h.bill_no||"")} · ${esc(h.bill_date||"")}</div><div class="c">${esc(h.supplier||"Walk-in customer")}</div>
     <table><thead><tr><th>Item</th><th>Batch/Exp</th><th class="r">Qty</th><th class="r">MRP</th><th class="r">Disc</th><th class="r">Amt</th></tr></thead><tbody>
@@ -1061,6 +1112,162 @@ function printBill(h,ls,t){
     ${t.round?`<tr><td>Round off</td><td class="r">${t.round.toFixed(2)}</td></tr>`:""}<tr class="big"><td>Net payable</td><td class="r">₹${t.pay}</td></tr>
     ${t.gst?`<tr><td colspan="2">Incl. GST ${t.gst.toFixed(2)} (CGST ${(t.gst/2).toFixed(2)} + SGST ${(t.gst/2).toFixed(2)})</td></tr>`:""}</table><div class="c">Thank you! Get well soon.</div>`;
   setTimeout(()=>window.print(),80)}
+
+/* ---------- QR & barcode: camera (html5-qrcode) or scanner gun (keyboard input) ---------- */
+let links=[], mode="sell", recv=[], counts={}, lastRes=null, qcam=null, camOn=false, lastCode="", lastAt=0, pendingCode=null;
+const loadJS=(src,test)=>test()?Promise.resolve():new Promise((ok,no)=>{const sc=document.createElement("script");sc.src=src;sc.onload=ok;sc.onerror=()=>no(new Error("Could not load "+src.split("/").pop()));document.head.appendChild(sc)});
+const QR_LIB="https://cdn.jsdelivr.net/npm/html5-qrcode@2.3.8/html5-qrcode.min.js", QRGEN_LIB="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.js";
+async function loadLinks(){try{const {data,error}=await sb.from("product_codes").select("*"); links=error?[]:(data||[])}catch(e){links=[]}}
+try{counts=JSON.parse(localStorage.getItem("bs_counts")||"{}")}catch(e){counts={}}
+const saveCounts=()=>{try{localStorage.setItem("bs_counts",JSON.stringify(counts))}catch(e){}};
+
+// --- decode helpers
+function parseGS1(raw){let t=raw.replace(/^\][A-Za-z]\d/,"").trim(), o={};
+  if(/^\(\d{2,4}\)/.test(t)){const re=/\((\d{2,4})\)([^(]*)/g;let m;while((m=re.exec(t)))o[m[1]]=m[2].replace(/\x1d/g,"").trim()}
+  else if(/^01\d{14}/.test(t)){let i=0;const FIX={"01":14,"11":6,"13":6,"15":6,"17":6};
+    while(i<t.length){const ai2=t.substr(i,2); if(FIX[ai2]){o[ai2]=t.substr(i+2,FIX[ai2]);i+=2+FIX[ai2];continue}
+      const ai=["10","21"].includes(ai2)?ai2:(["240","241"].includes(t.substr(i,3))?t.substr(i,3):null); if(!ai)break;
+      const st=i+ai.length, gs=t.indexOf("\x1d",st), end=gs<0?t.length:gs; o[ai]=t.slice(st,end); i=gs<0?t.length:gs+1}}
+  if(!o["01"])return null;
+  const e=o["17"]; return {gtin:o["01"],batch:o["10"]||"",expiry:e&&e.length===6?e.slice(2,4)+"/"+e.slice(0,2):"",serial:o["21"]||""}}
+function parseEInvoice(raw){const p=raw.trim().split("."); if(p.length!==3||p[1].length<40)return null;
+  try{const j=JSON.parse(decodeURIComponent(escape(atob(p[1].replace(/-/g,"+").replace(/_/g,"/")))));const d=typeof j.data==="string"?JSON.parse(j.data):(j.data||j);
+    return d&&(d.Irn||d.DocNo)?d:null}catch(e){return null}}
+function findLot(name,batch){const lots=stockLots(), nb=norm(batch), nn2=norm(name);
+  if(nb){const hit=lots.find(l=>norm(l.batch)===nb&&(!nn2||norm(l.name)===nn2))||lots.find(l=>norm(l.batch)===nb); if(hit)return hit}
+  if(nn2){const c=lots.filter(l=>norm(l.name)===nn2).sort((a,b)=>(b.bal>0)-(a.bal>0)||(parseExp(a.expiry)||9e15)-(parseExp(b.expiry)||9e15)); if(c[0])return c[0]}
+  return null}
+function resolveCode(raw){const code=raw.trim(); if(!code)return null;
+  if(code.startsWith("BS1|")){const [,name,batch]=code.split("|"); return {code,type:"label",lot:findLot(name,batch),name,batch}}
+  const ei=parseEInvoice(code); if(ei)return {code,type:"einvoice",inv:ei};
+  const g=parseGS1(code);
+  if(g){const ln=links.find(l=>l.code===g.gtin); const lot=findLot(ln?ln.product:"",g.batch); return {code,type:"gs1",key:g.gtin,gs1:g,lot,name:lot?lot.name:(ln?ln.product:""),batch:g.batch}}
+  const ln=links.find(l=>l.code===code); if(ln)return {code,type:"linked",key:code,lot:findLot(ln.product,ln.batch),name:ln.product,batch:ln.batch||""};
+  const bm=code.match(/(?:b\.?\s*no\.?|batch(?:\s*no)?)\s*[:\-]?\s*([A-Z0-9\-\/]{3,})/i); if(bm){const lot=findLot("",bm[1]); if(lot)return {code,type:"text",lot,name:lot.name,batch:lot.batch}}
+  const lot=findLot("",code); if(lot&&code.length>=4)return {code,type:"batch",lot,name:lot.name,batch:lot.batch};
+  return {code,type:"unknown",key:code}}
+
+// --- one scan
+function onCode(raw){const now=Date.now(); if(raw===lastCode&&now-lastAt<1800)return; lastCode=raw; lastAt=now;
+  const r=resolveCode(raw); if(!r)return; lastRes=r;
+  try{navigator.vibrate&&navigator.vibrate(60)}catch(e){}
+  $("#camView").classList.add("hit"); setTimeout(()=>$("#camView").classList.remove("hit"),300);
+  $("#lastScan").textContent="Last scan: "+(r.lot?r.lot.name+(r.lot.batch?" ("+r.lot.batch+")":""):r.type==="einvoice"?"GST e-invoice QR":raw.slice(0,60));
+  if(r.type==="einvoice"){mode="check";syncMode();return renderMode()}
+  if(!r.lot&&mode!=="check"){pendingCode=r;return renderMode()}
+  pendingCode=null;
+  if(mode==="sell"){addLine(r.lot);toast(`${r.lot.name} added to bill`)}
+  else if(mode==="receive"){const ex=recv.find(x=>x.key===r.lot.key); if(ex)ex.qty=n(ex.qty)+1; else recv.push({key:r.lot.key,name:r.lot.name,batch:r.lot.batch,expiry:r.lot.expiry,mrp:r.lot.mrp,rate:r.lot.rate,gst:r.lot.gst,qty:1})}
+  else if(mode==="count"){counts[r.lot.key]=n(counts[r.lot.key])+1;saveCounts()}
+  renderMode()}
+
+// --- camera
+async function startCam(){try{await loadJS(QR_LIB,()=>window.Html5Qrcode);
+    if(!qcam)qcam=new Html5Qrcode("camEl",{verbose:false,experimentalFeatures:{useBarCodeDetectorIfSupported:true}});
+    const box=Math.round(Math.min($("#camView").clientWidth,$("#camView").clientHeight)*.7);
+    await qcam.start({facingMode:"environment"},{fps:10,qrbox:{width:box,height:Math.round(box*.75)}},t=>onCode(t),()=>{});
+    camOn=true;$("#camView").classList.add("on");$("#camStart").textContent="Stop camera"}
+  catch(e){toast(/permission|NotAllowed/i.test(e&&e.message||e)?"Camera permission denied. Allow camera for this site.":"Camera could not start: "+(e&&e.message||e),true)}}
+async function stopCam(){if(qcam&&camOn){try{await qcam.stop()}catch(e){} } camOn=false;const cv=$("#camView"); if(cv)cv.classList.remove("on"); const b=$("#camStart"); if(b)b.textContent="Start camera"}
+$("#camStart").onclick=()=>camOn?stopCam():startCam();
+$("#camPhoto").onclick=()=>$("#codeFile").click();
+$("#codeFile").onchange=async()=>{const f=$("#codeFile").files[0]; if(!f)return;
+  try{await loadJS(QR_LIB,()=>window.Html5Qrcode); if(camOn)await stopCam(); const tmp=new Html5Qrcode("camEl",{verbose:false}); const t=await tmp.scanFile(f,false); lastCode=""; onCode(t)}
+  catch(e){toast("No QR or barcode found in that photo",true)} $("#codeFile").value=""};
+$("#gunIn").onkeydown=e=>{if(e.key==="Enter"){e.preventDefault();const v=$("#gunIn").value;$("#gunIn").value="";lastCode="";onCode(v)}};
+$("#gunGo").onclick=()=>{const v=$("#gunIn").value;$("#gunIn").value="";lastCode="";onCode(v)};
+
+// --- modes
+$$("#modeSeg button").forEach(b=>b.onclick=()=>{mode=b.dataset.m;pendingCode=null;syncMode();renderMode()});
+$$("[data-mode-go]").forEach(b=>b.onclick=()=>{mode=b.dataset.modeGo;go("codes")});
+function syncMode(){$$("#modeSeg button").forEach(x=>x.classList.toggle("on",x.dataset.m===mode)); $("#scanBox").hidden=mode==="labels"}
+function openCodes(){syncMode();renderMode(); if(matchMedia("(hover:hover)").matches&&mode!=="labels")setTimeout(()=>$("#gunIn").focus(),300)}
+function linkUI(){if(!pendingCode)return "";
+  return `<div class="linkbox"><b>New code. Which product is this?</b><p class="sub" style="margin:4px 0 10px">Link it once, next time it is found automatically.<br><code>${esc(pendingCode.code.slice(0,80))}</code></p>
+    <div class="psearch" style="margin:0"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input class="field" id="lq" placeholder="Search product to link" autocomplete="off"><div class="sugg glass" id="lsugg" hidden></div></div></div>`}
+function bindLinkUI(){const q=$("#lq"); if(!q)return; const box=$("#lsugg");
+  q.oninput=()=>{const t=norm(q.value); if(!t){box.hidden=true;return}
+    const lots=stockLots().filter(l=>norm(l.name).includes(t)||norm(l.batch).includes(t)).slice(0,8); box._lots=lots;
+    box.innerHTML=lots.map((l,i)=>`<button data-i="${i}"><div class="t"><b>${esc(l.name)}</b><small>${l.batch?"Batch "+esc(l.batch):"No batch"}${l.expiry?", exp "+esc(l.expiry):""}</small></div><div class="r">${l.bal} in stock</div></button>`).join("")||'<p class="sub" style="padding:10px">No product found. Save a purchase bill first.</p>';
+    box.hidden=false; box.querySelectorAll("button").forEach(b=>b.onmousedown=async e=>{e.preventDefault();await linkCode(pendingCode,box._lots[+b.dataset.i])})};
+  setTimeout(()=>q.focus(),50)}
+async function linkCode(r,lot){const row={code:r.key||r.code,product:lot.name,batch:r.type==="gs1"?null:(lot.batch||null)};
+  const {error}=await sb.from("product_codes").upsert(row,{onConflict:"user_id,code"});
+  if(error)toast(/product_codes|relation/.test(error.message)?"Code linking not set up yet: run the Supabase SQL once.":error.message,true);
+  else{links=links.filter(l=>l.code!==row.code).concat([row]);toast("Code linked to "+lot.name)}
+  const raw=r.code; pendingCode=null; lastCode=""; onCode(raw); renderMode()}
+function qtyRow(label,sub,val,attr){return `<div class="mrow"><div><b>${label}</b><small>${sub}</small></div><div class="q"><button data-dec="${attr}">−</button><input class="field" data-qty="${attr}" inputmode="decimal" value="${val}"><button data-inc="${attr}">+</button></div></div>`}
+function renderMode(){const P=$("#modePanel"); let h="";
+  if(mode==="sell"){const t=totals();
+    h=`<div class="mp-head"><h2>Sell</h2><span class="kbadge sale">${lines.length} items</span></div><p class="sub">Each scan adds the item to the current bill. Scan again to add one more.</p>${linkUI()}
+      <div class="mp-list">${lines.map((l,i)=>qtyRow(esc(l.name),`${l.batch?"Batch "+esc(l.batch)+", ":""}${money(lineCalc(l).amt)}`,esc(l.qty),"s"+i)).join("")||emptyBlock("Nothing scanned yet","Point the camera at a product code or use the scanner gun.")}</div>
+      <div class="srow net"><span>Net payable</span><b>${money(t.pay)}</b></div><button class="btn primary block lg" data-go2="bill" ${lines.length?"":"disabled"}>Review and save bill</button>`}
+  else if(mode==="receive"){const tot=recv.reduce((s,x)=>s+n(x.qty)*n(x.rate),0);
+    h=`<div class="mp-head"><h2>Receive stock</h2><span class="kbadge">${recv.length} items</span></div><p class="sub">Maal aaya? Scan each pack. Saved as a purchase, stock goes up.</p>${linkUI()}
+      <div class="meta" style="grid-template-columns:1fr 1fr;margin:12px 0 0"><div><label for="rSup">Supplier</label><input class="field" id="rSup" value="${esc(window._rSup||"")}"></div><div><label for="rNo">Bill no.</label><input class="field" id="rNo" value="${esc(window._rNo||"")}"></div></div>
+      <div class="mp-list">${recv.map((x,i)=>qtyRow(esc(x.name),`${x.batch?"Batch "+esc(x.batch)+", ":""}rate ${money(x.rate)}${x.mrp?", MRP "+money(x.mrp):""}`,esc(x.qty),"r"+i)).join("")||emptyBlock("Nothing scanned yet","Scan product codes as the parcel is unpacked.")}</div>
+      <div class="srow net"><span>Purchase value</span><b>${money(r2(tot))}</b></div><button class="btn primary block lg" id="rSave" ${recv.length?"":"disabled"}>Save as purchase</button>`}
+  else if(mode==="count"){const lots=stockLots(), keys=Object.keys(counts); let short=0,shortMrp=0;
+    const rows=keys.map(k=>{const l=lots.find(x=>x.key===k)||{name:k.split("|")[0],batch:k.split("|")[1],bal:0,rate:0,mrp:0}; const d=r2(n(counts[k])-l.bal); if(d<0){short+=-d*l.rate;shortMrp+=-d*l.mrp} return {k,l,d}});
+    h=`<div class="mp-head"><h2>Count stock</h2><span class="kbadge">${keys.length} counted</span></div><p class="sub">Scan every pack on the shelf. Counted vs. what the system says. Missing stock shows in red.</p>${linkUI()}
+      <div class="mp-list">${rows.map(({k,l,d})=>`<div class="mrow"><div><b>${esc(l.name)}</b><small>${l.batch?"Batch "+esc(l.batch)+", ":""}system ${l.bal}, counted ${counts[k]} · <span class="diff ${d<0?"neg":d>0?"pos":""}">${d>0?"+":""}${d}</span></small></div><div class="q"><button data-dec="c${esc(k)}">−</button><input class="field" data-qty="c${esc(k)}" inputmode="decimal" value="${counts[k]}"><button data-inc="c${esc(k)}">+</button></div></div>`).join("")||emptyBlock("Start scanning a shelf","Count is saved on this device while you work, even if the app closes.")}</div>
+      <div class="srow"><span>Short (at cost)</span><b class="diff ${short?"neg":""}">${money(r2(short))}</b></div><div class="srow"><span>Short (at MRP)</span><b class="diff ${shortMrp?"neg":""}">${money(r2(shortMrp))}</b></div>
+      <div class="bbtns2" style="margin-top:12px"><button class="btn primary" id="cSave" ${keys.length?"":"disabled"}>Finish and save report</button><button class="btn" id="cReset" ${keys.length?"":"disabled"}>Reset</button></div>
+      <p class="note">Only items you scanned are compared. Items not scanned are not counted as missing.</p>`}
+  else if(mode==="check"){const r=lastRes;
+    if(!r)h=`<h2>Check a code</h2><p class="sub">Scan any product to see its stock, batch, expiry and MRP. Scan a distributor's GST e-invoice QR to cross-check the bill.</p>`+emptyBlock("Waiting for a scan","");
+    else if(r.type==="einvoice"){const d=r.inv, pb=bills().find(b=>b.kind==="purchase"&&norm(b.bill_no)===norm(d.DocNo));
+      const pbT=pb&&pb.items[0]&&pb.items[0].bill_total!=null?n(pb.items[0].bill_total):null, okT=pbT!=null&&Math.abs(pbT-n(d.TotInvVal))<2, okC=pb&&pb.items.length===n(d.ItemCnt);
+      h=`<h2>GST e-invoice</h2><p class="sub">Summary read from the QR. The digital signature is not verified here. Verify on the GST e-invoice portal if in doubt.</p><div class="infobox">
+        <div class="srow"><span>Seller GSTIN</span><b>${esc(d.SellerGstin||"")}</b></div><div class="srow"><span>Bill no.</span><b>${esc(d.DocNo||"")}</b></div><div class="srow"><span>Date</span><b>${esc(d.DocDt||"")}</b></div>
+        <div class="srow"><span>Invoice value</span><b>${money(d.TotInvVal)}</b></div><div class="srow"><span>Line items</span><b>${esc(d.ItemCnt??"")}</b></div><div class="srow"><span>Main HSN</span><b>${esc(d.MainHsnCode||"")}</b></div></div>
+        <div class="infobox" style="margin-top:10px">${pb?`<div class="srow"><span>Saved bill found</span><b>${esc(pb.supplier)}</b></div><div class="srow"><span>Total matches</span><b class="diff ${pbT==null?"":okT?"pos":"neg"}">${pbT==null?"Bill total not saved":okT?"Yes":"No: saved "+money(pbT)}</b></div><div class="srow"><span>Item count matches</span><b class="diff ${okC?"pos":"neg"}">${okC?"Yes":"No: saved "+pb.items.length}</b></div>`:`<div class="srow"><span>No purchase bill saved with no. ${esc(d.DocNo||"")}</span><b class="diff neg">Not entered yet</b></div>`}</div>`}
+    else if(!r.lot)h=`<h2>Check a code</h2>${pendingCode=r,linkUI()}`;
+    else{const l=r.lot, es=l.es, lastP=all.find(x=>kindOf(x)==="purchase"&&norm(x.product)===norm(l.name));
+      h=`<h2>${esc(l.name)}</h2><p class="sub">${l.batch?"Batch "+esc(l.batch):"No batch"}${r.gs1&&r.gs1.serial?", serial "+esc(r.gs1.serial):""}</p><div class="infobox">
+        <div class="srow"><span>In stock</span><b class="${l.bal<=cfg.low?"diff neg":""}">${l.bal}</b></div><div class="srow"><span>Bought / sold</span><b>${l.inQ} / ${l.sold}</b></div>
+        <div class="srow"><span>Expiry</span><b class="${es?"diff neg":""}">${esc(l.expiry||"—")}${es==="exp"?" (expired)":es==="soon"?" (soon)":""}</b></div>
+        <div class="srow"><span>MRP / cost</span><b>${money(l.mrp)} / ${money(l.rate)}</b></div><div class="srow"><span>GST</span><b>${l.gst?l.gst+"%":"—"}${OLD_GST.has(l.gst)?" (old slab)":""}</b></div>
+        ${lastP?`<div class="srow"><span>Last bought from</span><b>${esc(lastP.supplier||"—")}</b></div>`:""}</div>
+        <div class="bbtns2" style="margin-top:12px"><button class="btn primary" id="ckSell">Add to bill</button><button class="btn" id="ckCount">Count +1</button></div>`}}
+  else if(mode==="labels"){const lots=stockLots().filter(l=>l.bal>0).sort((a,b)=>a.name.localeCompare(b.name));
+    h=`<div class="mp-head"><h2>QR labels</h2></div><p class="sub">For products without a code. Print, stick on the box or shelf, then scan to sell or count.</p>
+      <div class="search" style="margin:12px 0"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input class="field" id="labQ" placeholder="Filter products"></div>
+      <div class="mp-list lab-list">${lots.map((l,i)=>`<label class="mrow" data-name="${esc(norm(l.name+" "+l.batch))}"><div><b><input type="checkbox" data-lab="${i}"> ${esc(l.name)}</b><small>${l.batch?"Batch "+esc(l.batch)+", ":""}${l.expiry?"exp "+esc(l.expiry)+", ":""}MRP ${money(l.mrp)}</small></div><div class="q"><input class="field" data-labn="${i}" inputmode="numeric" value="1" title="Labels to print"></div></label>`).join("")||emptyBlock("No stock yet","Save a purchase bill first.")}</div>
+      <button class="btn primary block lg" id="labPrint" ${lots.length?"":"disabled"}>Print selected labels</button>`;
+    P._labLots=lots}
+  P.innerHTML=h; bindLinkUI();
+  const goB=P.querySelector("[data-go2]"); if(goB)goB.onclick=()=>go("bill");
+  const lst=k=>k[0]==="s"?{arr:lines,i:+k.slice(1),f:"qty"}:k[0]==="r"?{arr:recv,i:+k.slice(1),f:"qty"}:{cnt:k.slice(1)};
+  const setQ=(k,v)=>{const t=lst(k); v=Math.max(0,r2(v)); if(t.cnt!=null){if(v<=0)delete counts[t.cnt]; else counts[t.cnt]=v; saveCounts()} else if(v<=0)t.arr.splice(t.i,1); else t.arr[t.i][t.f]=v; if(t.arr===lines)renderLines(); renderMode()};
+  const getQ=k=>{const t=lst(k); return t.cnt!=null?n(counts[t.cnt]):n(t.arr[t.i].qty)};
+  P.querySelectorAll("[data-inc]").forEach(b=>b.onclick=e=>{e.preventDefault();setQ(b.dataset.inc,getQ(b.dataset.inc)+1)});
+  P.querySelectorAll("[data-dec]").forEach(b=>b.onclick=e=>{e.preventDefault();setQ(b.dataset.dec,getQ(b.dataset.dec)-1)});
+  P.querySelectorAll("[data-qty]").forEach(inp=>inp.onchange=()=>setQ(inp.dataset.qty,n(inp.value)));
+  const rs=$("#rSup"); if(rs){rs.oninput=()=>window._rSup=rs.value; $("#rNo").oninput=()=>window._rNo=$("#rNo").value}
+  const rSave=$("#rSave"); if(rSave)rSave.onclick=async()=>{const head={supplier:$("#rSup").value.trim()||null,bill_no:$("#rNo").value.trim()||null,bill_date:new Date().toLocaleDateString("en-IN")};
+    const rows=recv.map(x=>({...head,product:x.name,batch:x.batch||null,expiry:x.expiry||null,qty:n(x.qty),free_qty:null,mrp:nn(x.mrp),rate:nn(x.rate),gst_percent:nn(x.gst),amount:r2(n(x.qty)*n(x.rate)),bill_total:null}));
+    rSave.disabled=true; const {error}=await sb.from("purchases").insert(rows); rSave.disabled=false; if(error)return toast(error.message,true);
+    toast(`Received ${rows.length} items`); recv=[]; window._rSup=window._rNo=""; await loadData(); renderMode()};
+  const cSave=$("#cSave"); if(cSave)cSave.onclick=async()=>{const lots=stockLots(), sid=new Date().toISOString();
+    const rows=Object.keys(counts).map(k=>{const l=lots.find(x=>x.key===k)||{name:k.split("|")[0],batch:k.split("|")[1],bal:0,rate:0,mrp:0}; const d=r2(n(counts[k])-l.bal);
+      return {session_id:sid,product:l.name,batch:l.batch||null,system_qty:l.bal,counted_qty:n(counts[k]),diff:d,value_diff:r2(d*l.rate)}});
+    cSave.disabled=true; const {error}=await sb.from("stock_counts").insert(rows); cSave.disabled=false;
+    if(error)return toast(/stock_counts|relation/.test(error.message)?"Stock count report not set up yet: run the Supabase SQL once.":error.message,true);
+    const short=rows.filter(r=>r.diff<0).reduce((s,r)=>s-r.value_diff,0); counts={}; saveCounts(); renderMode();
+    toast(short?`Report saved. Short by ${money(r2(short))} at cost`:"Report saved. Nothing missing")};
+  const cReset=$("#cReset"); if(cReset)cReset.onclick=()=>confirmBox("Reset this count?","All scanned counts on this device will be cleared.",async()=>{counts={};saveCounts();renderMode()});
+  const ckS=$("#ckSell"); if(ckS)ckS.onclick=()=>{addLine(lastRes.lot);toast("Added to bill")};
+  const ckC=$("#ckCount"); if(ckC)ckC.onclick=()=>{counts[lastRes.lot.key]=n(counts[lastRes.lot.key])+1;saveCounts();toast("Counted +1")};
+  const lq=$("#labQ"); if(lq)lq.oninput=()=>{const t=norm(lq.value);P.querySelectorAll(".lab-list .mrow").forEach(r=>r.hidden=!!t&&!r.dataset.name.includes(t))};
+  const lp=$("#labPrint"); if(lp)lp.onclick=async()=>{const sel=[...P.querySelectorAll("[data-lab]:checked")].map(c=>({l:P._labLots[+c.dataset.lab],k:Math.max(1,Math.min(200,Math.round(n(P.querySelector(`[data-labn="${c.dataset.lab}"]`).value)||1)))}));
+    if(!sel.length)return toast("Tick at least one product",true);
+    try{await loadJS(QRGEN_LIB,()=>window.qrcode)}catch(e){return toast(e.message,true)}
+    const svg=t=>{const q=qrcode(0,"M");q.addData(unescape(encodeURIComponent(t)));q.make();return q.createSvgTag({cellSize:4,margin:0,scalable:true})};
+    let html='<div class="lgrid">'; for(const {l,k} of sel){const code="BS1|"+l.name+"|"+(l.batch||""), sv=svg(code);
+      for(let i=0;i<k;i++)html+=`<div class="lab">${sv}<div><b>${esc(l.name)}</b>${l.batch?"B: "+esc(l.batch)+"<br>":""}${l.expiry?"Exp: "+esc(l.expiry)+"<br>":""}MRP ₹${n(l.mrp).toFixed(2)}</div></div>`}
+    html+="</div>"; const pa=$("#printArea"); pa.className="labels"; pa.innerHTML=html; setTimeout(()=>{window.print();setTimeout(()=>pa.className="",500)},120)};
+}
 
 /* ---------- hero: cards fly out of the phone (Web Animations API, works in Chrome/Safari/Firefox/Samsung/Edge) ---------- */
 (()=>{const w=$("#heroWrap"); if(!w)return;
