@@ -405,7 +405,7 @@ tr.flag td{background:rgba(245,158,11,.09)} tr.flag td:first-child{color:var(--a
 .bill-grid{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:18px;align-items:start}
 .bmeta{grid-template-columns:1.6fr 1fr 1fr .9fr}
 .discrow{display:flex;gap:6px}.discrow .field{min-width:0}
-.psearch{position:relative;margin-bottom:14px}
+.psearch{position:relative;margin-bottom:16px}
 .psearch>svg{position:absolute;left:14px;top:50%;width:18px;height:18px;margin-top:-9px;color:var(--ink-3);pointer-events:none}
 .psearch .field{padding-left:42px;height:50px;font-size:15px}
 .sugg{position:absolute;left:0;right:0;top:calc(100% + 6px);z-index:15;padding:6px;border-radius:16px;max-height:340px;overflow:auto;background:rgba(255,255,255,.97)}
@@ -478,6 +478,15 @@ tr.flag td{background:rgba(245,158,11,.09)} tr.flag td:first-child{color:var(--a
   #printArea.labels .lab svg{width:22mm;height:22mm;flex:none}#printArea.labels .lab b{font-size:10px;display:block}}
 @media (max-width:960px){.code-grid{grid-template-columns:1fr}.camview{aspect-ratio:4/3}}
 @media (max-width:520px){.modeSeg button{font-size:12.5px;padding:9px 2px}}
+.secpill{display:inline-block;margin-bottom:6px;padding:4px 12px;border-radius:99px;font-size:11.5px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--blue);background:rgba(79,107,255,.12)}
+.secpill.sales{color:#0e9a85;background:rgba(16,179,154,.14)}
+.subnav{display:flex;gap:8px;flex-wrap:wrap;margin:-6px 0 18px}
+.subnav button{border:0;cursor:pointer;font:inherit;font-weight:700;font-size:14px;padding:9px 16px;border-radius:12px;color:var(--ink-2);background:rgba(255,255,255,.6);box-shadow:0 4px 12px -8px rgba(40,56,110,.4)}
+.subnav.purchase button.on{color:#fff;background:var(--grad)}
+.subnav.sales button.on{color:#fff;background:linear-gradient(135deg,#10b39a,#22c7d8)}
+.navbtn.sales.on{color:#0e9a85}.tabbar button.sales.on{color:#0e9a85}
+.hc-sale{background:linear-gradient(135deg,#10b39a,#22c7d8)!important;color:#fff!important}
+@media (max-width:520px){.subnav button{padding:8px 12px;font-size:13px}}
 /* ---------- modal + toast ---------- */
 .modal{position:fixed;inset:0;z-index:30;display:grid;place-items:center;padding:20px;background:rgba(19,26,43,.28);backdrop-filter:blur(6px);animation:fade .2s both}
 .modal .box{max-width:400px;width:100%;padding:24px;animation:pop .35s var(--spring) both}
@@ -574,11 +583,11 @@ tr.flag td{background:rgba(245,158,11,.09)} tr.flag td:first-child{color:var(--a
     <div class="glass">
       <div class="brand"><div class="logo">₹</div><div><b>Bill Scanner</b><small>No more manual entry</small></div></div>
       <button class="navbtn on" data-p="home"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z"/></svg>Home</button>
-      <button class="navbtn" data-p="bill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2h12v20l-3-2-3 2-3-2-3 2z"/><path d="M9 7h6M9 11h6M9 15h3"/></svg>New bill</button>
-      <button class="navbtn" data-p="scan"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8V6a2 2 0 0 1 2-2h2M16 4h2a2 2 0 0 1 2 2v2M20 16v2a2 2 0 0 1-2 2h-2M8 20H6a2 2 0 0 1-2-2v-2"/><path d="M7 12h10"/></svg>Scan bill</button>
+      <button class="navbtn sales" data-p="bill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2h12v20l-3-2-3 2-3-2-3 2z"/><path d="M9 7h6M9 11h6M9 15h3"/></svg>Sales</button>
+      <button class="navbtn purchase" data-p="scan"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 4h2l2.4 11.2a2 2 0 0 0 2 1.6h7.7a2 2 0 0 0 2-1.5L21 8H6"/><circle cx="10" cy="20.5" r="1.3"/><circle cx="17" cy="20.5" r="1.3"/></svg>Purchase</button>
       <button class="navbtn" data-p="stock"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 2 9 5v10l-9 5-9-5V7z"/><path d="m3 7 9 5 9-5M12 12v10"/></svg>Stock</button>
       <button class="navbtn" data-p="codes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><path d="M14 14h3v3h-3zM20 14v.01M14 20h.01M17 20h4v-3"/></svg>QR &amp; barcode</button>
-      <button class="navbtn" data-p="hist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h9l3 3v15H6z"/><path d="M9 9h6M9 13h6M9 17h4"/></svg>History</button>
+
       <button class="navbtn" data-p="acct"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/></svg>Account</button>
       <div class="spacer"></div>
       <div class="who"><b id="sideEmail"></b>Signed in</div>
@@ -588,7 +597,7 @@ tr.flag td{background:rgba(245,158,11,.09)} tr.flag td:first-child{color:var(--a
   <main class="content">
     <!-- HOME -->
     <section class="page on" id="p-home">
-      <div class="topline"><div class="grow"><h1 id="greet">Hello</h1><p>Here's how your purchases look.</p></div><button class="btn installBtn install-mini" data-install><span class="ii"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5.5" y="1.5" width="13" height="21" rx="3"/><path d="M12 6.5v8m0 0-3.2-3.2M12 14.5l3.2-3.2"/><path d="M10 19h4"/></svg></span><span>Install app</span></button><span class="chip" id="status">AI online</span><button class="btn acct-mini" data-go="acct" aria-label="Account"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/></svg></button></div>
+      <div class="topline"><div class="grow"><h1 id="greet">Hello</h1><p>Here's how your shop is doing.</p></div><button class="btn installBtn install-mini" data-install><span class="ii"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5.5" y="1.5" width="13" height="21" rx="3"/><path d="M12 6.5v8m0 0-3.2-3.2M12 14.5l3.2-3.2"/><path d="M10 19h4"/></svg></span><span>Install app</span></button><span class="chip" id="status">AI online</span><button class="btn acct-mini" data-go="acct" aria-label="Account"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/></svg></button></div>
       <div class="reveal">
         <div class="hero-cta"><i class="orb"></i><i class="orb b"></i>
           <div class="hc-text">
@@ -596,7 +605,8 @@ tr.flag td{background:rgba(245,158,11,.09)} tr.flag td:first-child{color:var(--a
             <h3>Paper in.<br><em>Data out.</em></h3>
             <p>Snap a supplier bill, AI fills the purchase. Sell by name, number or barcode.</p>
             <div class="hc-actions">
-              <button class="btn" data-go="scan"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M4 8V6a2 2 0 0 1 2-2h2M16 4h2a2 2 0 0 1 2 2v2M20 16v2a2 2 0 0 1-2 2h-2M8 20H6a2 2 0 0 1-2-2v-2M7 12h10"/></svg>Scan a bill</button>
+              <button class="btn" data-go="scan"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M4 8V6a2 2 0 0 1 2-2h2M16 4h2a2 2 0 0 1 2 2v2M20 16v2a2 2 0 0 1-2 2h-2M8 20H6a2 2 0 0 1-2-2v-2M7 12h10"/></svg>Scan purchase bill</button>
+              <button class="btn hc-sale" data-go="bill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2h12v20l-3-2-3 2-3-2-3 2z"/><path d="M9 7h6M9 11h6M9 15h3"/></svg>New sale</button>
               <span class="hc-saved" id="timeSaved" hidden><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2M9 2h6"/></svg><span></span></span>
             </div>
           </div>
@@ -624,7 +634,9 @@ tr.flag td{background:rgba(245,158,11,.09)} tr.flag td:first-child{color:var(--a
 
     <!-- SCAN -->
     <section class="page" id="p-scan">
-      <div class="topline"><div class="grow"><h1>Scan a bill</h1><p id="scanSub">Supplier's purchase bill: photo in, clean line items out. Sales are made in New bill.</p></div></div>
+      <span class="secpill purchase">Purchase</span>
+      <div class="topline"><div class="grow"><h1>Scan purchase bill</h1><p id="scanSub">Photo of the supplier's bill. AI fills every line, you check and save. Stock goes up.</p></div></div>
+      <div class="subnav purchase"><button class="on" data-sub="pur-scan">Scan bill (AI)</button><button data-sub="pur-recv">Receive by barcode</button><button class="" data-sub="pur-list">Purchase bills</button></div>
       <div class="scan-grid reveal">
         <div class="glass card">
           
@@ -678,19 +690,22 @@ tr.flag td{background:rgba(245,158,11,.09)} tr.flag td:first-child{color:var(--a
 
     <!-- NEW BILL -->
     <section class="page" id="p-bill">
-      <div class="topline"><div class="grow"><h1>New bill</h1><p>Type an item name, item number or scan a barcode. MRP, batch, expiry and GST fill in by themselves.</p></div><button class="btn qrbtn" data-mode-go="sell"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><path d="M14 14h3v3h-3zM20 14v.01M14 20h.01M17 20h4v-3"/></svg>Scan items</button></div>
+      <span class="secpill sales">Sales</span>
+      <div class="topline"><div class="grow"><h1>New sale</h1><p>Type an item name, item number or scan a barcode. MRP, batch, expiry and GST fill in by themselves.</p></div><button class="btn qrbtn" data-mode-go="sell"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><path d="M14 14h3v3h-3zM20 14v.01M14 20h.01M17 20h4v-3"/></svg>Scan items</button></div>
+      <div class="subnav sales"><button class="on" data-sub="sale-new">New sale</button><button class="" data-sub="sale-list">Sales bills</button></div>
       <div class="bill-grid reveal">
         <div class="glass card">
+          <div class="psearch">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+            <input class="field" id="pq" placeholder="Item name, item no. or barcode" autocomplete="off" enterkeyhint="search">
+            <div class="sugg glass" id="sugg" hidden></div>
+          </div>
           <div class="meta bmeta">
             <div><label for="bCust">Customer (optional)</label><input class="field" id="bCust" placeholder="Walk-in customer"></div>
             <div><label for="bNo">Bill no.</label><input class="field" id="bNo"></div>
             <div><label for="bDate">Date</label><input class="field" id="bDate" type="date"></div>
             <div><label for="bDisc">Discount %</label><div class="discrow"><input class="field" id="bDisc" inputmode="decimal"><button class="btn sm" id="bDiscAll" title="Apply this discount to every line">All</button></div></div>
-          </div>
-          <div class="psearch">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
-            <input class="field" id="pq" placeholder="Item name, item no. or barcode" autocomplete="off" enterkeyhint="search">
-            <div class="sugg glass" id="sugg" hidden></div>
+      
           </div>
           <div id="bEmpty"></div>
           <div class="blines" id="blines"></div>
@@ -739,14 +754,16 @@ tr.flag td{background:rgba(245,158,11,.09)} tr.flag td:first-child{color:var(--a
 
     <!-- HISTORY -->
     <section class="page" id="p-hist">
-      <div class="topline"><div class="grow"><h1>History</h1><p>Every bill you've saved, grouped and searchable.</p></div></div>
+      <span class="secpill" id="histPill">Sales</span>
+      <div class="topline"><div class="grow"><h1 id="histTitle">Sales bills</h1><p id="histSub">Every bill you've saved, grouped and searchable.</p></div></div>
+      <div id="histSub2"></div>
       <div class="reveal">
         <div class="toolbar">
           <div class="search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input class="field" id="q" placeholder="Search product, supplier, customer, batch or bill no."></div>
           <button class="btn" id="exportBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11m0 0-4-4m4 4 4-4M5 20h14"/></svg>Download CSV</button>
           <button class="btn" id="refresh"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 11a8 8 0 1 0-2.3 5.7M20 5v6h-6"/></svg>Refresh</button>
         </div>
-        <div class="seg neu-in histSeg" id="histSeg"><button class="on" data-f="all">All</button><button data-f="purchase">Purchases</button><button data-f="sale">Sales</button></div>
+        
         <div id="histWrap"></div>
       </div>
     </section>
@@ -781,10 +798,10 @@ tr.flag td{background:rgba(245,158,11,.09)} tr.flag td:first-child{color:var(--a
 
   <nav class="tabbar glass" aria-label="Sections">
     <button class="on" data-p="home"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z"/></svg>Home</button>
-    <button data-p="bill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2h12v20l-3-2-3 2-3-2-3 2z"/><path d="M9 7h6M9 11h6M9 15h3"/></svg>Bill</button>
-    <button class="scanfab" data-p="scan"><span class="f"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M4 8V6a2 2 0 0 1 2-2h2M16 4h2a2 2 0 0 1 2 2v2M20 16v2a2 2 0 0 1-2 2h-2M8 20H6a2 2 0 0 1-2-2v-2M7 12h10"/></svg></span><span class="l">Scan</span></button>
+    <button class="sales" data-p="bill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2h12v20l-3-2-3 2-3-2-3 2z"/><path d="M9 7h6M9 11h6M9 15h3"/></svg>Sales</button>
+    <button class="scanfab" data-p="scan"><span class="f"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 4h2l2.4 11.2a2 2 0 0 0 2 1.6h7.7a2 2 0 0 0 2-1.5L21 8H6"/><circle cx="10" cy="20.5" r="1.3"/><circle cx="17" cy="20.5" r="1.3"/></svg></span><span class="l">Purchase</span></button>
     <button data-p="stock"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 2 9 5v10l-9 5-9-5V7z"/><path d="m3 7 9 5 9-5M12 12v10"/></svg>Stock</button>
-    <button data-p="hist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h9l3 3v15H6z"/><path d="M9 9h6M9 13h6M9 17h4"/></svg>History</button>
+    <button data-p="codes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><path d="M14 14h3v3h-3zM20 14v.01M14 20h.01M17 20h4v-3"/></svg>QR scan</button>
       </nav>
 </div>
 
@@ -851,8 +868,8 @@ $("#aPass").onkeydown=e=>{if(e.key==="Enter")$("#authBtn").click()};
 $("#logout").onclick=async()=>{await sb.auth.signOut();all=[];loaded=false;go("home")};
 
 /* ---------- navigation ---------- */
-function go(p){$$("[data-p]").forEach(b=>b.classList.toggle("on",b.dataset.p===p));$$(".page").forEach(x=>x.classList.toggle("on",x.id==="p-"+p));
-  window.scrollTo({top:0,behavior:"smooth"}); if(p==="home")renderHome(); if(p==="hist")renderHist(); if(p==="stock")renderStock(); if(p==="bill")openBill(); if(p==="codes")openCodes(); else stopCam()}
+function go(p){const sec=p==="hist"?(histF==="sale"?"bill":"scan"):p; $$("[data-p]").forEach(b=>b.classList.toggle("on",b.dataset.p===sec));$$(".page").forEach(x=>x.classList.toggle("on",x.id==="p-"+p));
+  window.scrollTo({top:0,behavior:"smooth"}); if(p==="home")renderHome(); if(p==="hist"){setHistHead();renderHist()} if(p==="stock")renderStock(); if(p==="bill")openBill(); if(p==="codes")openCodes(); else stopCam()}
 $$("[data-p]").forEach(b=>b.onclick=()=>go(b.dataset.p));
 $$("[data-go]").forEach(b=>b.onclick=()=>go(b.dataset.go));
 
@@ -891,13 +908,19 @@ function renderHome(){
 function emptyBlock(t,s){return `<div class="empty"><div class="art"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 3h9l3 3v15H6z"/><path d="M9 9h6M9 13h6"/></svg></div><b>${t}</b>${s}</div>`}
 
 /* ---------- history ---------- */
-let histF="all";
-$$("#histSeg button").forEach(b=>b.onclick=()=>{histF=b.dataset.f;$$("#histSeg button").forEach(x=>x.classList.toggle("on",x===b));renderHist()});
+let histF="sale";
+function openHist(k){histF=k; go("hist")}
+function setHistHead(){const sale=histF==="sale";
+  $("#histTitle").textContent=sale?"Sales bills":"Purchase bills"; $("#histPill").textContent=sale?"Sales":"Purchase"; $("#histPill").className="secpill"+(sale?" sales":"");
+  $("#histSub").textContent=sale?"Every sale you've billed, grouped and searchable.":"Every supplier bill you've saved, grouped and searchable.";
+  $("#histSub2").innerHTML=sale?`<div class="subnav sales"><button class="" data-sub="sale-new">New sale</button><button class="on" data-sub="sale-list">Sales bills</button></div>`:`<div class="subnav purchase"><button class="" data-sub="pur-scan">Scan bill (AI)</button><button data-sub="pur-recv">Receive by barcode</button><button class="on" data-sub="pur-list">Purchase bills</button></div>`; bindSub()}
+function bindSub(){$$("[data-sub]").forEach(b=>b.onclick=()=>{const t=b.dataset.sub;
+  if(t==="sale-new")go("bill"); else if(t==="sale-list")openHist("sale"); else if(t==="pur-scan")go("scan"); else if(t==="pur-list")openHist("purchase"); else if(t==="pur-recv"){mode="receive";go("codes")}})}
 function renderHist(){
-  const q=$("#q").value.trim().toLowerCase(); let bs=bills(); if(histF!=="all")bs=bs.filter(b=>b.kind===histF);
+  const q=$("#q").value.trim().toLowerCase(); let bs=bills().filter(b=>b.kind===histF);
   if(q) bs=bs.map(b=>({...b,match:b.items.filter(r=>[r.product,r.supplier,r.batch,r.bill_no].some(x=>(x||"").toLowerCase().includes(q)))})).filter(b=>b.match.length);
   const w=$("#histWrap");
-  if(!bs.length){w.innerHTML=`<div class="glass card">${q?emptyBlock("No matches","Try a different product, supplier or batch."):emptyBlock(histF==="sale"?"No sales bills yet":histF==="purchase"?"No purchase bills yet":"No bills yet","Scan a bill and save it to build your history.")}</div>`;return}
+  if(!bs.length){w.innerHTML=`<div class="glass card">${q?emptyBlock("No matches","Try a different product, supplier or batch."):emptyBlock(histF==="sale"?"No sales yet":"No purchase bills yet",histF==="sale"?"Make a sale in New sale and it shows up here.":"Scan a supplier bill and save it to build your history.")}</div>`;return}
   w.innerHTML=bs.map((b,i)=>{const d=new Date(b.created_at);return `<div class="bill glass${q?" open":""}" style="animation:rise .5s var(--ease) ${Math.min(i,8)*40}ms both">
     <button class="bill-head" aria-expanded="${!!q}"><div class="av${b.kind==="sale"?" sale":""}">${esc(b.supplier[0])}</div>
       <div class="t"><b>${esc(b.supplier)}<span class="ktag${b.kind==="sale"?" sale":""}">${b.kind==="sale"?"Sale":"Purchase"}</span></b><small>${b.bill_no?"Bill "+esc(b.bill_no)+", ":""}${b.bill_date?esc(b.bill_date):d.toLocaleDateString("en-IN")}, ${b.items.length} items</small></div>
@@ -914,10 +937,10 @@ function renderHist(){
 }
 let qt; $("#q").oninput=()=>{clearTimeout(qt);qt=setTimeout(renderHist,180)};
 $("#refresh").onclick=async()=>{await loadData();toast("Up to date")};
-$("#exportBtn").onclick=()=>{if(!all.length)return toast("Nothing to download yet",true);
+$("#exportBtn").onclick=()=>{const rowsX=all.filter(r=>kindOf(r)===histF); if(!rowsX.length)return toast("Nothing to download yet",true);
   const keys=["created_at","kind","supplier","bill_no","bill_date","product","batch","expiry","qty","free_qty","mrp","rate","gst_percent","amount","bill_total"];
-  const q=v=>`"${String(v??"").replace(/"/g,'""')}"`;const csv="﻿"+keys.join(",")+"\n"+all.map(r=>keys.map(k=>q(k==="kind"?kindOf(r):r[k])).join(",")).join("\n");
-  const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([csv],{type:"text/csv"}));a.download="bills_"+new Date().toISOString().slice(0,10)+".csv";a.click();toast("CSV downloaded")};
+  const q=v=>`"${String(v??"").replace(/"/g,'""')}"`;const csv="﻿"+keys.join(",")+"\n"+rowsX.map(r=>keys.map(k=>q(k==="kind"?kindOf(r):r[k])).join(",")).join("\n");
+  const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([csv],{type:"text/csv"}));a.download=(histF==="sale"?"sales_":"purchases_")+new Date().toISOString().slice(0,10)+".csv";a.click();toast("CSV downloaded")};
 
 function confirmBox(t,txt,yes){$("#mTitle").textContent=t;$("#mText").textContent=txt;$("#modal").hidden=false;
   $("#mNo").onclick=()=>$("#modal").hidden=true; $("#mYes").onclick=async()=>{$("#modal").hidden=true;await yes()}}
@@ -1280,6 +1303,7 @@ function renderMode(){const P=$("#modePanel"); let h="";
     html+="</div>"; const pa=$("#printArea"); pa.className="labels"; pa.innerHTML=html; setTimeout(()=>{window.print();setTimeout(()=>pa.className="",500)},120)};
 }
 
+bindSub();
 /* ---------- hero: cards fly out of the phone (Web Animations API, works in Chrome/Safari/Firefox/Samsung/Edge) ---------- */
 (()=>{const w=$("#heroWrap"); if(!w)return;
   const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
