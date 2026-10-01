@@ -306,7 +306,7 @@ tr.flag td{background:rgba(245,158,11,.09)} tr.flag td:first-child{color:var(--a
 .pframe i{position:absolute;width:3px;border-radius:2px;background:linear-gradient(#aeb5c3,#7b8496)}
 .pframe i.v1{left:-2px;top:22%;height:7%}.pframe i.v2{left:-2px;top:31%;height:7%}.pframe i.pw{right:-2px;top:26%;height:11%}
 .pbezel{width:100%;height:100%;border-radius:calc(var(--pw)*.15);background:#0b0e18;padding:calc(var(--pw)*.03)}
-.pscreen{position:relative;width:100%;height:100%;border-radius:calc(var(--pw)*.12);overflow:hidden;background:#eef1f7}
+.pscreen{position:relative;width:100%;height:100%;border-radius:calc(var(--pw)*.12);overflow:hidden;background:#eef1f7;isolation:isolate;-webkit-mask-image:-webkit-radial-gradient(white,black)}
 .pscreen img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:top}
 .pscreen .s2{opacity:0;animation:scrSwap 10s ease-in-out infinite}
 .pscreen .island{position:absolute;top:2.2%;left:50%;width:30%;height:3.6%;margin-left:-15%;border-radius:99px;background:#0b0e18}
@@ -321,9 +321,8 @@ tr.flag td{background:rgba(245,158,11,.09)} tr.flag td:first-child{color:var(--a
 .fc{position:absolute;left:50%;top:50%;display:flex;align-items:center;gap:11px;padding:12px 16px;border-radius:18px;white-space:nowrap;
   background:rgba(255,255,255,.93);border:1px solid #fff;box-shadow:0 26px 50px -18px rgba(30,44,95,.5),inset 0 1px 0 #fff;
   --tx:calc(var(--mx)*var(--pw));--ty:calc(var(--my)*var(--pw));
-  transform:translate(calc(-50% + var(--tx)),calc(-50% + var(--ty))) translateZ(var(--z)) translateY(0) scale(1);
-  animation:flyA 10s cubic-bezier(.3,.7,.2,1) var(--dl) infinite}
-.fc.gb{animation-name:flyB}
+  transform:translate(calc(-50% + var(--tx)),calc(-50% + var(--ty))) translateZ(var(--z))}
+.hero-wrap:not(.live) .fc.gb{opacity:0}
 .fc small{display:block;font-size:11.5px;font-weight:600;color:var(--ink-3);line-height:1.2}
 .fc b{display:block;font-size:18px;font-weight:800;color:var(--ink);letter-spacing:-.01em;font-variant-numeric:tabular-nums}
 .fi{width:36px;height:36px;border-radius:11px;display:grid;place-items:center;color:#fff;font-weight:800;font-size:16px;flex:none}
@@ -336,23 +335,6 @@ tr.flag td{background:rgba(245,158,11,.09)} tr.flag td:first-child{color:var(--a
 .fc .rows p:last-child{border:0} .fc .rows b{font-size:13px}
 .f1{--mx:-.9;--my:-.72;--z:90px;--dl:0s}.f2{--mx:.9;--my:-.5;--z:130px;--dl:.15s}
 .f3{--mx:.9;--my:.3;--z:160px;--dl:.1s}.f4{--mx:-.9;--my:.2;--z:120px;--dl:0s}.f5{--mx:-.1;--my:1.12;--z:100px;--dl:.3s}
-/* keyframes: same transform function order everywhere so it interpolates smoothly */
-@keyframes flyA{
-  0%{opacity:0;transform:translate(-50%,-50%) translateZ(0) translateY(0) scale(.15)}
-  4%{opacity:1}
-  12%{transform:translate(calc(-50% + var(--tx)),calc(-50% + var(--ty))) translateZ(var(--z)) translateY(0) scale(1.05)}
-  16%{transform:translate(calc(-50% + var(--tx)),calc(-50% + var(--ty))) translateZ(var(--z)) translateY(0) scale(1)}
-  28%{transform:translate(calc(-50% + var(--tx)),calc(-50% + var(--ty))) translateZ(var(--z)) translateY(-10px) scale(1)}
-  38%{opacity:1;transform:translate(calc(-50% + var(--tx)),calc(-50% + var(--ty))) translateZ(var(--z)) translateY(0) scale(1)}
-  46%,100%{opacity:0;transform:translate(-50%,-50%) translateZ(0) translateY(0) scale(.15)}}
-@keyframes flyB{
-  0%,46%{opacity:0;transform:translate(-50%,-50%) translateZ(0) translateY(0) scale(.15)}
-  50%{opacity:1}
-  58%{transform:translate(calc(-50% + var(--tx)),calc(-50% + var(--ty))) translateZ(var(--z)) translateY(0) scale(1.05)}
-  62%{transform:translate(calc(-50% + var(--tx)),calc(-50% + var(--ty))) translateZ(var(--z)) translateY(0) scale(1)}
-  74%{transform:translate(calc(-50% + var(--tx)),calc(-50% + var(--ty))) translateZ(var(--z)) translateY(-10px) scale(1)}
-  86%{opacity:1;transform:translate(calc(-50% + var(--tx)),calc(-50% + var(--ty))) translateZ(var(--z)) translateY(0) scale(1)}
-  95%,100%{opacity:0;transform:translate(-50%,-50%) translateZ(0) translateY(0) scale(.15)}}
 @keyframes pSpin{0%,100%{transform:rotateY(-24deg) rotateX(9deg) rotateZ(-3deg)}50%{transform:rotateY(20deg) rotateX(4deg) rotateZ(2.5deg)}}
 @keyframes pFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-16px)}}
 @keyframes camPush{0%,100%{transform:scale(.93) translateY(6px)}50%{transform:scale(1.04) translateY(-4px)}}
@@ -362,13 +344,13 @@ tr.flag td{background:rgba(245,158,11,.09)} tr.flag td:first-child{color:var(--a
 @keyframes glowP{0%,100%{opacity:.75;transform:translateZ(-160px) scale(.95)}50%{opacity:1;transform:translateZ(-160px) scale(1.06)}}
 @keyframes gShadow{0%,100%{opacity:1;transform:rotateX(80deg) scale(1)}50%{opacity:.6;transform:rotateX(80deg) scale(.85)}}
 @keyframes dotRise{0%{opacity:0;transform:translateY(0)}15%{opacity:.8}100%{opacity:0;transform:translateY(-320px)}}
-@media (max-width:860px){.hero-wrap{--pw:min(48vw,210px);height:calc(var(--pw)*2.5);margin:4px 0;overflow-x:clip}
+@media (max-width:860px){.hero-wrap{--pw:min(48vw,210px);height:calc(var(--pw)*2.5);margin:4px 0;overflow:hidden;overflow-x:clip;overflow-y:visible}
   .fc{padding:7px 10px;gap:7px;border-radius:13px}.fc b{font-size:13px}.fc small{font-size:9.5px}.fi{width:26px;height:26px;font-size:12px;border-radius:8px}
   .fc.pill{padding:6px 12px 6px 6px}.fc.pill b{font-size:12px}.fi.ok{width:24px;height:24px}.fi svg{width:13px;height:13px}
   .fc.wide{min-width:0;padding:8px 10px}.fc .rows p{font-size:11px;gap:10px;padding:3px 0}.fc .rows b{font-size:11px}
   .f1{--mx:-.48;--my:-.8}.f2{--mx:.46;--my:-.5}.f3{--mx:.44;--my:.36}.f4{--mx:-.48;--my:.1}.f5{--mx:0;--my:1.1}
   .ly:nth-child(n+4){display:none}}
-@media (prefers-reduced-motion:reduce){.fc.gb{opacity:0}}
+
 .auth-card{padding:28px 30px;max-width:460px;width:100%;justify-self:start}
 .auth-card h2{margin:0 0 2px;font-size:22px;letter-spacing:-.02em}
 .auth-card .sub{margin:0 0 16px;color:var(--ink-3)}
@@ -631,7 +613,7 @@ document.addEventListener("pointerdown",e=>{const b=e.target.closest(".btn");if(
 
 function setSession(s){
   const was=!!session; session=s;
-  $("#authView").hidden=!!s; $("#appView").hidden=!s;
+  $("#authView").hidden=!!s; $("#appView").hidden=!s; if(!s&&window.heroStart)window.heroStart();
   if(s){
     const e=s.user.email||""; $("#sideEmail").textContent=e; $("#acctEmail").textContent=e; $("#avatar").textContent=(e[0]||"U").toUpperCase();
     $("#acctSince").textContent="Member since "+new Date(s.user.created_at).toLocaleDateString("en-IN",{month:"long",year:"numeric"});
@@ -773,8 +755,37 @@ $("#saveBtn").onclick=async()=>{
   toast(`Saved ${rows.length} items`);$("#form").hidden=true;$("#empty").hidden=false;$("#viewport").classList.remove("loaded");$("#img").hidden=true;$("#pdfMark").hidden=true;
   $("#fname").textContent="";$("#vpStatus").textContent="Waiting for a bill";file=null;$("#scanBtn").disabled=true;inp.value="";cam.value="";await loadData()};
 
-/* ---------- hero parallax (desktop pointer) ---------- */
-(()=>{const w=$("#heroWrap"),t=$("#heroTilt"); if(!w||!t||matchMedia("(prefers-reduced-motion: reduce)").matches||matchMedia("(hover:none)").matches) return;
+/* ---------- hero: cards fly out of the phone (Web Animations API, works in Chrome/Safari/Firefox/Samsung/Edge) ---------- */
+(()=>{const w=$("#heroWrap"); if(!w)return;
+  const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
+  let anims=[],lastW=0;
+  function start(){
+    if(reduce||!w.animate||$("#authView").hidden)return;
+    const ph=w.querySelector(".phone3d"), pw=ph.offsetWidth; if(!pw||pw===lastW&&anims.length)return; lastW=pw;
+    anims.forEach(a=>a.cancel()); anims=[];
+    const T=(x,y,z,b,s)=>`translate(${x}px,${y}px) translate(-50%,-50%) translateZ(${z}px) translateY(${b}px) scale(${s})`;
+    const ease="cubic-bezier(.3,.7,.2,1)";
+    w.querySelectorAll(".fc").forEach(c=>{
+      const cs=getComputedStyle(c), num=k=>parseFloat(cs.getPropertyValue(k))||0;
+      const tx=num("--mx")*pw, ty=num("--my")*pw, z=num("--z"), dl=num("--dl")*1000;
+      const C={transform:T(0,0,0,0,.15),opacity:0,easing:ease}, F=(b,s)=>({transform:T(tx,ty,z,b,s),opacity:1,easing:ease});
+      const o=c.classList.contains("gb")?.46:0;
+      const k=[{...C,offset:0}];
+      if(o)k.push({...C,offset:o});
+      k.push({...F(0,1.05),offset:o+.12},{...F(0,1),offset:o+.16},{...F(-10,1),offset:o+.28},{...F(0,1),offset:o+.4},{...C,offset:Math.min(o+.49,1)});
+      if(k[k.length-1].offset<1)k.push({...C,offset:1});
+      anims.push(c.animate(k,{duration:10000,delay:dl,iterations:Infinity,fill:"both"}));
+    });
+    w.classList.add("live");
+    // line up the CSS loop (phone spin, screen swap, scan line) with the cards
+    try{const t0=document.timeline.currentTime;
+      (w.getAnimations?w.getAnimations({subtree:true}):anims).forEach(a=>{a.startTime=t0});}catch(e){}
+  }
+  window.heroStart=()=>requestAnimationFrame(start);
+  if(!$("#authView").hidden)window.heroStart();
+  let rt; addEventListener("resize",()=>{clearTimeout(rt);rt=setTimeout(()=>{lastW=0;start()},250)});
+  // pointer parallax on desktop only
+  const t=$("#heroTilt"); if(reduce||matchMedia("(hover:none)").matches||!t)return;
   w.addEventListener("pointermove",e=>{const r=w.getBoundingClientRect(),x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;
     t.style.transform=`rotateY(${x*12}deg) rotateX(${-y*8}deg)`});
   w.addEventListener("pointerleave",()=>{t.style.transform=""});
