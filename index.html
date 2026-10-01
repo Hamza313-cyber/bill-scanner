@@ -400,6 +400,51 @@ tr.flag td{background:rgba(245,158,11,.09)} tr.flag td:first-child{color:var(--a
 .kbadge.sale,.ktag.sale{color:#0e9a85;background:rgba(16,179,154,.14)}
 .ktag{display:inline-block;margin-left:6px;padding:1px 8px;border-radius:99px;font-size:10.5px;font-weight:700;color:var(--blue);background:rgba(79,107,255,.12);vertical-align:1px}
 .av.sale{background:#e5f7f3!important;color:var(--teal)!important}
+.acct-mini{display:none;width:42px;height:42px;padding:0;justify-content:center;border-radius:14px}.acct-mini svg{width:20px;height:20px}
+.btn.sm{padding:8px 12px;font-size:13px}
+.bill-grid{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:18px;align-items:start}
+.bmeta{grid-template-columns:1.6fr 1fr 1fr .9fr}
+.discrow{display:flex;gap:6px}.discrow .field{min-width:0}
+.psearch{position:relative;margin-bottom:14px}
+.psearch>svg{position:absolute;left:14px;top:50%;width:18px;height:18px;margin-top:-9px;color:var(--ink-3);pointer-events:none}
+.psearch .field{padding-left:42px;height:50px;font-size:15px}
+.sugg{position:absolute;left:0;right:0;top:calc(100% + 6px);z-index:15;padding:6px;border-radius:16px;max-height:340px;overflow:auto;background:rgba(255,255,255,.97)}
+.sugg button{display:flex;align-items:center;gap:10px;width:100%;text-align:left;border:0;background:transparent;padding:10px;border-radius:12px;cursor:pointer;font:inherit;color:var(--ink)}
+.sugg button:hover,.sugg button.hl{background:#eef1ff}
+.sugg .t{flex:1;min-width:0}.sugg b{display:block;font-size:14px}.sugg small{color:var(--ink-3);font-size:12px}
+.sugg .r{text-align:right;font-weight:700;font-size:13px;white-space:nowrap}.sugg .r small{display:block;font-weight:600}
+.blines{display:grid;gap:10px}
+.bl{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px 12px;padding:12px 14px;border-radius:16px;background:rgba(255,255,255,.6);box-shadow:0 6px 16px -12px rgba(40,56,110,.4);animation:rise .35s var(--ease) both}
+.bl .nm b{font-size:14.5px}.bl .nm small{display:block;color:var(--ink-3);font-size:12px;margin-top:2px}
+.bl .amt{text-align:right;font-weight:800;font-size:16px;font-variant-numeric:tabular-nums}.bl .amt small{display:block;font-size:11.5px;font-weight:600;color:var(--ink-3);text-decoration:line-through}
+.bl .ctl{grid-column:1/-1;display:flex;flex-wrap:wrap;align-items:end;gap:10px}
+.bl .ctl label{font-size:11px;margin-bottom:3px}.bl .ctl .field{width:84px;height:38px;padding:6px 10px;font-size:14px}
+.bl .ctl .grow{flex:1}
+.bl .del{border:0;background:transparent;color:var(--ink-3);font-size:16px;cursor:pointer;padding:8px;border-radius:10px}.bl .del:hover{color:var(--rose);background:rgba(220,40,80,.08)}
+.warn{display:inline-block;margin:4px 6px 0 0;padding:2px 8px;border-radius:99px;font-size:11px;font-weight:700}
+.warn.red{color:#c4183c;background:rgba(220,40,80,.1)}.warn.amber{color:#a86200;background:rgba(245,166,35,.16)}.warn.blue{color:var(--blue);background:rgba(79,107,255,.1)}
+.btotal{position:sticky;top:18px}
+.srow{display:flex;justify-content:space-between;padding:7px 0;color:var(--ink-2);font-size:14px;font-variant-numeric:tabular-nums}
+.srow b{color:var(--ink)}.srow.disc b{color:var(--teal)}
+.srow.net{margin-top:8px;padding-top:14px;border-top:1px dashed rgba(19,26,43,.15);font-size:15px;color:var(--ink);font-weight:700}
+.srow.net b{font-size:28px;letter-spacing:-.02em;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.gstnote{font-size:12px;color:var(--ink-3);margin:6px 0 16px}
+.bbtns{display:grid;gap:10px}.bbtns2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.stSeg{grid-template-columns:repeat(4,auto)!important}
+.stlist{display:grid;gap:8px;padding:14px}
+.stlist .li .v{text-align:right}.stlist .li .v small{display:block;font-size:11.5px;color:var(--ink-3);font-weight:600}
+.stlist .li .v b.low{color:var(--rose)}
+.setmeta{grid-template-columns:1.5fr 1.3fr 1fr 1fr}
+#printArea{display:none}
+@media print{body>*:not(#printArea){display:none!important}#printArea{display:block!important}
+  @page{margin:8mm}body{background:#fff!important}
+  #printArea{font:12px/1.4 Arial,sans-serif;color:#000;max-width:360px;margin:0 auto}
+  #printArea h1{font-size:18px;margin:0;text-align:center}#printArea .c{text-align:center}
+  #printArea table{width:100%;border-collapse:collapse;margin:8px 0}#printArea th,#printArea td{padding:3px 2px;text-align:left;border-bottom:1px dashed #999;font-size:11px}
+  #printArea .r{text-align:right}#printArea .tot td{border:0;font-size:12px}#printArea .tot .big td{font-size:15px;font-weight:700}}
+@media (max-width:1100px){.bill-grid{grid-template-columns:1fr}.btotal{position:static}}
+@media (max-width:860px){.acct-mini{display:inline-flex}.bmeta,.setmeta{grid-template-columns:1fr 1fr}
+  .tabbar button{font-size:10.5px}}
 /* ---------- modal + toast ---------- */
 .modal{position:fixed;inset:0;z-index:30;display:grid;place-items:center;padding:20px;background:rgba(19,26,43,.28);backdrop-filter:blur(6px);animation:fade .2s both}
 .modal .box{max-width:400px;width:100%;padding:24px;animation:pop .35s var(--spring) both}
@@ -420,7 +465,7 @@ tr.flag td{background:rgba(245,158,11,.09)} tr.flag td:first-child{color:var(--a
   .content{padding:18px 16px calc(110px + var(--safe-b))}
   .topline h1{font-size:24px}
   .topline{flex-wrap:wrap;row-gap:12px} .topline .grow{flex-basis:100%}
-  .tabbar{display:grid;grid-template-columns:repeat(4,1fr);position:fixed;left:12px;right:12px;bottom:calc(12px + var(--safe-b));z-index:20;padding:8px;border-radius:24px}
+  .tabbar{display:grid;grid-template-columns:repeat(5,1fr);position:fixed;left:12px;right:12px;bottom:calc(12px + var(--safe-b));z-index:20;padding:8px;border-radius:24px}
   .tabbar button{border:0;background:transparent;display:flex;flex-direction:column;align-items:center;gap:3px;padding:7px 4px;border-radius:16px;
     font-size:11px;font-weight:700;color:var(--ink-3);cursor:pointer;transition:color .2s,transform .15s}
   .tabbar button svg{width:22px;height:22px;transition:transform .35s var(--spring)}
@@ -496,7 +541,9 @@ tr.flag td{background:rgba(245,158,11,.09)} tr.flag td:first-child{color:var(--a
     <div class="glass">
       <div class="brand"><div class="logo">₹</div><div><b>Bill Scanner</b><small>No more manual entry</small></div></div>
       <button class="navbtn on" data-p="home"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z"/></svg>Home</button>
+      <button class="navbtn" data-p="bill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2h12v20l-3-2-3 2-3-2-3 2z"/><path d="M9 7h6M9 11h6M9 15h3"/></svg>New bill</button>
       <button class="navbtn" data-p="scan"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8V6a2 2 0 0 1 2-2h2M16 4h2a2 2 0 0 1 2 2v2M20 16v2a2 2 0 0 1-2 2h-2M8 20H6a2 2 0 0 1-2-2v-2"/><path d="M7 12h10"/></svg>Scan bill</button>
+      <button class="navbtn" data-p="stock"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 2 9 5v10l-9 5-9-5V7z"/><path d="m3 7 9 5 9-5M12 12v10"/></svg>Stock</button>
       <button class="navbtn" data-p="hist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h9l3 3v15H6z"/><path d="M9 9h6M9 13h6M9 17h4"/></svg>History</button>
       <button class="navbtn" data-p="acct"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/></svg>Account</button>
       <div class="spacer"></div>
@@ -507,7 +554,7 @@ tr.flag td{background:rgba(245,158,11,.09)} tr.flag td:first-child{color:var(--a
   <main class="content">
     <!-- HOME -->
     <section class="page on" id="p-home">
-      <div class="topline"><div class="grow"><h1 id="greet">Hello</h1><p>Here's how your purchases look.</p></div><button class="btn installBtn install-mini" data-install><span class="ii"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5.5" y="1.5" width="13" height="21" rx="3"/><path d="M12 6.5v8m0 0-3.2-3.2M12 14.5l3.2-3.2"/><path d="M10 19h4"/></svg></span><span>Install app</span></button><span class="chip" id="status">AI online</span></div>
+      <div class="topline"><div class="grow"><h1 id="greet">Hello</h1><p>Here's how your purchases look.</p></div><button class="btn installBtn install-mini" data-install><span class="ii"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5.5" y="1.5" width="13" height="21" rx="3"/><path d="M12 6.5v8m0 0-3.2-3.2M12 14.5l3.2-3.2"/><path d="M10 19h4"/></svg></span><span>Install app</span></button><span class="chip" id="status">AI online</span><button class="btn acct-mini" data-go="acct" aria-label="Account"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/></svg></button></div>
       <div class="reveal">
         <div class="hero-cta"><i class="orb"></i><i class="orb b"></i>
           <div class="hc-text">
@@ -594,6 +641,50 @@ tr.flag td{background:rgba(245,158,11,.09)} tr.flag td:first-child{color:var(--a
       </div>
     </section>
 
+
+    <!-- NEW BILL -->
+    <section class="page" id="p-bill">
+      <div class="topline"><div class="grow"><h1>New bill</h1><p>Pick from your stock. MRP, batch and expiry fill in by themselves.</p></div></div>
+      <div class="bill-grid reveal">
+        <div class="glass card">
+          <div class="meta bmeta">
+            <div><label for="bCust">Customer (optional)</label><input class="field" id="bCust" placeholder="Walk-in customer"></div>
+            <div><label for="bNo">Bill no.</label><input class="field" id="bNo"></div>
+            <div><label for="bDate">Date</label><input class="field" id="bDate" type="date"></div>
+            <div><label for="bDisc">Discount %</label><div class="discrow"><input class="field" id="bDisc" inputmode="decimal"><button class="btn sm" id="bDiscAll" title="Apply this discount to every line">All</button></div></div>
+          </div>
+          <div class="psearch">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+            <input class="field" id="pq" placeholder="Search product to add (name or batch)" autocomplete="off" enterkeyhint="search">
+            <div class="sugg glass" id="sugg" hidden></div>
+          </div>
+          <div id="bEmpty"></div>
+          <div class="blines" id="blines"></div>
+        </div>
+        <div class="glass card btotal">
+          <h2>Bill total</h2><p class="sub">Price never goes above MRP. GST is included in MRP.</p>
+          <div id="bSum"></div>
+          <div class="bbtns">
+            <button class="btn primary block lg" id="bSave"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2h12v20l-3-2-3 2-3-2-3 2z"/><path d="M9 7h6M9 11h6M9 15h3"/></svg>Save bill</button>
+            <div class="bbtns2"><button class="btn" id="bPrint">Save &amp; print</button><button class="btn" id="bClear">Clear</button></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- STOCK -->
+    <section class="page" id="p-stock">
+      <div class="topline"><div class="grow"><h1>Stock</h1><p>Purchases in, sales out. Updates every time you save a bill.</p></div></div>
+      <div class="reveal">
+        <div class="stats" id="stStats"></div>
+        <div class="toolbar">
+          <div class="search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input class="field" id="sq" placeholder="Search product or batch"></div>
+        </div>
+        <div class="seg neu-in histSeg stSeg" id="stSeg"><button class="on" data-f="all">All</button><button data-f="low">Low</button><button data-f="soon">Expiring</button><button data-f="exp">Expired</button></div>
+        <div class="glass card stlist" id="stList"></div>
+      </div>
+    </section>
+
     <!-- HISTORY -->
     <section class="page" id="p-hist">
       <div class="topline"><div class="grow"><h1>History</h1><p>Every bill you've saved, grouped and searchable.</p></div></div>
@@ -616,6 +707,16 @@ tr.flag td{background:rgba(245,158,11,.09)} tr.flag td:first-child{color:var(--a
           <div class="profile"><div class="big" id="avatar">T</div><div><h2 id="acctEmail" style="margin:0"></h2><p class="sub" style="margin:2px 0 0" id="acctSince"></p></div></div>
         </div>
         <div class="glass card" style="margin-top:16px">
+          <h2>Shop and billing</h2><p class="sub">Printed on your bills. Saved to your account, works on every device.</p>
+          <div class="meta setmeta">
+            <div><label for="sShop">Shop name</label><input class="field" id="sShop" placeholder="e.g. Taban Medical Hall"></div>
+            <div><label for="sGst">GSTIN (optional)</label><input class="field" id="sGst" placeholder="15-character GSTIN"></div>
+            <div><label for="sDisc">Default discount %</label><input class="field" id="sDisc" inputmode="decimal" placeholder="0"></div>
+            <div><label for="sLow">Low stock alert at</label><input class="field" id="sLow" inputmode="numeric" placeholder="5"></div>
+          </div>
+          <button class="btn primary" id="sSave">Save settings</button>
+        </div>
+        <div class="glass card" style="margin-top:16px">
           <div class="row-item install-row" id="installRow"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="7" y="2" width="10" height="20" rx="2.5"/><path d="M11 18h2"/></svg></div><div class="t"><b>Install the app</b><small>Add Bill Scanner to your home screen</small></div><button class="btn primary installBtn" data-install style="padding:6px 16px 6px 6px;gap:9px"><span class="ii"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5.5" y="1.5" width="13" height="21" rx="3"/><path d="M12 6.5v8m0 0-3.2-3.2M12 14.5l3.2-3.2"/><path d="M10 19h4"/></svg></span>Install</button></div>
           
           <div class="row-item"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 4 7v5c0 5 3.5 8 8 9 4.5-1 8-4 8-9V7z"/></svg></div><div class="t"><b>Your data is private</b><small>Only you can see the bills you save</small></div></div>
@@ -628,12 +729,14 @@ tr.flag td{background:rgba(245,158,11,.09)} tr.flag td:first-child{color:var(--a
 
   <nav class="tabbar glass" aria-label="Sections">
     <button class="on" data-p="home"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z"/></svg>Home</button>
+    <button data-p="bill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2h12v20l-3-2-3 2-3-2-3 2z"/><path d="M9 7h6M9 11h6M9 15h3"/></svg>Bill</button>
     <button class="scanfab" data-p="scan"><span class="f"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M4 8V6a2 2 0 0 1 2-2h2M16 4h2a2 2 0 0 1 2 2v2M20 16v2a2 2 0 0 1-2 2h-2M8 20H6a2 2 0 0 1-2-2v-2M7 12h10"/></svg></span><span class="l">Scan</span></button>
+    <button data-p="stock"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 2 9 5v10l-9 5-9-5V7z"/><path d="m3 7 9 5 9-5M12 12v10"/></svg>Stock</button>
     <button data-p="hist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h9l3 3v15H6z"/><path d="M9 9h6M9 13h6M9 17h4"/></svg>History</button>
-    <button data-p="acct"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/></svg>Account</button>
-  </nav>
+      </nav>
 </div>
 
+<div id="printArea" aria-hidden="true"></div>
 <div class="modal" id="modal" hidden><div class="box glass"><h3 id="mTitle"></h3><p id="mText"></p><div class="btns"><button class="btn" id="mNo">Cancel</button><button class="btn primary" id="mYes">Delete</button></div></div></div>
 <div class="modal" id="instModal" hidden><div class="box glass"><h3>Install Bill Scanner</h3><ol class="steps" id="instSteps"></ol><div class="btns"><button class="btn primary" id="instOk">Got it</button></div></div></div>
 <div class="toast" id="toast" role="status"></div>
@@ -669,6 +772,7 @@ function setSession(s){
   const was=!!session; session=s;
   $("#authView").hidden=!!s; $("#appView").hidden=!s; if(!s&&window.heroStart)window.heroStart();
   if(s){
+    loadSettings(s.user);
     const e=s.user.email||""; $("#sideEmail").textContent=e; $("#acctEmail").textContent=e; $("#avatar").textContent=(e[0]||"U").toUpperCase();
     $("#acctSince").textContent="Member since "+new Date(s.user.created_at).toLocaleDateString("en-IN",{month:"long",year:"numeric"});
     const h=new Date().getHours(); $("#greet").textContent=(h<12?"Good morning":h<17?"Good afternoon":"Good evening");
@@ -696,7 +800,7 @@ $("#logout").onclick=async()=>{await sb.auth.signOut();all=[];loaded=false;go("h
 
 /* ---------- navigation ---------- */
 function go(p){$$("[data-p]").forEach(b=>b.classList.toggle("on",b.dataset.p===p));$$(".page").forEach(x=>x.classList.toggle("on",x.id==="p-"+p));
-  window.scrollTo({top:0,behavior:"smooth"}); if(p==="home")renderHome(); if(p==="hist")renderHist()}
+  window.scrollTo({top:0,behavior:"smooth"}); if(p==="home")renderHome(); if(p==="hist")renderHist(); if(p==="stock")renderStock(); if(p==="bill")openBill()}
 $$("[data-p]").forEach(b=>b.onclick=()=>go(b.dataset.p));
 $$("[data-go]").forEach(b=>b.onclick=()=>go(b.dataset.go));
 
@@ -704,7 +808,7 @@ $$("[data-go]").forEach(b=>b.onclick=()=>go(b.dataset.go));
 async function loadData(){
   const {data,error}=await sb.from("purchases").select("*").order("created_at",{ascending:false}).limit(2000);
   if(error){toast(error.message,true);return}
-  all=data||[]; loaded=true; renderHome(); renderHist();
+  all=data||[]; loaded=true; renderHome(); renderHist(); if($("#p-stock").classList.contains("on"))renderStock();
 }
 const kindOf=r=>r.kind==="sale"?"sale":"purchase";
 function bills(){const g=new Map();
@@ -822,6 +926,141 @@ $("#saveBtn").onclick=async()=>{
   if(error)return toast(/kind/.test(error.message)?"Sales not set up yet: run supabase-sales.sql in Supabase once.":error.message,true);
   toast(`Saved ${rows.length} items`);$("#form").hidden=true;$("#empty").hidden=false;$("#viewport").classList.remove("loaded");$("#img").hidden=true;$("#pdfMark").hidden=true;
   $("#fname").textContent="";$("#vpStatus").textContent="Waiting for a bill";file=null;$("#scanBtn").disabled=true;inp.value="";cam.value="";await loadData()};
+
+/* ---------- settings (saved in Supabase user metadata, no extra table needed) ---------- */
+let cfg={shop:"",gstin:"",disc:0,low:5};
+function loadSettings(u){const m=(u&&u.user_metadata)||{};
+  cfg={shop:m.shop_name||"",gstin:m.gstin||"",disc:n(m.default_disc),low:m.low_stock!=null?n(m.low_stock):5};
+  $("#sShop").value=cfg.shop;$("#sGst").value=cfg.gstin;$("#sDisc").value=cfg.disc||"";$("#sLow").value=cfg.low}
+$("#sSave").onclick=async()=>{const b=$("#sSave");b.disabled=true;
+  const d=Math.min(100,Math.max(0,n($("#sDisc").value))),low=Math.max(0,Math.round(n($("#sLow").value||5)));
+  const {data,error}=await sb.auth.updateUser({data:{shop_name:$("#sShop").value.trim(),gstin:$("#sGst").value.trim().toUpperCase(),default_disc:d,low_stock:low}});
+  b.disabled=false; if(error)return toast(error.message,true); if(data&&data.user)loadSettings(data.user); toast("Settings saved")};
+
+/* ---------- stock: purchases (qty + free) minus sales ---------- */
+const r2=v=>Math.round(v*100)/100;
+const norm=v=>(v||"").toString().toLowerCase().replace(/\s+/g," ").trim();
+const MON={jan:0,feb:1,mar:2,apr:3,may:4,jun:5,jul:6,aug:7,sep:8,oct:9,nov:10,dec:11};
+function parseExp(v){const t=norm(v); if(!t)return null; let m,mo,y;
+  if((m=t.match(/^(\d{1,2})\s*[\/\-.]\s*(\d{2}|\d{4})$/))){mo=+m[1]-1;y=+m[2]}
+  else if((m=t.match(/^(\d{4})\s*[\/\-.]\s*(\d{1,2})/))){y=+m[1];mo=+m[2]-1}
+  else if((m=t.match(/^\d{1,2}\s*[\/\-.]\s*(\d{1,2})\s*[\/\-.]\s*(\d{2}|\d{4})$/))){mo=+m[1]-1;y=+m[2]}
+  else if((m=t.match(/^([a-z]{3})[a-z]*\s*[\/\-.' ]?\s*(\d{2}|\d{4})$/))&&MON[m[1]]!=null){mo=MON[m[1]];y=+m[2]}
+  else return null;
+  if(y<100)y+=2000; if(mo<0||mo>11)return null; return new Date(y,mo+1,0,23,59)}
+const DAY=864e5;
+function expState(v){const d=parseExp(v); if(!d)return ""; const left=(d-new Date())/DAY; return left<0?"exp":left<=90?"soon":""}
+function stockLots(){
+  const lots=new Map(), byName=new Map();
+  for(const r of all){ if(kindOf(r)!=="purchase")continue;
+    const key=norm(r.product)+"|"+norm(r.batch);
+    if(!lots.has(key)){const lot={key,name:r.product,batch:r.batch||"",expiry:r.expiry||"",mrp:r2(n(r.mrp)),rate:n(r.rate),gst:n(r.gst_percent),inQ:0,sold:0};lots.set(key,lot);
+      const nm=norm(r.product);if(!byName.has(nm))byName.set(nm,[]);byName.get(nm).push(lot)}
+    const lot=lots.get(key); lot.inQ+=n(r.qty)+n(r.free_qty);
+    if(!lot.mrp&&r.mrp)lot.mrp=r2(n(r.mrp)); if(!lot.expiry&&r.expiry)lot.expiry=r.expiry; if(!lot.gst&&r.gst_percent)lot.gst=n(r.gst_percent); if(!lot.rate&&r.rate)lot.rate=n(r.rate)}
+  const sales=all.filter(r=>kindOf(r)==="sale").slice().reverse();   // oldest first
+  for(const r of sales){let q=n(r.qty); if(!q)continue;
+    const exact=lots.get(norm(r.product)+"|"+norm(r.batch));
+    if(exact&&r.batch){exact.sold+=q;continue}
+    const cands=(byName.get(norm(r.product))||[]).slice().sort((a,b)=>(parseExp(a.expiry)||9e15)-(parseExp(b.expiry)||9e15));
+    for(const l of cands){if(q<=0)break; const take=Math.min(q,Math.max(0,l.inQ-l.sold)); l.sold+=take; q-=take}
+    if(q>0&&cands.length)cands[cands.length-1].sold+=q}
+  return [...lots.values()].map(l=>({...l,bal:Math.round((l.inQ-l.sold)*100)/100,es:expState(l.expiry)}))}
+let stF="all";
+$$("#stSeg button").forEach(b=>b.onclick=()=>{stF=b.dataset.f;$$("#stSeg button").forEach(x=>x.classList.toggle("on",x===b));renderStock()});
+let sqt; $("#sq").oninput=()=>{clearTimeout(sqt);sqt=setTimeout(renderStock,160)};
+function renderStock(){
+  const lots=stockLots(), live=lots.filter(l=>l.bal>0);
+  const val=live.reduce((s,l)=>s+l.bal*l.rate,0), mrpv=live.reduce((s,l)=>s+l.bal*l.mrp,0), soon=live.filter(l=>l.es==="soon"||l.es==="exp").length;
+  const prods=new Set(live.map(l=>norm(l.name))).size;
+  const tile=(i,ic,lab,v)=>`<div class="stat glass"><div class="ico ${i}">${ic}</div><span>${lab}</span><b>${v}</b></div>`;
+  $("#stStats").innerHTML=tile("i1",'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="m12 2 9 5v10l-9 5-9-5V7z"/></svg>',"Products in stock",prods.toLocaleString("en-IN"))+
+    tile("i3",'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M7 5h10M7 9h10M12 9c3 0 4 2 4 3.5S14 16 11 16H8l7 5"/></svg>',"Stock value (cost)",money(Math.round(val)))+
+    tile("i2",'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M4 6h16M4 12h16M4 18h10"/></svg>',"Value at MRP",money(Math.round(mrpv)))+
+    tile("i4",'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2"/></svg>',"Expiring / expired",soon);
+  const q=norm($("#sq").value); let list=lots;
+  if(stF==="low")list=list.filter(l=>l.bal<=cfg.low); else if(stF==="soon")list=list.filter(l=>l.es==="soon"&&l.bal>0); else if(stF==="exp")list=list.filter(l=>l.es==="exp"&&l.bal>0);
+  if(q)list=list.filter(l=>norm(l.name).includes(q)||norm(l.batch).includes(q));
+  list.sort((a,b)=>a.name.localeCompare(b.name));
+  $("#stList").innerHTML=list.length?list.map(l=>`<div class="li"><div class="av">${esc((l.name||"?")[0])}</div>
+    <div class="t"><b>${esc(l.name)}</b><small>${l.batch?"Batch "+esc(l.batch):"No batch"}${l.expiry?", exp "+esc(l.expiry):""}${l.mrp?", MRP "+money(l.mrp):""}</small>
+      <div>${l.es==="exp"?'<span class="warn red">Expired</span>':l.es==="soon"?'<span class="warn amber">Expires soon</span>':""}${l.bal<=cfg.low?`<span class="warn ${l.bal<=0?"red":"amber"}">${l.bal<=0?"Out of stock":"Low stock"}</span>`:""}</div></div>
+    <div class="v"><b class="${l.bal<=cfg.low?"low":""}">${l.bal.toLocaleString("en-IN")}</b><small>in ${l.inQ.toLocaleString("en-IN")}, sold ${l.sold.toLocaleString("en-IN")}</small></div></div>`).join("")
+    :emptyBlock(lots.length?"Nothing here":"No stock yet",lots.length?"Try another filter or search.":"Scan or save a purchase bill. Its items show up here as stock.")}
+
+/* ---------- new bill (sales from stock, MRP, discount) ---------- */
+let lines=[], billFresh=true;
+function nextBillNo(){let mx=0; for(const r of all){const m=/^S-(\d+)$/.exec(r.bill_no||""); if(m&&kindOf(r)==="sale")mx=Math.max(mx,+m[1])} return "S-"+String(mx+1).padStart(4,"0")}
+function openBill(){ if(billFresh){$("#bNo").value=nextBillNo(); $("#bDate").value=new Date().toLocaleDateString("en-CA"); $("#bDisc").value=cfg.disc||""; billFresh=false} renderLines()}
+function lineCalc(l){const mrp=n(l.mrp), d=Math.min(100,Math.max(0,n(l.disc))); const rate=r2(mrp*(1-d/100)); return {rate,amt:r2(rate*n(l.qty)),full:r2(mrp*n(l.qty))}}
+function addLine(lot){ if(lot&&lot.key){const ex=lines.find(l=>l.key===lot.key); if(ex){ex.qty=n(ex.qty)+1;renderLines();return}}
+  lines.push(lot&&lot.key?{key:lot.key,name:lot.name,batch:lot.batch,expiry:lot.expiry,mrp:lot.mrp,gst:lot.gst,bal:lot.bal,qty:1,disc:n($("#bDisc").value)}
+    :{key:"",name:lot.name,batch:"",expiry:"",mrp:"",gst:"",bal:null,qty:1,disc:n($("#bDisc").value),manual:true});
+  renderLines(); setTimeout(()=>{const f=$("#blines").lastElementChild&&$("#blines").lastElementChild.querySelector(lot.key?'[data-f=qty]':'[data-f=mrp]'); f&&f.focus()},50)}
+function renderLines(){
+  $("#bEmpty").innerHTML=lines.length?"":emptyBlock("Add products to start","Search above. Items come from your purchase stock with MRP, batch and expiry.");
+  $("#blines").innerHTML=lines.map((l,i)=>{const c=lineCalc(l), es=expState(l.expiry);
+    const w=(es==="exp"?'<span class="warn red">Expired batch</span>':es==="soon"?'<span class="warn amber">Expires soon</span>':"")+
+      (l.bal!=null&&n(l.qty)>l.bal?`<span class="warn red">Only ${l.bal} in stock</span>`:"")+(l.manual?'<span class="warn blue">Not in stock list</span>':"")+(!n(l.mrp)?'<span class="warn amber">Enter MRP</span>':"");
+    return `<div class="bl" data-i="${i}"><div class="nm"><b>${esc(l.name)}</b><small>${l.batch?"Batch "+esc(l.batch):"No batch"}${l.expiry?", exp "+esc(l.expiry):""}${l.gst?", GST "+l.gst+"%":""}${l.bal!=null?", stock "+l.bal:""}</small><div>${w}</div></div>
+      <div class="amt">${money(c.amt)}${n(l.disc)&&c.full?`<small>${money(c.full)}</small>`:""}</div>
+      <div class="ctl"><div><label>MRP</label><input class="field" data-f="mrp" inputmode="decimal" value="${esc(l.mrp)}"${l.manual?"":" readonly"}></div>
+        <div><label>Qty</label><input class="field" data-f="qty" inputmode="decimal" value="${esc(l.qty)}"></div>
+        <div><label>Disc %</label><input class="field" data-f="disc" inputmode="decimal" value="${esc(l.disc)}"></div>
+        <div><label>Rate</label><input class="field" data-f="rate" inputmode="decimal" value="${c.rate||""}"></div>
+        <div class="grow"></div><button class="del" title="Remove" aria-label="Remove line">✕</button></div></div>`}).join("");
+  $$("#blines .bl").forEach(el=>{const l=lines[+el.dataset.i];
+    el.querySelector(".del").onclick=()=>{lines.splice(+el.dataset.i,1);renderLines()};
+    el.querySelectorAll("input").forEach(inp=>inp.onchange=()=>{const f=inp.dataset.f,v=inp.value;
+      if(f==="rate"){const mrp=n(l.mrp),rt=n(v); if(mrp&&rt>mrp){toast("Rate can't be above MRP. Set to MRP.",true); l.disc=0} else if(mrp) l.disc=r2((1-rt/mrp)*100)}
+      else if(f==="disc") l.disc=Math.min(100,Math.max(0,n(v))); else l[f]=v; renderLines()})});
+  renderSum()}
+function totals(){let full=0,net=0,gst=0;
+  for(const l of lines){const c=lineCalc(l); full+=c.full; net+=c.amt; const g=n(l.gst); gst+=g?c.amt-c.amt/(1+g/100):0}
+  const rounded=Math.round(net); return {full:r2(full),net:r2(net),disc:r2(full-net),gst:r2(gst),round:r2(rounded-net),pay:rounded}}
+function renderSum(){const t=totals(), cnt=lines.length;
+  $("#bSum").innerHTML=`<div class="srow"><span>Items</span><b>${cnt}</b></div><div class="srow"><span>Total at MRP</span><b>${money(t.full)}</b></div>
+    <div class="srow disc"><span>Discount</span><b>− ${money(t.disc)}</b></div>${t.round?`<div class="srow"><span>Round off</span><b>${t.round>0?"+":"−"} ${money(Math.abs(t.round))}</b></div>`:""}
+    <div class="srow net"><span>Net payable</span><b>${money(t.pay)}</b></div>
+    <p class="gstnote">${t.gst?`Includes GST ${money(t.gst)} (CGST ${money(r2(t.gst/2))} + SGST ${money(r2(t.gst/2))})`:"GST rate not known for these items"}</p>`;
+  $("#bSave").disabled=$("#bPrint").disabled=!cnt}
+$("#bDiscAll").onclick=()=>{const d=Math.min(100,Math.max(0,n($("#bDisc").value))); lines.forEach(l=>l.disc=d); renderLines(); toast(`${d}% applied to all lines`)};
+$("#bClear").onclick=()=>{lines=[];billFresh=true;$("#bCust").value="";openBill()};
+// product search
+let shl=-1;
+function showSugg(){const q=norm($("#pq").value), box=$("#sugg"); if(!q){box.hidden=true;return}
+  const lots=stockLots().filter(l=>norm(l.name).includes(q)||norm(l.batch).includes(q))
+    .sort((a,b)=>(b.bal>0)-(a.bal>0)||(parseExp(a.expiry)||9e15)-(parseExp(b.expiry)||9e15)).slice(0,8);
+  box._lots=lots; shl=-1;
+  box.innerHTML=lots.map((l,i)=>`<button data-i="${i}"><div class="t"><b>${esc(l.name)}</b><small>${l.batch?"Batch "+esc(l.batch):"No batch"}${l.expiry?", exp "+esc(l.expiry):""}${l.es==="exp"?" · EXPIRED":l.es==="soon"?" · expires soon":""}</small></div><div class="r">${l.mrp?money(l.mrp):"No MRP"}<small>${l.bal>0?l.bal+" in stock":"Out of stock"}</small></div></button>`).join("")+
+    `<button data-new="1"><div class="t"><b>＋ Add “${esc($("#pq").value.trim())}”</b><small>Not in stock list, enter MRP yourself</small></div></button>`;
+  box.hidden=false;
+  box.querySelectorAll("button").forEach(b=>b.onmousedown=e=>{e.preventDefault(); pickSugg(b)})}
+function pickSugg(b){const box=$("#sugg"); if(b.dataset.new)addLine({name:$("#pq").value.trim()}); else addLine(box._lots[+b.dataset.i]); $("#pq").value=""; box.hidden=true}
+$("#pq").oninput=showSugg; $("#pq").onblur=()=>setTimeout(()=>$("#sugg").hidden=true,120); $("#pq").onfocus=showSugg;
+$("#pq").onkeydown=e=>{const bs=[...$("#sugg").querySelectorAll("button")]; if(!bs.length)return;
+  if(e.key==="ArrowDown"||e.key==="ArrowUp"){e.preventDefault(); shl=(shl+(e.key==="ArrowDown"?1:-1)+bs.length)%bs.length; bs.forEach((b,i)=>b.classList.toggle("hl",i===shl))}
+  else if(e.key==="Enter"){e.preventDefault(); pickSugg(bs[Math.max(0,shl)])}};
+// save + print
+async function saveBill(print){
+  if(!lines.length)return; const bad=lines.find(l=>!n(l.mrp)||!n(l.qty)); if(bad)return toast(`Check MRP and qty for ${bad.name}`,true);
+  const t=totals(), head={kind:"sale",supplier:$("#bCust").value.trim()||null,bill_no:$("#bNo").value.trim()||null,bill_date:$("#bDate").value||null,bill_total:t.pay};
+  const rows=lines.map(l=>{const c=lineCalc(l);return {...head,product:l.name,batch:l.batch||null,expiry:l.expiry||null,qty:n(l.qty),free_qty:null,mrp:n(l.mrp),rate:c.rate,gst_percent:nn(l.gst),amount:c.amt,discount:n(l.disc)}});
+  const b=$("#bSave"),html=b.innerHTML; b.disabled=true; b.innerHTML='<span class="spin"></span>Saving…';
+  const {error}=await sb.from("purchases").insert(rows); b.innerHTML=html; b.disabled=false;
+  if(error)return toast(/kind|discount/.test(error.message)?"Billing not set up yet: run supabase-sales.sql in Supabase once.":error.message,true);
+  if(print)printBill(head,lines.map(l=>({...l,...lineCalc(l)})),t);
+  toast(`Bill ${head.bill_no||""} saved`); lines=[]; billFresh=true; $("#bCust").value=""; await loadData(); openBill()}
+$("#bSave").onclick=()=>saveBill(false); $("#bPrint").onclick=()=>saveBill(true);
+function printBill(h,ls,t){
+  $("#printArea").innerHTML=`<h1>${esc(cfg.shop||"Bill")}</h1>${cfg.gstin?`<div class="c">GSTIN: ${esc(cfg.gstin)}</div>`:""}
+    <div class="c">Bill ${esc(h.bill_no||"")} · ${esc(h.bill_date||"")}</div><div class="c">${esc(h.supplier||"Walk-in customer")}</div>
+    <table><thead><tr><th>Item</th><th>Batch/Exp</th><th class="r">Qty</th><th class="r">MRP</th><th class="r">Disc</th><th class="r">Amt</th></tr></thead><tbody>
+    ${ls.map(l=>`<tr><td>${esc(l.name)}</td><td>${esc(l.batch||"")}${l.expiry?"<br>"+esc(l.expiry):""}</td><td class="r">${l.qty}</td><td class="r">${n(l.mrp).toFixed(2)}</td><td class="r">${n(l.disc)?n(l.disc)+"%":""}</td><td class="r">${l.amt.toFixed(2)}</td></tr>`).join("")}
+    </tbody></table><table class="tot"><tr><td>Total at MRP</td><td class="r">${t.full.toFixed(2)}</td></tr><tr><td>Discount</td><td class="r">-${t.disc.toFixed(2)}</td></tr>
+    ${t.round?`<tr><td>Round off</td><td class="r">${t.round.toFixed(2)}</td></tr>`:""}<tr class="big"><td>Net payable</td><td class="r">₹${t.pay}</td></tr>
+    ${t.gst?`<tr><td colspan="2">Incl. GST ${t.gst.toFixed(2)} (CGST ${(t.gst/2).toFixed(2)} + SGST ${(t.gst/2).toFixed(2)})</td></tr>`:""}</table><div class="c">Thank you! Get well soon.</div>`;
+  setTimeout(()=>window.print(),80)}
 
 /* ---------- hero: cards fly out of the phone (Web Animations API, works in Chrome/Safari/Firefox/Samsung/Edge) ---------- */
 (()=>{const w=$("#heroWrap"); if(!w)return;
